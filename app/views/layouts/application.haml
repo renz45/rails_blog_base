@@ -1,0 +1,22 @@
+!!!5
+%html
+    %head
+        %title= title
+        = csrf_meta_tag
+
+        = render "layouts/stylesheets"
+
+        %body
+            .container
+                = render "layouts/header"
+                %section
+                    -# flash block that can be set to appear once on certain pages
+                    -# like when a user signs up for the first time
+                    -flash.each do |key,value|
+                        %div{:class => ["flash", key]}= value
+                            
+                    = yield
+
+        = render "layouts/footer"
+
+        = debug(params) if Rails.env.development?
