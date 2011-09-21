@@ -1,8 +1,10 @@
 BlogBase::Application.routes.draw do
+  devise_for :users
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  :root :to => "pages#home"
+  root :to => "pages#home"
 
 
   # Sample of regular route:
