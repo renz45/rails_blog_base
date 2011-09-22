@@ -5,5 +5,13 @@ class CreatePermissions < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :permissions, :permission, :unique => true
+
+    Permission.create(:permission => "admin")
+    Permission.create(:permission => "editor")
+    Permission.create(:permission => "author")
+    Permission.create(:permission => "subscriber")
+    Permission.create(:permission => "anon")
   end
 end

@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.datetime "updated_at"
   end
 
+  add_index "categories", ["category"], :name => "index_categories_on_category", :unique => true
+
   create_table "category_to_posts", :force => true do |t|
     t.integer  "category_id"
     t.integer  "post_id"
@@ -34,11 +36,13 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.datetime "updated_at"
   end
 
+  add_index "comment_statuses", ["status"], :name => "index_comment_statuses_on_status", :unique => true
+
   create_table "comments", :force => true do |t|
     t.string   "author"
     t.string   "email"
     t.string   "website"
-    t.string   "content"
+    t.text     "content"
     t.integer  "permission_id"
     t.integer  "status_id"
     t.integer  "reply_id"
@@ -53,9 +57,11 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.datetime "updated_at"
   end
 
+  add_index "permissions", ["permission"], :name => "index_permissions_on_permission", :unique => true
+
   create_table "posts", :force => true do |t|
     t.string   "title"
-    t.string   "content"
+    t.text     "content"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -72,10 +78,12 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
   add_index "tag_to_posts", ["tag_id"], :name => "index_tag_to_posts_on_tag_id"
 
   create_table "tags", :force => true do |t|
-    t.string   "Tag"
+    t.string   "tag"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tags", ["tag"], :name => "index_tags_on_tag", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false
@@ -88,13 +96,21 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "user_name"
+    t.text     "bio"
+    t.string   "website_url"
     t.integer  "permission_id"
   end
 
+  add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
 
 end

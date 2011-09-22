@@ -4,7 +4,7 @@ class CreateComments < ActiveRecord::Migration
       t.string :author
       t.string :email
       t.string :website
-      t.string :content
+      t.text :content
       t.integer :permission_id
       t.integer :status_id
       t.integer :reply_id
