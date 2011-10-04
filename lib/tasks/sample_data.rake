@@ -75,7 +75,7 @@ namespace :db do
                         content: Faker::Lorem.paragraphs(1+rand(2)),
                         permission_id: 1 + rand(5),
                         status_id: 1 + rand(4),
-                        post_id: 1+rand(50))
+                        post_id: 1 + rand(50) )
       
       end
   end

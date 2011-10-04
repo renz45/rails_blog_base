@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110930205949) do
+ActiveRecord::Schema.define(:version => 20111004212443) do
 
   create_table "categories", :force => true do |t|
     t.string   "category"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20110930205949) do
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ip_address"
   end
 
   create_table "permissions", :force => true do |t|

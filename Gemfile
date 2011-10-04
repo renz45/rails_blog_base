@@ -14,6 +14,9 @@ gem 'paginate_me', :git => 'git@github.com:renz45/paginate_me.git'
 # gem 'paginate_me', :path => 'vendor/plugins/paginate_me/'
 gem 'devise'
 
+# there is a bug with 1.3.4, so I'm using the older version for now
+gem 'rack', '1.3.3' 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
