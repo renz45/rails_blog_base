@@ -4,7 +4,7 @@
 
   = render "blog/posts/comment_form"
 
-  = show_comments(@comment_tree).html_safe
+  = render "blog/posts/comments", comment_tree: @comment_tree, klass: "comment"
   
   = paginate_for :posts do |p|
     %span{class: "right"}
