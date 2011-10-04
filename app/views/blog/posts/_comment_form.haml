@@ -1,0 +1,25 @@
+= content_tag(:h3,"Make a reply to comment by #{@reply_comment.author}") unless @reply_comment.nil?
+= form_for @comment, url: blog_comments_create_path do |f|
+  %p
+    = render "shared/form_error", errors: @errors, type: :author
+    = f.label :author, "Author Name (Required)"
+    %br
+    = f.text_field :author
+  %p 
+    = render "shared/form_error", errors: @errors, type: :email
+    = f.label :email, "Email address (Required, but won't be displayed)"
+    %br
+    = f.text_field :email
+  %p 
+    = f.label :website, "Website (Optional)"
+    %br
+    = f.text_field :website
+  %p 
+    = render "shared/form_error", errors: @errors, type: :content
+    = f.label :content, "content"
+    %br
+    = f.text_area :content
+    = f.hidden_field :post_id, value: @post.id
+    = f.hidden_field :reply_id, value: @reply_comment.id unless @reply_comment.nil?
+  %p 
+    = f.submit "Post Comment"

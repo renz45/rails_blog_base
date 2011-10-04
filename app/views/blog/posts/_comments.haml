@@ -1,0 +1,14 @@
+.comments
+  - comment_tree.each do |comment_id,c|
+    - comment = c[:comment]
+    - if comment.reply_id.nil?
+      .comment
+        %h3= "By #{comment.author}"
+        %p= comment.email
+        %p= comment.content
+        = link_to "Reply", blog_comment_reply_path(post_id: params[:id], reply_id: comment_id)
+
+        = render "blog/posts/comments", comment_tree: c[:replies]
+        - binding.pry
+     
+    

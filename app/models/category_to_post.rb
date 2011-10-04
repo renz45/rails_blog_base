@@ -10,8 +10,8 @@
 #
 
 class CategoryToPost < ActiveRecord::Base
-  belongs_to :post, :counter_cache => true
-  belongs_to :category
+  belongs_to :post , :counter_cache => :categories_count
+  belongs_to :category, :counter_cache => :posts_count
 end
 
 

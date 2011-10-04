@@ -29,7 +29,11 @@ BlogBase::Application.configure do
   config.assets.debug = true
 
   # Sets a default url for action mailer
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+  #mailcatcher settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :host => "localhost", :port => 1025 }
 end
 
 #replace IRB with pry on the rails console

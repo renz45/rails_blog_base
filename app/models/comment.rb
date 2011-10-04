@@ -23,8 +23,11 @@ class Comment < ActiveRecord::Base
 
   # Setup Validations
   validates :author, :presence => true
+
+  email_regex = /\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/
+
   validates :email, :presence => true,
-                    :format   => { :with => email_test }
+                    :format   => { :with => email_regex }
   validates :content, :presence => true
   validates :post_id, :presence => true
 end

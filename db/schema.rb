@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,12 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110921153616) do
+ActiveRecord::Schema.define(:version => 20110930205949) do
 
   create_table "categories", :force => true do |t|
     t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_count"
   end
 
   add_index "categories", ["category"], :name => "index_categories_on_category", :unique => true
@@ -55,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "level"
   end
 
   add_index "permissions", ["permission"], :name => "index_permissions_on_permission", :unique => true
@@ -65,6 +68,9 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "categories_count"
+    t.integer  "tags_count"
+    t.integer  "comments_count"
   end
 
   create_table "tag_to_posts", :force => true do |t|
@@ -81,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.string   "tag"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_count"
   end
 
   add_index "tags", ["tag"], :name => "index_tags_on_tag", :unique => true
@@ -105,7 +112,7 @@ ActiveRecord::Schema.define(:version => 20110921153616) do
     t.string   "user_name"
     t.text     "bio"
     t.string   "website_url"
-    t.integer  "permission_id"
+    t.integer  "permission_id",                         :default => 1
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

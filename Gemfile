@@ -3,22 +3,25 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.0'
 
 # Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 
 gem 'json'
 gem 'jquery-rails'
 gem 'gravatar_image_tag'
-gem 'haml'
-gem 'paginate_me'
+# gem 'paginate_me'
+gem 'paginate_me', :git => 'git@github.com:renz45/paginate_me.git'
+# gem 'paginate_me', :path => 'vendor/plugins/paginate_me/'
 gem 'devise'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'sass-rails', "  ~> 3.1.3"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
+  gem 'compass', '~> 0.12.alpha'
+  gem 'haml'
   
 end
 
@@ -28,6 +31,11 @@ group :development do
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'pry'
   gem 'faker'
+  
+  # mailcatcher
+  # Go to http://localhost:1080/
+  # Send mail through smtp://localhost:1025
+  gem 'mailcatcher'
 end
 
 group :test do

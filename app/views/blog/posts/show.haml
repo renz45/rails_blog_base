@@ -1,0 +1,17 @@
+.post
+
+  = render "blog/posts/post", post: @post, no_link: true
+
+  = render "blog/posts/comment_form"
+
+  = show_comments(@comment_tree).html_safe
+  
+  = paginate_for :posts do |p|
+    %span{class: "right"}
+      = p.link_to_last
+      = p.link_to_next
+    = p.page_out_of_total
+    %span{class: "left"}
+      = p.link_to_previous
+      =  p.link_to_first 
+    

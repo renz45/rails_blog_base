@@ -7,11 +7,11 @@
         = render "layouts/stylesheets"
 
         %body
+            = render "layouts/header"
             .container
-                = render "layouts/header"
                 %section
                     -flash.each do |key,value|
-                        %div{:class => ["flash", key]}= value
+                        %div{ class: ["flash", key]}= value
                             
                     = yield
 

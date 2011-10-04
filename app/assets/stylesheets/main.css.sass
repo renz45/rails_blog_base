@@ -1,7 +1,69 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *= require_self
- *= require_tree . 
-*/
+@import compass/reset
+@import colors
+
+body
+  font: 62.5%/1 Helvetica, Arial, Sans-Serif
+  padding: 0
+  margin: 0
+
+h1,h2,h3,strong
+  font-weight: bold
+
+h1
+  font-size: 3em
+
+h2
+  font-size: 2.2em
+
+h3
+  font-size: 1.8em
+
+em
+  font-style: italic
+
+a
+  text-decoration: none
+a:hover
+  text-decoration: underline
+p
+  margin: 10px 0
+
+nav
+  li
+    display: inline
+    font-size: 1.6em
+    margin: 0 5px
+
+.flash
+.form_error
+  padding: 10px 
+
+.flash.error
+.form_error
+  background-color: $error_light_red
+  color: $error_dark_red
+  border: 1px solid $error_dark_red
+
+.flash.success
+  background-color: $error_light_green
+  color: $error_dark_green
+  border: 1px solid $error_dark_green
+
+.container
+  width: 1000px
+  min-height: 600px
+  margin: 0 auto
+
+.field_with_errors
+  color: $error_dark_red
+
+#footer
+  clear: both
+  ul
+    background-color: #eee
+    text-align: center
+    padding: 10px
+    font-size: 1.3em
+  li 
+    display: inline
+    margin: 0 3px

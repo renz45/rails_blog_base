@@ -43,6 +43,42 @@ class User < ActiveRecord::Base
 
   # setup validations
   validates :user_name, :presence => true,
-                        :length => {:maximum => 15}
+                        :length => {:maximum => 30}
+
+  def can_access_admin
+
+    permission = self.permission.permission
+
+    case permission
+      when "admin"
+        true
+      when "editor"
+        true
+      when "author"
+        true
+      else 
+        false
+    end
+  end
+
+  def admin?
+    self.permission.permission == "admin"
+  end
+
+  def editor?
+    self.permission.permission == "editor"
+  end
+
+  def author?
+    self.permission.permission == "author"
+  end
+
+  def user?
+    self.permission.permission == "user"
+  end
+
+  def anon?
+    self.permission.permission == "anon"
+  end
                         
 end

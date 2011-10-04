@@ -9,9 +9,11 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
+# get posts with category_id 9 and tag_id 8
+# Post.includes(:category_to_posts, :tag_to_posts).where(category_to_posts: {category_id: 9}, tag_to_posts: {tag_id: 8})
 
 class Post < ActiveRecord::Base
-  belongs_to :user, :counter_cache => true
+  belongs_to :user
 
   has_many :category_to_posts
   has_many :categories, :through => :category_to_posts
@@ -24,6 +26,7 @@ class Post < ActiveRecord::Base
   # setup validations
   validates :title, :presence => true
   validates :user_id, :presence => true
+
 end
 
 

@@ -1,0 +1,9 @@
+%h2 sidebar
+
+%ul 
+  - @categories.each do |c|
+   %li= c
+
+%ul
+  - @tags.each do |t|
+    %li= t

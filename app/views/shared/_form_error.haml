@@ -1,0 +1,2 @@
+- unless errors.nil?
+  = content_tag(:p,"#{type.to_s.capitalize} #{errors[type].join(', ')}", class: "form_error") unless errors[type].nil?

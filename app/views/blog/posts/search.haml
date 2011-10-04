@@ -1,0 +1,24 @@
+%h3 
+  Posts
+  - unless @category.nil?
+    = " in #{(@category.length > 1 ? 'categories' : 'category')} - "
+    - @category.each do |c|
+      = "#{c.category}"
+
+  - unless @tag.nil?
+    = " tagged with - "
+    - @tag.each do |t|
+      = "#{t.tag}"
+
+%ul{class: "posts"}
+  - @posts.each do |p|
+    %li= render "blog/posts/post", post: p
+
+= paginate_for :posts do |p|
+  %span{class: "right"}
+    = p.link_to_last
+    = p.link_to_next
+  = p.page_out_of_total
+  %span{class: "left"}
+    = p.link_to_previous
+    = p.link_to_first 

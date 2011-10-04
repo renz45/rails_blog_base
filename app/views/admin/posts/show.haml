@@ -1,0 +1,7 @@
+%h1 Blog Home
+
+%ul 
+  - @posts.each do |post|
+    %li
+      %h2= post.title
+      %p= post.content

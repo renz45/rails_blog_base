@@ -1,0 +1,17 @@
+- no_link ||= false
+
+%h2= (!no_link ? link_to(post.title, blog_post_path(post)) : post.title)
+%p= post.user.user_name
+%p= post.content
+%strong
+  tags
+  = "(#{post.tags_count})"
+%ul 
+  - post.tags.each do |t|
+    %li= t.tag
+%strong 
+  categories
+  = "(#{post.categories_count})"
+%ul
+  - post.categories.each do |c|
+    %li= c.category

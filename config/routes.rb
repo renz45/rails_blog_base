@@ -1,10 +1,50 @@
 BlogBase::Application.routes.draw do
-  devise_for :users
+  devise_for :users, path_names: {sign_up: "register"} # defaults the sign_up path to use register instead
+
+  root to: "pages#home"
+
+  # uncomment after the blog is complete
+  #match "/services", to: "pages#services"
+  #match "/services/personalchef", to: "pages#personal_chef"
+  #match "/services/teambuilding", to: "pages#team_building"
+  #match "/services/cookingclasses", to: "pages#cooking_classes" 
+
+  namespace :blog do
+
+    root to: "posts#index"
+    match "/page/:posts_page", to: "posts#index"
+
+    match "category/:category_id/page/:page", to: "posts#search", 
+      as: :category_search, defaults: {page: 1}
+
+    match "tag/:tag_id/page/:page", to: "posts#search", 
+      as: :tag_search, defaults: {page: 1}
+
+    match "/category/:category_id/tag/:tag_id/page/:page", 
+      to: "posts#search", as: :category_tag_search, defaults: {page: 1}
+
+    match "/tag/:tag_id/category/:category_id/page/:page", 
+      to: "posts#search", as: :category_tag_search, defaults: {page: 1}
+
+    match "/:id", to: "posts#show", as: :post
+    match "/:id/page/:page", as: :post_page, to: "posts#show"
+
+    match "/:id/comment/:comment_id", to: "posts#show", as: :comment
+    match "/:id/comment/reply/:reply_id", to: "posts#show", as: :comment_reply
+
+    match "/comments/create", as: :comments_create, via: :post
+  end
+
+  namespace :admin do
+    resources :posts
+    root to: "pages#index"
+    resources :comments
+  end
+
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
-
-  root :to => "pages#home"
 
 
   # Sample of regular route:
