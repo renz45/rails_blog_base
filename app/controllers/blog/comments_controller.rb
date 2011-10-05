@@ -16,6 +16,7 @@ class Blog::CommentsController < Blog::BaseController
   def create
     #save the ip address of posting user
     params[:comment][:ip_address] = request.env['REMOTE_ADDR']
+    params[:comment][:status_id] = 2
 
     @comment = Comment.new(params[:comment])
     post_id = params[:comment][:post_id]

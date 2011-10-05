@@ -48,7 +48,7 @@ class Comment < ActiveRecord::Base
     comment_list = {}
 
     # get all replies for the initial_comments
-    reply_list = self.where(reply_id: initial_comments.map{|ic| ic.id})
+    reply_list = self.where(reply_id: initial_comments.map{|ic| ic.id}, status_id: 1)
 
     # loop through initial_comments
     initial_comments.each do |c|
