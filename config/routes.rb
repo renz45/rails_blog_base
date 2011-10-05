@@ -1,7 +1,9 @@
 BlogBase::Application.routes.draw do
-  devise_for :users, path_names: {sign_up: "register"} # defaults the sign_up path to use register instead
+  devise_for :users, 
+             path_names: {sign_up: "register"} # defaults the sign_up path to use register instead
 
-  root to: "pages#home"
+  root to: "pages#home", 
+       via: :get
 
   # uncomment after the blog is complete
   #match "/services", to: "pages#services"
@@ -11,28 +13,62 @@ BlogBase::Application.routes.draw do
 
   namespace :blog do
 
-    root to: "posts#index"
-    match "/page/:posts_page", to: "posts#index"
+    root to: "posts#index", 
+         via: :get
 
-    match "category/:category_id/page/:page", to: "posts#search", 
-      as: :category_search, defaults: {page: 1}
+    match "/page/:posts_page", 
+          to: "posts#index", 
+          as: :page, 
+          via: :get
 
-    match "tag/:tag_id/page/:page", to: "posts#search", 
-      as: :tag_search, defaults: {page: 1}
+    match "category/:category_id/page/:page", 
+          to: "posts#search", 
+          as: :category_search, 
+          defaults: {page: 1}, 
+          via: :get
+
+    match "tag/:tag_id/page/:page", 
+          to: "posts#search", 
+          as: :tag_search, 
+          defaults: {page: 1}, 
+          via: :get
 
     match "/category/:category_id/tag/:tag_id/page/:page", 
-      to: "posts#search", as: :category_tag_search, defaults: {page: 1}
+          to: "posts#search", 
+          as: :category_tag_search, 
+          defaults: {page: 1}, 
+          via: :get
 
     match "/tag/:tag_id/category/:category_id/page/:page", 
-      to: "posts#search", as: :category_tag_search, defaults: {page: 1}
+          to: "posts#search", 
+          as: :tag_category_search, 
+          defaults: {page: 1}, 
+          via: :get
 
-    match "/:id", to: "posts#show", as: :post
-    match "/:id/page/:page", as: :post_page, to: "posts#show"
+    match "/:id", 
+          to: "posts#show", 
+          as: :post, 
+          via: :get
 
-    match "/:id/comment/:comment_id", to: "posts#show", as: :comment
-    match "/:id/comment/reply/:reply_id", to: "posts#show", as: :comment_reply
+    match "/:id/page/:page",
+          to: "posts#show",  
+          as: :post_page, 
+          via: :get
 
-    match "/comments/create", as: :comments_create, via: :post
+    match "/:id/comment/:comment_id", 
+          to: "posts#show", 
+          as: :comment, 
+          via: :get
+
+    match "/:id/comment/reply/:reply_id", 
+          to: "posts#show", 
+          as: :comment_reply, 
+          via: :get
+
+    match "/comments/create",
+          to: "comments#create",  
+          as: :comments_create, 
+          via: :post
   end
 
   namespace :admin do

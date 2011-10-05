@@ -1,7 +1,7 @@
 class Admin::BaseController < ApplicationController
   #devise authentication, checks to make sure the user is authenticated
-  
   before_filter :admin_authenticate
+  layout 'admin/layouts/admin'
   
   def admin_authenticate
     authenticate_user!
