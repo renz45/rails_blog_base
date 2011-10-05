@@ -30,5 +30,38 @@ class Comment < ActiveRecord::Base
                     :format   => { :with => email_regex }
   validates :content, :presence => true
   validates :post_id, :presence => true
+
+  def self.for_post(post_id, per_page = 10, page = 1)
+    comments = Comment.where(post_id: post_id, reply_id: nil, status_id: 1)
+           .limit(per_page)
+           .offset(page)
+           .order("created_at DESC")
+
+    self.build_comments(comments)
+  end
+
+  # recursive function that builds a comment object
+  # NOTE I traded server calls for 2 map functions, this will save a lot of server calls depending on
+  #      how many replies there are for each comment, could be slower than just doing the queries, 
+  #      I'm not sure yet.
+  def self.build_comments(initial_comments)
+    comment_list = {}
+
+    # get all replies for the initial_comments
+    reply_list = self.where(reply_id: initial_comments.map{|ic| ic.id})
+
+    # loop through initial_comments
+    initial_comments.each do |c|
+      comment_list[c.id] = {}
+      comment_list[c.id][:comment] = c
+      
+      # pull out the individual replies for each comment looped through
+      replies = reply_list.map{|r| r if r.reply_id == c.id} 
+
+      # if there were any replies send them back through this function to check if they have comments
+      comment_list[c.id][:replies] = (replies == [nil] ? [] : build_comments(replies) )
+    end
+    comment_list
+  end
 end
 

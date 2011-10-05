@@ -1,4 +1,9 @@
+require "modules/pagination"
+require "modules/set_vars"
+
 class Blog::CommentsController < Blog::BaseController
+  include Pagination::Comments
+  include SetVars::Posts
 
   def show
     @posts = Post.all
@@ -9,6 +14,7 @@ class Blog::CommentsController < Blog::BaseController
   end
 
   def create
+    #save the ip address of posting user
     params[:comment][:ip_address] = request.env['REMOTE_ADDR']
 
     @comment = Comment.new(params[:comment])
@@ -20,10 +26,18 @@ class Blog::CommentsController < Blog::BaseController
       redirect_to blog_post_path(id: post_id)
     else
       flash[:error] = "Something was wrong with your attempted comment."
+
       @errors = @comment.errors.messages
-      @post = Post.includes(:user).find(post_id)
-      @title = "Blog | " + @post.title
-      @comments = @post.comments.order('created_at DESC')
+
+      #Sets @post, @title, @reply_comment, moved to a module since these vars
+      #are also used in the post controller
+      vars_for_show(post_id, params[:comment][:reply_id])#ShowVars module
+
+      paginate_comments_for_post(post_id)#Pagination module
+    
+      # list of comments including the original comment as well as all replies to each comment
+      # keys are :comment, :replies           
+      @comment_tree = Comment.build_comments(@comments)
 
       render "blog/posts/show"
     end
