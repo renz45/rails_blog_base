@@ -36,7 +36,7 @@ class Blog::PostsController < Blog::BaseController
     @tag = Tag.find(params[:tag_id].split(',')) unless params[:tag_id].nil?
 
     # paginate_me is used internally, which sets the @posts variable
-    paginate_search_posts(params[:tag_id],params(:category_id))#Pagination module
+    paginate_search_posts(params[:tag_id],params[:category_id])#Pagination module
   end
 
   private
