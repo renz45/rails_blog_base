@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111004212443) do
+ActiveRecord::Schema.define(:version => 20111005203549) do
 
   create_table "categories", :force => true do |t|
     t.string   "category"
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(:version => 20111004212443) do
 
   add_index "permissions", ["permission"], :name => "index_permissions_on_permission", :unique => true
 
+  create_table "post_statuses", :force => true do |t|
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "post_statuses", ["status"], :name => "index_post_statuses_on_status", :unique => true
+
   create_table "posts", :force => true do |t|
     t.string   "title"
     t.text     "content"
@@ -72,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20111004212443) do
     t.integer  "categories_count"
     t.integer  "tags_count"
     t.integer  "comments_count"
+    t.integer  "status_id"
   end
 
   create_table "tag_to_posts", :force => true do |t|

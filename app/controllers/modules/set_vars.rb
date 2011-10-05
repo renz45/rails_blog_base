@@ -1,6 +1,7 @@
 module SetVars
   module Posts
     # sets vars for the show action in the PostsController
+    #reused in the error return in CommentsController#Create
     def vars_for_show(post_id, reply_id)
       @post = Post.includes(:user).find(post_id)
       @title = "Blog | " + @post.title

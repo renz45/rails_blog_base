@@ -6,16 +6,15 @@
 
         = render "layouts/stylesheets"
 
-        %body
-            = render "layouts/header"
-            .container
-                .post_col
-                    %section
-                        -flash.each do |key,value|
-                            %div{ class: ["flash", key]}= value                         
-                        = yield
-                .side_col
-                    = render "blog/layouts/sidebar"
+    %body
+        = render "layouts/header"
+        .container
+            .post_col
+                %section
+                    = render "layouts/flash", flash: flash                           
+                    = yield
+            .side_col
+                = render "blog/layouts/sidebar"
 
         = render "layouts/footer"
 

@@ -9,7 +9,7 @@
 #
 
 class CommentStatus < ActiveRecord::Base
-
+  belongs_to :comments
   validates :status, :presence => true
 end
 

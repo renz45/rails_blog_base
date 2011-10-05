@@ -18,9 +18,9 @@ module ApplicationHelper
       nav_str << content_tag(:li, link_to("Register", new_user_registration_url))
     end
 
-    if !current_user.nil? && current_user.can_access_admin
+    if !current_user.nil? && current_user.can_access_admin?
       nav_str << content_tag(:li, link_to("Admin", admin_root_url))
     end
-    nav_str.html_safe
+    content_tag(:ul,nav_str).html_safe
   end
 end

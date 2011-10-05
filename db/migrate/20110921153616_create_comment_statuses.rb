@@ -6,11 +6,11 @@ class CreateCommentStatuses < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :comment_statuses, :status, :unique => true
+    add_index :comment_statuses, :status, unique: true
 
-    CommentStatus.create(:status => "approved")
-    CommentStatus.create(:status => "unapproved")
-    CommentStatus.create(:status => "trash")
-    CommentStatus.create(:status => "spam")
+    CommentStatus.create!(status: "approved")
+    CommentStatus.create!(status: "unapproved")
+    CommentStatus.create!(status: "trash")
+    CommentStatus.create!(status: "spam")
   end
 end

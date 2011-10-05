@@ -23,6 +23,8 @@ class Post < ActiveRecord::Base
 
   has_many :comments, :dependent => :destroy
 
+  has_one :post_status
+
   # setup validations
   validates :title, :presence => true
   validates :user_id, :presence => true

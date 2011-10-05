@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   validates :user_name, :presence => true,
                         :length => {:maximum => 30}
 
-  def can_access_admin
+  def can_access_admin?
 
     permission = self.permission.permission
 
