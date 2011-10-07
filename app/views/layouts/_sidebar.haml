@@ -1,9 +1,13 @@
-%h2 sidebar
-
+%h2 Categories
 %ul 
   - @categories.each do |c|
-   %li= c
+    %li
+      = link_to c.category, blog_category_search_url(c.id)
+      = "(#{c.posts_count})"
 
+%h2 Tags
 %ul
   - @tags.each do |t|
-    %li= t
+    %li
+      = link_to t.tag, blog_tag_search_url(t.id)
+      = "(#{t.posts_count})"

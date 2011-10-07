@@ -13,6 +13,7 @@
 #  post_id       :integer
 #  created_at    :datetime
 #  updated_at    :datetime
+#  ip_address    :string(255)
 #
 
 class Comment < ActiveRecord::Base

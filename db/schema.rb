@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20111005203549) do
     t.string   "title"
     t.text     "content"
     t.integer  "user_id"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "categories_count"
@@ -82,6 +83,9 @@ ActiveRecord::Schema.define(:version => 20111005203549) do
     t.integer  "comments_count"
     t.integer  "status_id"
   end
+
+  add_index "posts", ["slug"], :name => "index_posts_on_slug", :unique => true
+  add_index "posts", ["title"], :name => "index_posts_on_title", :unique => true
 
   create_table "tag_to_posts", :force => true do |t|
     t.integer  "tag_id"

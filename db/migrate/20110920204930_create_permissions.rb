@@ -8,11 +8,11 @@ class CreatePermissions < ActiveRecord::Migration
 
     add_index :permissions, :permission, :unique => true
 
-    Permission.create(:permission => "anon")
-    Permission.create(:permission => "subscriber")
-    Permission.create(:permission => "author")
-    Permission.create(:permission => "editor")
-    Permission.create(:permission => "admin")
+    Permission.create(permission: "anon")
+    Permission.create(permission: "subscriber")
+    Permission.create(permission: "author")
+    Permission.create(permission: "editor")
+    Permission.create(permission: "admin")
     
   end
 end

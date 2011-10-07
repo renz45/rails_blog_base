@@ -1,0 +1,11 @@
+-# nested_items = sidebar_items = {name: {url: "http://www.yoursite.com", 
+-#                                        title: "click here to go to yoursite"
+-#                                        target: "",
+-#                                        submenu: nested_items}}
+- sidebar_items ||= {}
+%ul 
+  - sidebar_items.each do |k,v|
+    %li
+      = link_to k, v[:url], class: (!active.nil? && active == k ? "active" : "")
+      = render "admin/layouts/sidebar", sidebar_items: v[:submenu] unless v[:submenu].nil?
+  

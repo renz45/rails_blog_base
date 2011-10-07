@@ -42,8 +42,9 @@ class User < ActiveRecord::Base
                   :remember_me, :name, :user_name, :website_url
 
   # setup validations
-  validates :user_name, :presence => true,
-                        :length => {:maximum => 30}
+  validates :user_name, 
+              presence: true,
+              length: {:maximum => 30}
 
   def can_access_admin?
 

@@ -4,8 +4,11 @@ class CreatePosts < ActiveRecord::Migration
       t.string :title
       t.text :content
       t.integer :user_id
+      t.string :slug
 
       t.timestamps
     end
+    add_index :posts, :title, unique: true
+    add_index :posts, :slug, unique: true
   end
 end

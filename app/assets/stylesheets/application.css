@@ -7,8 +7,10 @@
  *= require_self
  *= require main
  *
+ */
+ /*
  * Blog specific styles 
- *= require page_specific/blog
- *= require page_specific/post
- *= require page_specific/sidebar
+ *= require blog/blog
+ *= require blog/post
+ *= require blog/sidebar
 */

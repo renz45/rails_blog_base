@@ -7,11 +7,16 @@ end
 #
 # Table name: posts
 #
-#  id         :integer         not null, primary key
-#  title      :string(255)
-#  content    :text
-#  user_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id               :integer         not null, primary key
+#  title            :string(255)
+#  content          :text
+#  user_id          :integer
+#  slug             :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  categories_count :integer
+#  tags_count       :integer
+#  comments_count   :integer
+#  status_id        :integer
 #
 

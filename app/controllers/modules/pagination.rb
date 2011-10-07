@@ -1,9 +1,9 @@
 module Pagination
   module Comments
-    def paginate_comments_for_post(post_id)
+    def paginate_comments_for_post(post)
       #paginate comments for the current post which aren't replies with a status of approved(1)
-      paginate_me :comments, where: {comments: {post_id: post_id, reply_id: nil, status_id: 1}},
-                             base_url: blog_post_path(post_id),
+      paginate_me :comments, where: {comments: {post_id: post.id, reply_id: nil, status_id: 1}},
+                             base_url: blog_post_path(post.slug),
                              per_page: 5,
                              order: "created_at DESC"
     end

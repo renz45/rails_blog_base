@@ -6,7 +6,7 @@ class AddColsToUsers < ActiveRecord::Migration
     add_column :users, :website_url, :string
     add_column :users, :permission_id, :integer, default: 1
 
-    add_index :users, :user_name, :unique => true
+    add_index :users, :user_name, unique: true
   end
 
 end

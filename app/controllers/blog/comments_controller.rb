@@ -18,13 +18,15 @@ class Blog::CommentsController < Blog::BaseController
     params[:comment][:ip_address] = request.env['REMOTE_ADDR']
     params[:comment][:status_id] = 2
 
+    slug = params[:comment].delete(:slug)
+
     @comment = Comment.new(params[:comment])
-    post_id = params[:comment][:post_id]
+    #post_id = params[:comment][:post_id]
 
     if @comment.save
       flash[:success] = "Thanks for the comment!"
 
-      redirect_to blog_post_path(id: post_id)
+      redirect_to blog_post_path(slug)
     else
       flash[:error] = "Something was wrong with your attempted comment."
 
@@ -32,9 +34,9 @@ class Blog::CommentsController < Blog::BaseController
 
       #Sets @post, @title, @reply_comment, moved to a module since these vars
       #are also used in the post controller
-      vars_for_show(post_id, params[:comment][:reply_id])#ShowVars module
+      vars_for_show(slug, params[:comment][:reply_id])#ShowVars module
 
-      paginate_comments_for_post(post_id)#Pagination module
+      paginate_comments_for_post(@post)#Pagination module
     
       # list of comments including the original comment as well as all replies to each comment
       # keys are :comment, :replies           

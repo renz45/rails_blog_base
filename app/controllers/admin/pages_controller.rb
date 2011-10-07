@@ -1,6 +1,6 @@
 class Admin::PagesController < Admin::BaseController
 
   def index
-    @title = "admin index"
+    @title = "Admin"
   end
 end

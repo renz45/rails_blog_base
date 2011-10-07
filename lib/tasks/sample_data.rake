@@ -6,20 +6,21 @@ namespace :db do
     Rake::Task['db:reset'].invoke
 
     # create permissions
-    Permission.create(:permission => "anon")
-    Permission.create(:permission => "subscriber")
-    Permission.create(:permission => "author")
-    Permission.create(:permission => "editor")
-    Permission.create(:permission => "admin")
+    Permission.create(permission: "anon")
+    Permission.create(permission: "subscriber")
+    Permission.create(permission: "author")
+    Permission.create(permission: "editor")
+    Permission.create(permission: "admin")
 
     # create comment status
-    CommentStatus.create(:status => "approved")
-    CommentStatus.create(:status => "unapproved")
-    CommentStatus.create(:status => "trash")
-    CommentStatus.create(:status => "spam")
+    CommentStatus.create(status: "approved")
+    CommentStatus.create(status: "unapproved")
+    CommentStatus.create(status: "trash")
+    CommentStatus.create(status: "spam")
 
     # create users
     User.create!(user_name: "admin",
+                 name: "adminy",
                  email: "admin@email.com",
                  password: "admin124",
                  password_confirmation: "admin124",
@@ -31,6 +32,7 @@ namespace :db do
       email = "example-#{n+1}@example.org"
       password = "password"
       User.create!(user_name: name,
+                  name: "name#{n}",
                   email: email,
                   password: password,
                   password_confirmation: password)
@@ -48,8 +50,8 @@ namespace :db do
 
     # create posts
     50.times do |n|
-      p = Post.new(title: Faker::Lorem.words(4),
-                   content: Faker::Lorem.paragraphs(5),
+      p = Post.new(title: Faker::Lorem.words(4).join(" "),
+                   content: Faker::Lorem.paragraphs(5).join(" "),
                    user_id: 1+rand(10))
       
       # give post random categories

@@ -7,7 +7,7 @@
         %p= comment.email
         %p= comment.content
 
-        = link_to "Reply", blog_comment_reply_path(comment.post_id, comment_id)
+        = link_to "Reply", blog_comment_reply_path(comment.post.slug, comment_id)
       %li{class: "reply_container"}  
         = render("blog/posts/comments", klass: "reply", 
           comment_tree: c[:replies], reply: true) if c[:replies].length > 0

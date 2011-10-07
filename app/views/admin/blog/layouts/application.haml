@@ -1,0 +1,15 @@
+!!!5
+%html
+  =# render "layouts/head"
+  = stylesheet_link_tag 'application_admin'
+  %body
+    = render "admin/layouts/header"
+    .container
+      %section
+        .admin_main_col
+          = render "layouts/flash", flash: flash                      
+          = yield
+        .admin_side_col
+          = render "admin/layouts/side_nav"
+    = render "admin/layouts/footer"
+    = debug(params) if Rails.env.development?

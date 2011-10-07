@@ -13,10 +13,10 @@ class Blog::PostsController < Blog::BaseController
 
     #Sets @post, @title, @reply_comment, moved to a module since these vars are used again in
     #the comment controller when there is an error
-    vars_for_show(params[:id], params[:reply_id]) #SetVars module
+    vars_for_show(params[:slug], params[:reply_id]) #SetVars module
     
     # paginate_me is used internally, which sets the @comments variable
-    paginate_comments_for_post(params[:id]) #Pagination module
+    paginate_comments_for_post(@post) #Pagination module
     
     # list of comments including the original comment as well as all replies to each comment
     # keys are :comment, :replies           

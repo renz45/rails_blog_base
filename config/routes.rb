@@ -45,12 +45,12 @@ BlogBase::Application.routes.draw do
           defaults: {page: 1}, 
           via: :get
 
-    match "/:id", 
+    match "/:slug", 
           to: "posts#show", 
           as: :post, 
           via: :get
 
-    match "/:id/page/:page",
+    match "/:slug/page/:page",
           to: "posts#show",  
           as: :post_page, 
           via: :get
@@ -60,7 +60,7 @@ BlogBase::Application.routes.draw do
           as: :comment, 
           via: :get
 
-    match "/:id/comment/reply/:reply_id", 
+    match "/:slug/comment/reply/:reply_id", 
           to: "posts#show", 
           as: :comment_reply, 
           via: :get
@@ -72,9 +72,17 @@ BlogBase::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :posts
     root to: "pages#index"
-    resources :comments
+
+    namespace :blog do
+      root to: "pages#index"
+      resources :posts
+      resources :comments
+    end
+
+    namespace :settings do
+      root to: "pages#index"
+    end
   end
 
   
