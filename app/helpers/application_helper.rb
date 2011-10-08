@@ -12,8 +12,8 @@ module ApplicationHelper
   def nav_sign_in_items(admin_items = false)
 
     if user_signed_in?
-      nav_str = content_tag(:li, "Welcome #{current_user.user_name}")
-      nav_str << content_tag(:li, link_to("sign out", destroy_user_session_path, method: :delete))
+      nav_str = content_tag(:li, "<span>Welcome #{current_user.user_name}</span>".html_safe)
+      nav_str << content_tag(:li, link_to("sign out", destroy_user_session_url, method: :delete))
     else
       nav_str = content_tag(:li, link_to("Sign In", new_user_session_url))
       nav_str << content_tag(:li, link_to("Register", new_user_registration_url))

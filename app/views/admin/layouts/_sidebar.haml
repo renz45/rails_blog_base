@@ -3,9 +3,13 @@
 -#                                        target: "",
 -#                                        submenu: nested_items}}
 - sidebar_items ||= {}
-%ul 
+- active ||= nil
+- submenu ||= nil
+%ul{class: (submenu ? nil : "sidebar")}
   - sidebar_items.each do |k,v|
-    %li
-      = link_to k, v[:url], class: (!active.nil? && active == k ? "active" : "")
-      = render "admin/layouts/sidebar", sidebar_items: v[:submenu] unless v[:submenu].nil?
+    %li{class: (!v[:submenu].nil? && v[:submenu].length > 1 ? "has_submenu" : nil)}
+      = link_to k.to_s.gsub("_", " ").titleize, v[:url], class: (!active.nil? && active == k ? "active" : "")
+      - unless v[:submenu].nil?
+        %li{class: "submenu"}
+          = render "admin/layouts/sidebar", sidebar_items: v[:submenu],active: active, submenu: true
   

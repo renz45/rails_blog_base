@@ -1,0 +1,45 @@
+//responsive Design mixins, it's recommended that if you need a different pageWidth than the default of 960px that proxy functions be made to change the default ex:
+// =rwidth1($width)
+//		+rwidth($width, 800px)
+//
+//this makes it faster to use
+
+//calculates a percentage based width based on the pageWidth constant and the given width
+=rwidth($width,$pageWidth : 960px)
+	/*! #{$width}/#{$pageWidth}*/
+	width: percentage($width/$pageWidth) 
+	
+=rmargin($top,$right,$bottom,$left, $pageWidth : 960px)
+	@if $top == 0
+		$top: 0px
+	
+	@if $right == 0
+		$right: 0px
+		
+	@if $bottom == 0
+		$bottom: 0px
+		
+	@if $left == 0
+		$left: 0px
+		
+	/*! #{$top}, #{$right}/#{$pageWidth}, #{$bottom}, #{$left}/#{$pageWidth} */
+	
+	margin: $top percentage($right/$pageWidth) $bottom percentage($left/$pageWidth) 
+
+=rpadding($top,$right,$bottom,$left, $pageWidth : 960px)
+	@if $top == 0
+		$top: 0px
+	
+	@if $right == 0
+		$right: 0px
+		
+	@if $bottom == 0
+		$bottom: 0px
+		
+	@if $left == 0
+		$left: 0px
+		
+	/*! #{$top}, #{$right}/#{$pageWidth}, #{$bottom}, #{$left}/#{$pageWidth} */
+	
+	padding: $top percentage($right/$pageWidth) $bottom percentage($left/$pageWidth) 
+

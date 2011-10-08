@@ -1,0 +1,58 @@
+// original cleverButtons by Olivier Lacan & Andrew Smith (http://clevercode.net)
+// modified by Adam Rensel
+
+//edge can be: glow, stark, 3d, 3dLight
+//border can be: solid, twoTone
+
+=cleverPanel($radius : 5px, $textcolor : white, $from : #aaa, $to : #666, $edge : "3dLight", $border : "solid")
+
+  // adjustable settings for padding
+  padding: 0.3em .9em 0.3em
+  
+  // defaulting background to gradient end color
+  background-color: $to
+  +background-image(linear-gradient($from, $to))
+  // legacy IE
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}')
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}')"
+  
+  @if $edge == "glow"
+    +box-shadow(0 1px 1px rgba(0,0,0,.6), rgba(255,255,255,.9) 0px 1px 2px inset)
+
+  @if $edge == "stark"
+    +box-shadow(rgba(255,255,255,.7) 0 10px 10px inset, rgba(0,0,0,.4) 0 0 1px inset)
+
+  @if $edge == "3d"
+    +box-shadow(rgba(0,0,0,.9) 0 3px 1px, rgba(0,0,0,.4) 0 0 1px inset)
+  
+  @if $edge == "3dLight"
+    +box-shadow(rgba(0,0,0,.5) 0 1px 1px, rgba(0,0,0,.4) 0 0 1px inset)
+  
+  // making sure IE gets at least a border
+  @if $border == "twoTone"
+    border-top: 1px solid lighten($from,30%)
+    border-left: 1px solid lighten($from,30%)
+    border-right: 1px solid saturate(darken($to, 10%), 10%)
+    border-bottom: 1px solid saturate(darken($to, 10%), 10%)
+  
+  @if $border == "solid"
+    border: 1px solid saturate(darken($to, 10%), 10%)
+ 	 
+  // would benefit from CSS3 PIE radius
+  +border-radius($radius)
+
+
+  $is_light: lightness($textcolor) > 50%
+
+  $dark_shadow_color : darken($textcolor,100%)
+  $light_shadow_color : lighten($textcolor,100%)
+
+  @if $is_light
+    text-shadow: transparentize($dark_shadow_color, .4) 0 1px 0
+  @if $is_light == false
+    text-shadow: transparentize($light_shadow_color, .4) 0 1px 0
+  &::-moz-focus-inner 
+    border: 0
+    padding: 0
+
+      

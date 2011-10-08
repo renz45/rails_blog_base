@@ -8,7 +8,7 @@
  *= require main
  *
  * Admin Styles
-*= require admin/admin
+ *= require admin/admin
  *
  * Admin - Blog
  *= require admin/blog
