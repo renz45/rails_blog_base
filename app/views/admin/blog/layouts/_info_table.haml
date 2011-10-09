@@ -1,10 +1,29 @@
+-# accepts params like:
+-# array of column titles matching rows in the model passed in for items
+-# :label - alternate table header
+-# :prop - property to call, for example if posts is passed in: 
+-#         [user:{prop: :name}] calls the model items.each{|item| puts item.user.name}
+-# :title - changes the title attribute on the th, td tags to make rollovers
+-#         
+-# usage - 
+-#   items: @posts, columns: [:title,
+-#                           {user: {label: :author, prop: :name}}, 
+-#                            :slug,
+-#                            :created_at,:updated_at,
+-#                            {comments_count: {label: :c, title: "Comment Count"}}]
 - items ||= nil
 - columns ||= []
 %table{class: "info_table"}
   %thead
     %tr
       - columns.each do |c|
-        %th= ((c.is_a? Hash) ? c[c.keys[0]][:label] : c).to_s.titleize
+        - if c.is_a? Hash
+          - output = c[c.keys[0]][:label].to_s.titleize
+          - title = c[c.keys[0]][:title] unless c[c.keys[0]][:title].nil?
+        -else
+          - output = c.to_s.titleize
+        %th{title: (title.nil? ? nil : title)}
+          = output
   %tbody
     - count = 0
     - items.each do |i|
@@ -13,14 +32,14 @@
         - columns.each do |c|
           - if c.is_a? Hash
             - key = c.keys[0]
-            -if c[key].has_key? :prop
-              - output = i.send(key).send(c[key][:prop])
-            -else
-              - output = i[key]
-          -else
-            - output= (c == :created_at || c == :updated_at ? i[c] = i[c].strftime("%A %b %d, %Y") : i[c])
 
-          %td
+            - output = (c[key].has_key? :prop) ? i.send(key).send(c[key][:prop]) : i[key]
+
+            - title = c[key][:title] if c[key].has_key? :title
+          -else
+            - output = (c == :created_at || c == :updated_at ? i[c] = i[c].strftime("%A %b %d, %Y") : i[c])
+
+          %td{title: (title.nil? ? nil : title)}
             = output
           
           
