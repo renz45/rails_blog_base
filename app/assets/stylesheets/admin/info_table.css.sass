@@ -1,0 +1,29 @@
+@import "compass/css3"
+@import "../sasslibs/adamLib"
+@import "../colors"
+
+.info_table
+  font-size: 1.2em
+  thead
+    +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))
+    line-height: 30px
+    font-size: 1.4em
+    +fancyborders(#efefef,#ddd)
+    color: $admin_dark_grey
+    +single-text-shadow(#fff, 1px, 1px, -3px)
+  th
+    border-left: 1px solid $admin_border_light
+    border-right: 1px solid $admin_border_dark
+    padding: 3px 10px
+  th:hover
+    cursor: pointer
+    color: $admin_green
+    +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to_hover))
+  td
+    padding: 3px 10px
+    border-left: 1px dashed #ddd
+    border-right: 1px dashed #ddd
+  .row_stripe
+    background-color: #efefef
+  td:first-child, td:last-child
+    border: none

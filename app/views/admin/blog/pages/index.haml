@@ -1,1 +1,25 @@
-%h1 Admin Blog index
+%h1 Blog Dashboard
+
+.blog_meta
+  .content
+    %h3 Content:
+    %ul
+      %li #{@post_count} #{link_to (@post_count != 1 ? "Posts" : "Post"), admin_blog_posts_url}
+      %li #{@tag_count} #{link_to (@tag_count != 1 ? "Tags" : "Tag"), admin_blog_tags_url}
+      %li #{@category_count} #{link_to (@category_count != 1 ? "Categories" : "Category"), admin_blog_categories_url}
+  .discussion
+    %h3 Discussion:
+    %ul 
+      %li 
+        #{@spam_count} 
+        #{link_to "Spam", admin_blog_comments_type_url(:spam)}
+      %li 
+        #{@approved_count} 
+        #{link_to "Approved", admin_blog_comments_type_url(:approved)}
+      %li 
+        #{@pending_count} 
+        #{link_to "Pending", admin_blog_comments_type_url(:unapproved)}
+      %li 
+        #{@trash_count} 
+        #{link_to "Trashed", admin_blog_comments_type_url(:trash)}
+    

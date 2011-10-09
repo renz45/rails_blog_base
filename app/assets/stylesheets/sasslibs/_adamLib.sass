@@ -41,5 +41,11 @@
 		
 	/*! #{$top}, #{$right}/#{$pageWidth}, #{$bottom}, #{$left}/#{$pageWidth} */
 	
-	padding: $top percentage($right/$pageWidth) $bottom percentage($left/$pageWidth) 
+	padding: $top percentage($right/$pageWidth) $bottom percentage($left/$pageWidth)
+
+=fancyborders($highlight,$shadow)
+	border-left: 1px solid $highlight
+	border-top: 1px solid $highlight
+	border-right: 1px solid $shadow
+	border-bottom: 1px solid $shadow
 

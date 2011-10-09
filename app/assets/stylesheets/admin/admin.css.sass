@@ -1,11 +1,10 @@
 @import "compass/css3"
 @import "sasslibs/adamLib"
-
-$admin_green: #585
+@import "colors"
 
 .main_menu
   border: 1px solid #eee
-  +linear-gradient(color-stops(#fff, #eee))
+  +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))
   border-bottom: 1px solid #ccc
   +single-box-shadow(#ccc, 1px, 0, 2px, 1px, false)
   +single-text-shadow(#fff, 1px, 1px, -3px)
@@ -28,11 +27,11 @@ $admin_green: #585
     margin: 0
     color: #777
     display: inline-block
-    border-left: 1px solid #fff
-    border-right: 1px solid #ddd
+    border-left: 1px solid $admin_border_light
+    border-right: 1px solid $admin_border_dark
   a:hover
     color: $admin_green
-    +linear-gradient(color-stops(#fff, #ddd))
+    +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to_hover))
     text-decoration: none
   ul
     float: left
@@ -48,10 +47,11 @@ $admin_green: #585
   margin-top: 25px
 
 .admin_main_col
-  +rwidth(820px)
+  +rwidth(785px)
   height: 500px
   border: 1px solid #eee
   float: right
+  padding: 15px
 
 .admin_side_col
   height: 500px
@@ -82,9 +82,9 @@ $admin_green: #585
     text-decoration: none
   >li>a
     +single-text-shadow(#fff, 1px, 1px, -3px)
-    +linear-gradient(color-stops(#fff, #eee))
+    +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))
   >li>a:hover, >li>a.active
-    +linear-gradient(color-stops(#fff, #ddd))
+    +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to_hover))
     color: $admin_green
   >li
     ul
@@ -93,6 +93,6 @@ $admin_green: #585
         font-size: 1.1em
         color: #fff
         border-top: 1px solid #fff
-        background: none #777
+        background: none $admin_dark_grey
       a:hover
-        background-color: #35200b
+        background-color: $admin_dark_brown

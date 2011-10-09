@@ -78,6 +78,13 @@ BlogBase::Application.routes.draw do
       root to: "pages#index"
       resources :posts
       resources :comments
+      match "/admin/blog/comments/type/:type", 
+            to: "comments#show",
+            as: :comments_type,
+            via: :get
+
+      resources :tags
+      resources :categories
     end
 
     namespace :settings do

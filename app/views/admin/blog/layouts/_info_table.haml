@@ -1,0 +1,29 @@
+- items ||= nil
+- columns ||= []
+%table{class: "info_table"}
+  %thead
+    %tr
+      - columns.each do |c|
+        %th= ((c.is_a? Hash) ? c[c.keys[0]][:label] : c).to_s.titleize
+  %tbody
+    - count = 0
+    - items.each do |i|
+      %tr{class: (count % 2 == 0 ? nil : "row_stripe")}
+        -count += 1
+        - columns.each do |c|
+          - if c.is_a? Hash
+            - key = c.keys[0]
+            -if c[key].has_key? :prop
+              - output = i.send(key).send(c[key][:prop])
+            -else
+              - output = i[key]
+          -else
+            - output= (c == :created_at || c == :updated_at ? i[c] = i[c].strftime("%A %b %d, %Y") : i[c])
+
+          %td
+            = output
+          
+          
+           
+          
+  

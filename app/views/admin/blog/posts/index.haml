@@ -1,1 +1,6 @@
-%h1 Admin Posts
+%h1 Posts
+
+= render "admin/blog/layouts/info_table", items: @posts, columns: [:title,{user: {label: :author, prop: :name}}, 
+                                                                   :slug,
+                                                                   :created_at,:updated_at,
+                                                                   {comments_count: {label: :c}}]

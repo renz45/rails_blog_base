@@ -17,20 +17,19 @@
 #
 
 class Comment < ActiveRecord::Base
-  belongs_to :post, :counter_cache => true
+  belongs_to :post, counter_cache: true
 
   belongs_to :permission
   has_one :comment_status
 
   # Setup Validations
-  validates :author, :presence => true
+  validates :author, presence: true
 
   email_regex = /\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/
 
-  validates :email, :presence => true,
-                    :format   => { :with => email_regex }
-  validates :content, :presence => true
-  validates :post_id, :presence => true
+  validates :email, presence: true, format: { with: email_regex }
+  validates :content, presence: true
+  validates :post_id, presence: true
 
   def self.for_post(post_id, per_page = 10, page = 1)
     comments = Comment.where(post_id: post_id, reply_id: nil, status_id: 1)

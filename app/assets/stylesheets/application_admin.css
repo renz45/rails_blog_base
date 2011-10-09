@@ -9,6 +9,7 @@
  *
  * Admin Styles
  *= require admin/admin
+ *= require admin/info_table
  *
  * Admin - Blog
  *= require admin/blog

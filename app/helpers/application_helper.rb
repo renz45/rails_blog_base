@@ -9,6 +9,15 @@ module ApplicationHelper
     end
   end
 
+  def admin_title
+    base_title = "Admin"
+    if @title.nil?
+      base_title
+    else
+      "#{base_title} | #{@title}"
+    end
+  end
+
   def nav_sign_in_items(admin_items = false)
 
     if user_signed_in?
