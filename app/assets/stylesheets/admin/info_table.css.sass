@@ -6,7 +6,6 @@
   font-size: 1.2em
   thead
     +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))
-    line-height: 30px
     font-size: 1.4em
     +fancyborders(#efefef,#ddd)
     color: $admin_dark_grey
@@ -14,13 +13,14 @@
   th
     border-left: 1px solid $admin_border_light
     border-right: 1px solid $admin_border_dark
-    padding: 3px 10px
+    padding: 7px 10px
   th:hover
     cursor: pointer
     color: $admin_green
     +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to_hover))
   td
-    padding: 3px 10px
+    padding: 5px 10px
+    line-height: 17px
     border-left: 1px dashed #ddd
     border-right: 1px dashed #ddd
   .row_stripe

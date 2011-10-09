@@ -77,6 +77,11 @@ BlogBase::Application.routes.draw do
     namespace :blog do
       root to: "pages#index"
       resources :posts
+      match "/posts/page/:posts_page",
+            to: "posts#index",
+            as: :posts_page,
+            via: :get
+
       resources :comments
       match "/admin/blog/comments/type/:type", 
             to: "comments#show",

@@ -7,7 +7,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   def index
     @title = "Posts"
     # paginate_me is used internally, which sets the @posts variable
-    paginate_index_posts(blog_root_path)#Pagination module
+    paginate_index_posts(admin_blog_posts_url)#Pagination module
   end
 
   def show
