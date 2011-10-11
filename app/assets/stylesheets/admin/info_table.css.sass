@@ -4,6 +4,7 @@
 
 .info_table
   font-size: 1.2em
+  color: #666
   thead
     +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))
     font-size: 1.4em
@@ -21,13 +22,17 @@
   td
     padding: 5px 10px
     line-height: 17px
-    border-left: 1px dashed #ddd
-    border-right: 1px dashed #ddd
+  .roll_over
+    visibility: hidden
+  tr:hover .roll_over, tr:hover + tr .roll_over
+    visibility: visible
   .row_stripe
     background-color: #efefef
   td:first-child, td:last-child
     border: none
 
 .admin_list_types
+  margin: 5px
   li
     display: inline
+    font-size: 1.3em

@@ -6,8 +6,8 @@
       %th{title: "Post Author"} Author
       %th{title: "Post Tags"} Tags
       %th{title: "Post Categories"} Categories
-      %th{title: "Last Updated"} Last Updated
       %th{title: "Total Comments"} C
+      %th{title: "Last Updated"} Last Updated
   %tbody
     - count = 0
     - posts.each do |p|
@@ -21,6 +21,16 @@
         %td{title: "Post Categories"} 
           = p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(type,c.slug,1))}.join(", ").html_safe
 
-        %td{title: "Last Updated"}= p.updated_at.strftime("%A %b %d, %Y")
         %td{title: "Total Comments"}= p.comments_count
+        %td{title: "Last Updated"}= p.updated_at.strftime("%A %b %d, %Y")
+          
+      %tr{class: "#{(count % 2 == 0 ? "row_stripe": nil)}"}
+        %td{colspan: 5}
+          %span{class: "roll_over"}
+            edit | trash | view
+        
+        - post_status = @post_types.select{|ps| ps.id == p.status_id }[0]
+        %td= post_status.status unless post_status.nil?
+  
+      
 
