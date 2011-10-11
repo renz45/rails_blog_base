@@ -15,7 +15,12 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   end
 
   def search
-
+    # define category and tag variable for use in the view
+    @category = Category.where(slug: params[:category].split(',')) unless params[:category].nil?
+    @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
+    
+    # paginate_me is used internally, which sets the @posts variable
+    paginate_search_posts(@tag,@category)#Pagination module
   end
 
   def new

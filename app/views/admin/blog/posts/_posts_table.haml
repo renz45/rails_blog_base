@@ -1,19 +1,23 @@
 %table{class: "info_table"}
   %thead
     %tr
-      %th= "Title"
-      %th= "Author"
-      %th= "Tags"
-      %th= "Categories"
-      %th= "#"
+      %th{title: "Post Title"} Title
+      %th{title: "Post Author"} Author
+      %th{title: "Post Tags"} Tags
+      %th{title: "Post Categories"} Categories
+      %th{title: "Total Comments"} C
   %tbody
     - count = 0
     - posts.each do |p|
       - count += 1
       %tr{class: (count % 2 == 0 ? "row_stripe": nil)}
-        %td= p.title
-        %td= (p.user.name.length > 0 ? p.user.name : p.user.user_name)
-        %td= p.tags.map{|t| link_to(t.tag, admin_blog_posts_tag_search_url(t.id,1))}.join(", ").html_safe
-        %td= p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(c.id,1))}.join(", ").html_safe
-        %td= p.comments_count
+        %td{title: "Post Title"}= p.title
+        %td{title: "Post Author"}= (p.user.name.length > 0 ? p.user.name : p.user.user_name)
+        %td{title: "Post Tags"}
+          = p.tags.map{|t| link_to(t.tag, admin_blog_posts_tag_search_url(t.slug,1))}.join(", ").html_safe
+
+        %td{title: "Post Categories"} 
+          = p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(c.slug,1))}.join(", ").html_safe
+
+        %td{title: "Total Comments"}= p.comments_count
 
