@@ -32,11 +32,11 @@ class Blog::PostsController < Blog::BaseController
 
   def search
     # define category and tag variable for use in the view
-    @category = Category.find(params[:category_id].split(',')) unless params[:category_id].nil?
-    @tag = Tag.find(params[:tag_id].split(',')) unless params[:tag_id].nil?
-
+    @category = Category.where(slug: params[:category].split(',')) unless params[:category].nil?
+    @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
+    
     # paginate_me is used internally, which sets the @posts variable
-    paginate_search_posts(params[:tag_id],params[:category_id])#Pagination module
+    paginate_search_posts(@tag,@category)#Pagination module
   end
 
   private

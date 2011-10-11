@@ -15,6 +15,17 @@ class Category < ActiveRecord::Base
 
   validates :category, :presence => true
 
+  before_save :add_slug
+
+  def add_slug
+    self.slug = Category.clean_url(self.category) unless self.category.nil?
+  end
+
+  def self.clean_url(url)
+    clean = url.gsub(" ", "-")
+    clean = clean.gsub(/[?\\\.\,\<\>\!\@\#\$\%\^\&\*\(\)]/, "")
+    clean
+  end
 end
 
 

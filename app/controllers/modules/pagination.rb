@@ -14,7 +14,8 @@ module Pagination
       paginate_me(:posts, params_var: :posts_page, base_url: path)
     end
 
-    def paginate_search_posts(tag_id, category_id)
+    # NOTE The 4 map functions here could be optimized/refactored
+    def paginate_search_posts(tag_group, category_group)
       # build the url and where/includes statements based on tags and/or categories
       # this seems long because it takes into account both categories or tags seperately
       # or both categories and tags together incase narrowing a search is wanted
@@ -22,16 +23,16 @@ module Pagination
       where = {}
       page_url = "/blog"
 
-      unless category_id.nil?
+      unless category_group.nil?
         includes << :category_to_posts
-        where[:category_to_posts] = {category_id: category_id}
-        page_url << "/category/#{category_id}"
+        where[:category_to_posts] = {category_id: category_group.map {|c| c.id}}
+        page_url << "/category/#{category_group.map {|c| c.slug}.join(',')}"
       end
 
-      unless tag_id.nil?
+      unless tag_group.nil?
         includes << :tag_to_posts
-        where[:tag_to_posts] = {tag_id: tag_id}
-        page_url << "/tag/#{tag_id}"
+        where[:tag_to_posts] = {tag_id: tag_group.map {|t| t.id}}
+        page_url << "/tag/#{tag_group.map {|t| t.slug}.join(',')}"
       end
 
       paginate_me(:posts, where: where, includes: includes, params_var: :page, base_url: page_url)

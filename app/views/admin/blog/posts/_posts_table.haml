@@ -1,0 +1,19 @@
+%table{class: "info_table"}
+  %thead
+    %tr
+      %th= "Title"
+      %th= "Author"
+      %th= "Tags"
+      %th= "Categories"
+      %th= "#"
+  %tbody
+    - count = 0
+    - posts.each do |p|
+      - count += 1
+      %tr{class: (count % 2 == 0 ? "row_stripe": nil)}
+        %td= p.title
+        %td= (p.user.name.length > 0 ? p.user.name : p.user.user_name)
+        %td= p.tags.map{|t| link_to(t.tag, admin_blog_posts_tag_search_url(t.id,1))}.join(", ").html_safe
+        %td= p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(c.id,1))}.join(", ").html_safe
+        %td= p.comments_count
+

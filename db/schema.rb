@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111005203549) do
+ActiveRecord::Schema.define(:version => 20111010202348) do
 
   create_table "categories", :force => true do |t|
     t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "posts_count"
+    t.string   "slug"
   end
 
   add_index "categories", ["category"], :name => "index_categories_on_category", :unique => true
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20111005203549) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "posts_count"
+    t.string   "slug"
   end
 
   add_index "tags", ["tag"], :name => "index_tags_on_tag", :unique => true

@@ -14,6 +14,10 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @posts = Post.all
   end
 
+  def search
+
+  end
+
   def new
 
   end

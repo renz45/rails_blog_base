@@ -40,12 +40,12 @@ namespace :db do
 
     # create categories
     12.times do |n|
-      Category.create!(category: "Category#{n+1}")
+      Category.create!(category: "Category #{n+1}")
     end
 
     # create tags
     20.times do |n|
-      Tag.create!(tag: "Tag#{n+1}")
+      Tag.create!(tag: "Tag #{n+1}")
     end
 
     # create posts

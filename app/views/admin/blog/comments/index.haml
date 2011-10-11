@@ -1,1 +1,18 @@
-%h1 Admin Comments
+%h1 Comments
+- cols = [:author, 
+         :email,
+         :website,
+         {post: {label: :post, prop: :title}},
+         :created_at,
+         :updated_at]
+
+= render "admin/blog/layouts/info_table", items: @comments, columns: cols
+
+= paginate_for :comments do |c|
+  %span{class: "right"}
+    = c.link_to_last
+    = c.link_to_next
+  = c.page_out_of_total
+  %span{class: "left"}
+    = c.link_to_previous
+    = c.link_to_first                                                

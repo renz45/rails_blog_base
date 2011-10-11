@@ -23,6 +23,16 @@ class Admin::Blog::BaseController < Admin::BaseController
                               target: "",
                               submenu: nil} }
 
+    link_submenu = {all_links: {url: "#",
+                                title: "Edit Links",
+                                target: "",
+                                submenu: nil},
+
+                    add_link: {url: "#",
+                             title: "Add Link",
+                              target: "",
+                              submenu: nil} }
+
 
 
 
@@ -34,6 +44,11 @@ class Admin::Blog::BaseController < Admin::BaseController
                 comments: {url: admin_blog_comments_url,
                           title: "Edit Comments",
                           target: "",
-                          submenu: nil} }
+                          submenu: nil},
+
+                links:    {url: "#",
+                          title: "Edit  Links",
+                          target: "",
+                          submenu: link_submenu} }
   end
 end

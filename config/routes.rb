@@ -21,25 +21,25 @@ BlogBase::Application.routes.draw do
           as: :page, 
           via: :get
 
-    match "category/:category_id/page/:page", 
+    match "category/:category/page/:page", 
           to: "posts#search", 
           as: :category_search, 
           defaults: {page: 1}, 
           via: :get
 
-    match "tag/:tag_id/page/:page", 
+    match "tag/:tag/page/:page", 
           to: "posts#search", 
           as: :tag_search, 
           defaults: {page: 1}, 
           via: :get
 
-    match "/category/:category_id/tag/:tag_id/page/:page", 
+    match "/category/:category/tag/:tag/page/:page", 
           to: "posts#search", 
           as: :category_tag_search, 
           defaults: {page: 1}, 
           via: :get
 
-    match "/tag/:tag_id/category/:category_id/page/:page", 
+    match "/tag/:tag/category/:category/page/:page", 
           to: "posts#search", 
           as: :tag_category_search, 
           defaults: {page: 1}, 
@@ -81,11 +81,27 @@ BlogBase::Application.routes.draw do
             to: "posts#index",
             as: :posts_page,
             via: :get
+      
+      match "/posts/category/:category/page/:page",
+            to: "posts#search",
+            as: :posts_category_search,
+            via: :get
+      
+      match "/posts/tag/:tag/page/:page",
+            to: "posts#search",
+            as: :posts_tag_search,
+            via: :get
 
       resources :comments
-      match "/admin/blog/comments/type/:type", 
+
+      match "/comments/type/:type", 
             to: "comments#show",
             as: :comments_type,
+            via: :get
+      
+      match "/comments/page/:page", 
+            to: "comments#index",
+            as: "comments_page",
             via: :get
 
       resources :tags

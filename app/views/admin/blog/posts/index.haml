@@ -1,11 +1,6 @@
 %h1 Posts
 
-= render "admin/blog/layouts/info_table", items: @posts, columns: [:title,
-                                                                   {user: {label: :author, prop: :name}}, 
-                                                                   :slug,
-                                                                   :created_at,
-                                                                   :updated_at,
-                                                                   {comments_count: {label: :c, title: "Comment Count"}}]
+= render "admin/blog/posts/posts_table", posts: @posts
 = paginate_for :posts do |p|
   %span{class: "right"}
     = p.link_to_last
