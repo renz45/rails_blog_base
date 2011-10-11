@@ -1,3 +1,4 @@
+- type ||= "all"
 %table{class: "info_table"}
   %thead
     %tr
@@ -5,6 +6,7 @@
       %th{title: "Post Author"} Author
       %th{title: "Post Tags"} Tags
       %th{title: "Post Categories"} Categories
+      %th{title: "Last Updated"} Last Updated
       %th{title: "Total Comments"} C
   %tbody
     - count = 0
@@ -14,10 +16,11 @@
         %td{title: "Post Title"}= p.title
         %td{title: "Post Author"}= (p.user.name.length > 0 ? p.user.name : p.user.user_name)
         %td{title: "Post Tags"}
-          = p.tags.map{|t| link_to(t.tag, admin_blog_posts_tag_search_url(t.slug,1))}.join(", ").html_safe
+          = p.tags.map{|t| link_to(t.tag, admin_blog_posts_tag_search_url(type,t.slug,1))}.join(", ").html_safe
 
         %td{title: "Post Categories"} 
-          = p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(c.slug,1))}.join(", ").html_safe
+          = p.categories.map{|c| link_to(c.category, admin_blog_posts_category_search_url(type,c.slug,1))}.join(", ").html_safe
 
+        %td{title: "Last Updated"}= p.updated_at.strftime("%A %b %d, %Y")
         %td{title: "Total Comments"}= p.comments_count
 

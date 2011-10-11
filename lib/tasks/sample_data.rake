@@ -18,6 +18,12 @@ namespace :db do
     CommentStatus.create(status: "trash")
     CommentStatus.create(status: "spam")
 
+    #create post statuses
+    PostStatus.create!(status: "published")
+    PostStatus.create!(status: "unpublished")
+    PostStatus.create!(status: "draft")
+    PostStatus.create!(status: "deleted")
+
     # create users
     User.create!(user_name: "admin",
                  name: "adminy",

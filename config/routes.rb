@@ -76,18 +76,25 @@ BlogBase::Application.routes.draw do
 
     namespace :blog do
       root to: "pages#index"
+
       resources :posts
-      match "/posts/page/:posts_page",
+
+      match "/posts/type/:type",
+            to: "posts#index",
+            as: :posts_type,
+            via: :get
+
+      match "/posts/type/:type/page/:posts_page",
             to: "posts#index",
             as: :posts_page,
             via: :get
       
-      match "/posts/category/:category/page/:page",
+      match "/posts/type/:type/category/:category/page/:page",
             to: "posts#search",
             as: :posts_category_search,
             via: :get
       
-      match "/posts/tag/:tag/page/:page",
+      match "/posts/type/:type/tag/:tag/page/:page",
             to: "posts#search",
             as: :posts_tag_search,
             via: :get
