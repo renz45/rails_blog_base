@@ -13,34 +13,20 @@ BlogBase::Application.routes.draw do
 
   namespace :blog do
 
-    root to: "posts#index", 
-         via: :get
+    root to: "posts#index", via: :get
 
-    match "/page/:posts_page", 
-          to: "posts#index", 
-          as: :page, 
-          via: :get
+    get "/page/:posts_page" => "posts#index", 
+          as: :page
 
-    match "/posts(/tag/:tag)(/category/:category)(/page/:page)", 
-          to: "posts#search", 
+    get "/posts(/tag/:tag)(/category/:category)(/page/:page)" => "posts#search", 
           as: :posts_search, 
-          defaults: {page: 1}, 
-          via: :get
+          defaults: {page: 1}
 
-    # match "/:slug(/page/:page)",
-    #       to: "posts#show",  
-    #       as: :post, 
-    #       via: :get
+    get "/:slug(/comment(/reply/:reply_id)(:comment_id))(/page/:page)" => "posts#show", 
+          as: :post
 
-    match "/:slug(/comment(/reply/:reply_id)(:comment_id))(/page/:page)", 
-          to: "posts#show", 
-          as: :post, 
-          via: :get
-
-    match "/comments/create",
-          to: "comments#create",  
-          as: :comments_create, 
-          via: :post
+    post "/comments/create" => "comments#create",  
+          as: :comments_create
   end
 
   namespace :admin do
@@ -51,27 +37,19 @@ BlogBase::Application.routes.draw do
 
       resources :posts
 
-      match "/posts(/type/:type)(/tag/:tag)(/category/:category)(/page/:page)",
-            to: "posts#search",
-            as: :posts_search,
-            via: :get
+      get "/posts(/type/:type)(/tag/:tag)(/category/:category)(/page/:page)" => "posts#search",
+            as: :posts_search
       
-      match "/posts(/type/:type)(/page/:page)",
-            to: "posts#index",
-            as: :posts_search,
-            via: :get
+      get "/posts(/type/:type)(/page/:page)" => "posts#index",
+            as: :posts_search
 
       resources :comments
 
-      match "/comments/type/:type", 
-            to: "comments#show",
-            as: :comments_type,
-            via: :get
+      get "/comments/type/:type" => "comments#show",
+            as: :comments_type
       
-      match "/comments/page/:page", 
-            to: "comments#index",
-            as: "comments_page",
-            via: :get
+      get "/comments/page/:page" => "comments#index",
+            as: :comments_page
 
       resources :tags
       resources :categories
