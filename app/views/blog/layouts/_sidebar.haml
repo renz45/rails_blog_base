@@ -2,12 +2,12 @@
 %ul 
   - @categories.each do |c|
     %li
-      = link_to c.category, blog_category_search_url(c.slug)
+      = link_to c.category, blog_posts_search_url(category: c.slug)
       = "(#{c.posts_count})"
 
 %h2 Tags
 %ul
   - @tags.each do |t|
     %li
-      = link_to t.tag, blog_tag_search_url(t.slug)
+      = link_to t.tag, blog_posts_search_url(tag: t.slug)
       = "(#{t.posts_count})"

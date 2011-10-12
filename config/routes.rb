@@ -21,48 +21,20 @@ BlogBase::Application.routes.draw do
           as: :page, 
           via: :get
 
-    match "category/:category/page/:page", 
+    match "/posts(/tag/:tag)(/category/:category)(/page/:page)", 
           to: "posts#search", 
-          as: :category_search, 
+          as: :posts_search, 
           defaults: {page: 1}, 
           via: :get
 
-    match "tag/:tag/page/:page", 
-          to: "posts#search", 
-          as: :tag_search, 
-          defaults: {page: 1}, 
-          via: :get
+    # match "/:slug(/page/:page)",
+    #       to: "posts#show",  
+    #       as: :post, 
+    #       via: :get
 
-    match "/category/:category/tag/:tag/page/:page", 
-          to: "posts#search", 
-          as: :category_tag_search, 
-          defaults: {page: 1}, 
-          via: :get
-
-    match "/tag/:tag/category/:category/page/:page", 
-          to: "posts#search", 
-          as: :tag_category_search, 
-          defaults: {page: 1}, 
-          via: :get
-
-    match "/:slug", 
+    match "/:slug(/comment(/reply/:reply_id)(:comment_id))(/page/:page)", 
           to: "posts#show", 
           as: :post, 
-          via: :get
-
-    match "/:slug/page/:page",
-          to: "posts#show",  
-          as: :post_page, 
-          via: :get
-
-    match "/:id/comment/:comment_id", 
-          to: "posts#show", 
-          as: :comment, 
-          via: :get
-
-    match "/:slug/comment/reply/:reply_id", 
-          to: "posts#show", 
-          as: :comment_reply, 
           via: :get
 
     match "/comments/create",
@@ -79,24 +51,14 @@ BlogBase::Application.routes.draw do
 
       resources :posts
 
-      match "/posts/type/:type",
-            to: "posts#index",
-            as: :posts_type,
-            via: :get
-
-      match "/posts/type/:type/page/:posts_page",
-            to: "posts#index",
-            as: :posts_page,
+      match "/posts(/type/:type)(/tag/:tag)(/category/:category)(/page/:page)",
+            to: "posts#search",
+            as: :posts_search,
             via: :get
       
-      match "/posts/type/:type/category/:category/page/:page",
-            to: "posts#search",
-            as: :posts_category_search,
-            via: :get
-      
-      match "/posts/type/:type/tag/:tag/page/:page",
-            to: "posts#search",
-            as: :posts_tag_search,
+      match "/posts(/type/:type)(/page/:page)",
+            to: "posts#index",
+            as: :posts_search,
             via: :get
 
       resources :comments

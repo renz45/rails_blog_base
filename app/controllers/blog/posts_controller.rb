@@ -36,7 +36,7 @@ class Blog::PostsController < Blog::BaseController
     @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
     
     # paginate_me is used internally, which sets the @posts variable
-    paginate_search_posts(@tag,@category,"/blog")#Pagination module
+    paginate_search_posts(@tag,@category,"/blog/posts")#Pagination module
   end
 
   private

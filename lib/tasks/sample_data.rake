@@ -22,7 +22,7 @@ namespace :db do
     PostStatus.create!(status: "published")
     PostStatus.create!(status: "unpublished")
     PostStatus.create!(status: "draft")
-    PostStatus.create!(status: "deleted")
+    PostStatus.create!(status: "trashed")
 
     # create users
     User.create!(user_name: "admin",

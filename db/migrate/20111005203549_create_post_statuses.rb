@@ -10,6 +10,6 @@ class CreatePostStatuses < ActiveRecord::Migration
     PostStatus.create!(status: "published")
     PostStatus.create!(status: "unpublished")
     PostStatus.create!(status: "draft")
-    PostStatus.create!(status: "deleted")
+    PostStatus.create!(status: "trashed")
   end
 end

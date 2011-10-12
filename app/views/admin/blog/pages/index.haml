@@ -9,7 +9,10 @@
       %li #{@category_count} #{link_to (@category_count != 1 ? "Categories" : "Category"), admin_blog_categories_url}
   .discussion
     %h3 Discussion:
-    %ul 
+    %ul
+      %li 
+        #{@comment_count}
+        #{link_to "Comments", admin_blog_comments_url}
       %li 
         #{@spam_count} 
         #{link_to "Spam", admin_blog_comments_type_url(:spam)}
