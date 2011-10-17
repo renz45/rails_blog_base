@@ -43,6 +43,9 @@ BlogBase::Application.routes.draw do
       get "/posts(/page/:page)" => "posts#index",
             as: :posts
 
+      delete "/posts/trash/:id" => "posts#trash",
+            as: :trash_post
+
       resources :comments
 
       get "/comments/type/:type" => "comments#show",

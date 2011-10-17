@@ -55,10 +55,11 @@ namespace :db do
     end
 
     # create posts
-    50.times do |n|
+    100.times do |n|
       p = Post.new(title: Faker::Lorem.words(4).join(" "),
                    content: Faker::Lorem.paragraphs(5).join(" "),
-                   user_id: 1+rand(10))
+                   user_id: 1+rand(10),
+                   status_id: 1 + rand(4))
       
       # give post random categories
       num = 1+rand(12)

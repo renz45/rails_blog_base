@@ -16,16 +16,15 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     end
   end
 
-  # NOTE probably won't need this for the admin
-  def show
-    @post = Post.find(params[:id])
-  end
-
   def edit
+    @title = "Edit Post"
     @post = Post.find(params[:id])
+    @categories = Category.all
+    #@form_url = edit_admin_blog_post_url(@post.id)
   end
 
   def search
+    @title = "Posts"
     # define category and tag variable for use in the view
     @category = Category.where(slug: params[:category].split(',')) unless params[:category].nil?
     @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
@@ -37,13 +36,31 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   end
 
   def new
+    @title = "New Post"
     @post = Post.new
+    @categories = Category.all
+    render "admin/blog/posts/edit"
   end
 
   def destroy
     Post.find(params[:id]).delete
 
     redirect_to :back
+  end
+
+  def trash
+    post = Post.find(params[:id])
+    post.post_status = PostStatus.trashed
+    post.save
+    redirect_to :back
+  end
+
+  def update
+    binding.pry
+  end
+
+  def create
+    binding.pry
   end
 
   private

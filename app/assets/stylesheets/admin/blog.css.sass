@@ -1,0 +1,32 @@
+@import sasslibs/adamLib
+@import colors
+.category_list
+  float: right
+  height: 200px
+  width: 150px
+  overflow: auto
+  li
+    width: 95%
+    float: left
+    clear: left
+    overflow: hidden
+  input[type="checkbox"]
+    display: none
+  label
+    background-color: #ddd
+    padding: 5px
+    width: 95%
+    float: left
+    +fancyborders(#eee,#888)
+    cursor: pointer
+    font-size: 1.4em
+    color: #555
+  input:checked + label
+    background-color: $admin_green
+    color: #fff
+  label:hover, input + label:hover
+    background-color: #eee
+    color: #666
+  input:checked + label:hover
+    background-color: lighten($admin_green,20)
+    color: #fff

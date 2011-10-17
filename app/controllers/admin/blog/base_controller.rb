@@ -8,18 +8,18 @@ class Admin::Blog::BaseController < Admin::BaseController
                                 target: "",
                                 submenu: nil},
 
-                    add_post: {url: admin_blog_comments_url,
-                             title: "Edit Comments",
+                    add_post: {url: new_admin_blog_post_url,
+                              title: "Add Post",
                               target: "",
                               submenu: nil},
 
                     categories: {url: admin_blog_comments_url,
-                             title: "Edit Comments",
+                             title: "Edit Categories",
                               target: "",
                               submenu: nil},
 
                     tags: {url: admin_blog_comments_url,
-                             title: "Edit Comments",
+                             title: "Edit Tags",
                               target: "",
                               submenu: nil} }
 

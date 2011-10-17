@@ -34,9 +34,13 @@ class Post < ActiveRecord::Base
   validates :title, presence: true
   validates :user_id, presence: true
 
+  scope :trashed, joins(:post_status).where(post_statuses: {status: "trashed"})
+  scope :published, joins(:post_status).where(post_statuses: {status: "published"})
+  scope :unpublished, joins(:post_status).where(post_statuses: {status: "unpublished"})
+  scope :draft, joins(:post_status).where(post_statuses: {status: "draft"})
+
   def update_slug
     self.slug ||= Post.clean_url(self.title) unless self.title.nil?
-    binding.pry
 
     # update count caches
     self.categories.each do |c|

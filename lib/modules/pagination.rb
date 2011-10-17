@@ -12,10 +12,12 @@ module Pagination
   module Posts
     def paginate_index_posts(path,type = false)
       if type
-        status = PostStatus.where(status: type.to_s.downcase)[0].id
-        paginate_me(:posts, params_var: :posts_page, base_url: path, where: {status_id: status})
+        status = PostStatus.where(status: type.to_s.downcase).first().id
+        paginate_me(:posts, base_url: path, where: {status_id: status})
       else
-        paginate_me(:posts, params_var: :posts_page, base_url: path)
+        trashed_status = PostStatus.trashed
+        statuses = PostStatus.all.map {|ps| ps.id unless ps.id == trashed_status.id}
+        paginate_me(:posts, base_url: path, where: {status_id: statuses.compact})
       end
     end
 
@@ -29,19 +31,19 @@ module Pagination
       page_url = path
 
       unless category_group.nil?
-        includes << :category_to_posts
-        where[:category_to_posts] = {category_id: category_group.map {|c| c.id}}
+        includes << :category_posts
+        where[:category_posts] = {category_id: category_group.map {|c| c.id}}
         page_url << "/category/#{category_group.map {|c| c.slug}.join(',')}"
       end
 
       unless tag_group.nil?
-        includes << :tag_to_posts
-        where[:tag_to_posts] = {tag_id: tag_group.map {|t| t.id}}
+        includes << :post_tags
+        where[:post_tags] = {tag_id: tag_group.map {|t| t.id}}
         page_url << "/tag/#{tag_group.map {|t| t.slug}.join(',')}"
       end
 
       if !type.nil? && type != "all"
-        status = PostStatus.where(status: type.to_s.downcase)[0].id
+        status = PostStatus.where(status: type.to_s.downcase).first().id
         where[:posts] = {status_id: status}
       end
 

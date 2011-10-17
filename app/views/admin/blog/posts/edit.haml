@@ -1,4 +1,4 @@
-= form_for @post, url: edit_admin_blog_post_url(@post.id) do |f|
+= form_for [:admin, :blog, @post] do |f|
   %p 
     = f.label :title
     %br
@@ -7,3 +7,16 @@
     = f.label :content
     %br
     = f.text_area :content
+  .categories 
+    = f.label :categories
+    %br
+    %ul{class: "category_list"}
+      - checked = @post.categories.to_a
+      - @categories.each do |c|
+        %li
+          = check_box_tag('categories[]', c.id, checked.include?(c), id: "category#{c.id}") 
+          = f.label c.category, for: "category#{c.id}"
+
+      =# f.select :categories, @categories.map {|c| [c.category,c.id]}
+  %p 
+    = f.submit
