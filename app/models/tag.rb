@@ -10,12 +10,12 @@
 #
 
 class Tag < ActiveRecord::Base
-  has_many :tag_to_posts
-  has_many :posts, through: :tag_to_posts
+  before_save :add_slug
+
+  has_many :post_tags
+  has_many :posts, through: :post_tags
 
   validates :tag, presence: true
-
-  before_save :add_slug
 
   def add_slug
     self.slug = Tag.clean_url(self.tag) unless self.tag.nil?

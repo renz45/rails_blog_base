@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111010202348) do
+ActiveRecord::Schema.define(:version => 20111013184205) do
 
   create_table "categories", :force => true do |t|
     t.string   "category"
@@ -23,15 +23,15 @@ ActiveRecord::Schema.define(:version => 20111010202348) do
 
   add_index "categories", ["category"], :name => "index_categories_on_category", :unique => true
 
-  create_table "category_to_posts", :force => true do |t|
+  create_table "category_posts", :force => true do |t|
     t.integer  "category_id"
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "category_to_posts", ["category_id"], :name => "index_category_to_posts_on_category_id"
-  add_index "category_to_posts", ["post_id"], :name => "index_category_to_posts_on_post_id"
+  add_index "category_posts", ["category_id"], :name => "index_category_posts_on_category_id"
+  add_index "category_posts", ["post_id"], :name => "index_category_posts_on_post_id"
 
   create_table "comment_statuses", :force => true do |t|
     t.string   "status"
@@ -68,9 +68,20 @@ ActiveRecord::Schema.define(:version => 20111010202348) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "posts_count"
   end
 
   add_index "post_statuses", ["status"], :name => "index_post_statuses_on_status", :unique => true
+
+  create_table "post_tags", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "post_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "post_tags", ["post_id"], :name => "index_post_tags_on_post_id"
+  add_index "post_tags", ["tag_id"], :name => "index_post_tags_on_tag_id"
 
   create_table "posts", :force => true do |t|
     t.string   "title"
@@ -79,24 +90,14 @@ ActiveRecord::Schema.define(:version => 20111010202348) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "categories_count"
-    t.integer  "tags_count"
     t.integer  "comments_count"
+    t.integer  "tags_count"
+    t.integer  "categories_count"
     t.integer  "status_id"
   end
 
   add_index "posts", ["slug"], :name => "index_posts_on_slug", :unique => true
   add_index "posts", ["title"], :name => "index_posts_on_title", :unique => true
-
-  create_table "tag_to_posts", :force => true do |t|
-    t.integer  "tag_id"
-    t.integer  "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "tag_to_posts", ["post_id"], :name => "index_tag_to_posts_on_post_id"
-  add_index "tag_to_posts", ["tag_id"], :name => "index_tag_to_posts_on_tag_id"
 
   create_table "tags", :force => true do |t|
     t.string   "tag"

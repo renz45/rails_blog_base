@@ -14,35 +14,43 @@
 #  comments_count   :integer
 #  status_id        :integer
 #
-
 class Post < ActiveRecord::Base
+
+  before_save :update_slug
+
   belongs_to :user
 
-  has_many :category_to_posts
-  has_many :categories, through: :category_to_posts
+  has_many :category_posts
+  has_many :categories, through: :category_posts
 
-  has_many :tag_to_posts
-  has_many :tags, through: :tag_to_posts
+  has_many :post_tags
+  has_many :tags, through: :post_tags
 
   has_many :comments, dependent: :destroy
 
-  has_one :post_status
+  belongs_to :post_status, foreign_key: :status_id, counter_cache: :posts_count
 
   # setup validations
   validates :title, presence: true
   validates :user_id, presence: true
 
-  before_save :add_slug
-
-  def add_slug
+  def update_slug
     self.slug ||= Post.clean_url(self.title) unless self.title.nil?
+    binding.pry
+
+    # update count caches
+    self.categories.each do |c|
+      c.posts_count = c.posts.count
+    end
+
+    self.tags.each do |t|
+      t.posts_count = t.posts.count
+    end
   end
-  
 
   def self.clean_url(url)
     clean = url.gsub(" ", "-")
-    clean = clean.gsub(/[?\\\.\,\<\>\!\@\#\$\%\^\&\*\(\)]/, "")
-    clean
+    clean.gsub(/[?\\\.\,\<\>\!\@\#\$\%\^\&\*\(\)]/, "")
   end
 
 end

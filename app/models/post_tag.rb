@@ -9,9 +9,9 @@
 #  updated_at :datetime
 #
 
-class TagToPost < ActiveRecord::Base
-  belongs_to :post, :counter_cache => :tags_count
-  belongs_to :tag, :counter_cache => :posts_count
+class PostTag < ActiveRecord::Base
+  belongs_to :tag
+  belongs_to :post
 end
 
 

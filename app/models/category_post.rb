@@ -9,9 +9,9 @@
 #  updated_at  :datetime
 #
 
-class CategoryToPost < ActiveRecord::Base
-  belongs_to :post , counter_cache: :categories_count
+class CategoryPost < ActiveRecord::Base
   belongs_to :category, counter_cache: :posts_count
+  belongs_to :post
 end
 
 

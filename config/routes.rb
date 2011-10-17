@@ -37,11 +37,11 @@ BlogBase::Application.routes.draw do
 
       resources :posts
 
-      get "/posts(/type/:type)(/tag/:tag)(/category/:category)(/page/:page)" => "posts#search",
+      get "/posts(/type/:type(/tag/:tag)(/category/:category)(/page/:page))" => "posts#search",
             as: :posts_search
       
-      get "/posts(/type/:type)(/page/:page)" => "posts#index",
-            as: :posts_search
+      get "/posts(/page/:page)" => "posts#index",
+            as: :posts
 
       resources :comments
 

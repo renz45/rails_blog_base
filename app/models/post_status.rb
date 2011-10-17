@@ -1,7 +1,7 @@
 class PostStatus < ActiveRecord::Base
-  belongs_to :posts
+  has_many :posts, foreign_key: :status_id
 
-  validates :status, :presence => true
+  validates :status, presence: true
 end
 # == Schema Information
 #
