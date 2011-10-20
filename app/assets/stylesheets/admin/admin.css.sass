@@ -1,11 +1,15 @@
-@import "compass/css3"
-@import "sasslibs/adamLib"
-@import "colors"
+@import compass/css3
+@import sasslibs/adamLib
+@import colors
+@import sasslibs/cleverButton
 
 a
   color: $admin_green
 a:hover
   color: $admin_dark_brown
+
+input[type="submit"], button, .button
+  +cleverButton(2px,white,#999,#666, "", "twoTone")
 
 .main_menu
   border: 1px solid #eee

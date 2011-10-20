@@ -1,22 +1,35 @@
 = form_for [:admin, :blog, @post] do |f|
-  %p 
-    = f.label :title
-    %br
-    = f.text_field :title
-  %p 
-    = f.label :content
-    %br
-    = f.text_area :content
-  .categories 
+  .form_col1
+    %p 
+      = f.label :title
+      %br
+      = f.text_field :title
+    %p 
+      = f.label :content
+      %br
+      = f.text_area :content
+    %p 
+      = f.submit
+  .form_col2 
     = f.label :categories
-    %br
     %ul{class: "category_list"}
-      - checked = @post.categories.to_a
-      - @categories.each do |c|
-        %li
-          = check_box_tag('categories[]', c.id, checked.include?(c), id: "category#{c.id}") 
-          = f.label c.category, for: "category#{c.id}"
+      = render "admin/blog/categories/category_list", post: @post, categories: @categories
+    //%p
+    %input{class: "new_category"}
+    %input{class: "current_post", type: "hidden", value: @post.id}
+    %br
+    %br
+    = link_to_function("New Category", "new_category()", class: "button")
+    =# link_to "New Category", admin_blog_categories_path, method: :post, class: "button", remote: true
 
-      =# f.select :categories, @categories.map {|c| [c.category,c.id]}
-  %p 
-    = f.submit
+
+    -# @categories.each do |c|
+    -#  %input{type: :hidden, name: "new_cats[]", value: c.category}
+
+    
+/ = form_tag admin_blog_categories_url ,method: :post, remote: true do |cf|
+/   %p
+/     = text_field_tag "category"
+/     = hidden_field_tag "post", @post.id
+/   %p= submit_tag
+    

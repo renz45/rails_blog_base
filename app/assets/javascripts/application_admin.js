@@ -6,10 +6,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require admin/blog
 
 
-//$(document).ready(function(){
+$(document).ready(function(){
 
   // $('form.new_category').submit(function(evt){
   //   evt.stopPropagation();
@@ -21,4 +20,9 @@
   //   return false;
   // });
 
-//});
+});
+
+function new_category(){
+  alert("AWWW");
+}
+

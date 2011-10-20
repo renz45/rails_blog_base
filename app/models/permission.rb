@@ -13,7 +13,7 @@ class Permission < ActiveRecord::Base
   has_many :user 
   has_many :comment
 
-  validates :permission, :presence => true
+  validates :permission, presence: true
 end
 
 

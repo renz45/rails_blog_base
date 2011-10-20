@@ -1,7 +1,10 @@
 @import sasslibs/adamLib
 @import colors
-.category_list
+.form_col1
+  float: left
+.form_col2
   float: right
+.category_list
   height: 200px
   width: 150px
   overflow: auto
@@ -13,20 +16,22 @@
   input[type="checkbox"]
     display: none
   label
-    background-color: #ddd
+    background-color: #eee
     padding: 5px
     width: 95%
     float: left
-    +fancyborders(#eee,#888)
+    +fancyborders(#eee,#ccc)
     cursor: pointer
     font-size: 1.4em
-    color: #555
-  input:checked + label
+    color: #777
+  input:checked + label, 
+  input.checked + label
     background-color: $admin_green
     color: #fff
   label:hover, input + label:hover
-    background-color: #eee
-    color: #666
-  input:checked + label:hover
+    background-color: #fff
+    color: #999
+  input:checked + label:hover,
+  input.checked + label:hover
     background-color: lighten($admin_green,20)
     color: #fff

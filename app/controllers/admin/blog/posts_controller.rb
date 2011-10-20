@@ -19,7 +19,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   def edit
     @title = "Edit Post"
     @post = Post.find(params[:id])
-    @categories = Category.all
+    @categories = Category.order(:category)
     #@form_url = edit_admin_blog_post_url(@post.id)
   end
 
@@ -38,7 +38,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   def new
     @title = "New Post"
     @post = Post.new
-    @categories = Category.all
+    @categories = Category.order(:category)
     render "admin/blog/posts/edit"
   end
 
