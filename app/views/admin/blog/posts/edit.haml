@@ -14,22 +14,11 @@
     = f.label :categories
     %ul{class: "category_list"}
       = render "admin/blog/categories/category_list", post: @post, categories: @categories
-    //%p
-    %input{class: "new_category"}
-    %input{class: "current_post", type: "hidden", value: @post.id}
-    %br
-    %br
-    = link_to_function("New Category", "new_category()", class: "button")
-    =# link_to "New Category", admin_blog_categories_path, method: :post, class: "button", remote: true
-
-
-    -# @categories.each do |c|
-    -#  %input{type: :hidden, name: "new_cats[]", value: c.category}
-
-    
-/ = form_tag admin_blog_categories_url ,method: :post, remote: true do |cf|
-/   %p
-/     = text_field_tag "category"
-/     = hidden_field_tag "post", @post.id
-/   %p= submit_tag
+    %p
+      %input{class: "new_category"}
+      %br
+      %br
+      = link_to_function("New Category", 
+        "admin_blog.new_category($('.new_category').val() #{','+ @post.id unless @post.id.nil? })", 
+        class: "button")
     

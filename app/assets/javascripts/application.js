@@ -7,18 +7,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require admin/blog
-
-
-//$(document).ready(function(){
-
-  // $('form.new_category').submit(function(evt){
-  //   evt.stopPropagation();
-
-  //   return false;
-  // });
-
-  // $('form.new_category input[type="submit"]').click(function(){
-  //   return false;
-  // });
-
-//});
