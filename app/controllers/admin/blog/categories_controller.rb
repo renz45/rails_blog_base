@@ -1,9 +1,8 @@
 class Admin::Blog::CategoriesController < Admin::Blog::BaseController
 
   def create
-    Category.find_or_create_by_category(params[:category]) #Category.create!(params[:category])
-    @categories = Category.order(:category)
-    @post = Post.where(id: params[:post]).first
+    @category = Category.new(category: params[:category])
+    
     respond_to do |format|
       format.html
       format.js { render "admin/blog/categories/create", layout: false }

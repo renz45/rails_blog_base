@@ -1,0 +1,7 @@
+%li{class: c.slug}
+  = check_box_tag('categories[]', 
+                  c.category, 
+                  checked.is_a?(TrueClass) || checked.include?(c), 
+                  id: c.slug)
+                   
+  = content_tag(:label, c.category, for: c.slug)

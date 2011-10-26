@@ -11,6 +11,7 @@
 
 class Tag < ActiveRecord::Base
   before_save :add_slug
+  after_initialize :add_slug
 
   has_many :post_tags
   has_many :posts, through: :post_tags

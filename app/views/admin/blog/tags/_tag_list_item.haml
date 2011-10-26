@@ -1,0 +1,4 @@
+%li{class: t.slug}
+  %label{for: t.slug}
+    = (t.tag + " " + link_to_function('[X]', "admin_blog.delete_tag('#{t.slug}')")).html_safe
+  %input{type: "hidden", id: t.slug, name: "tags[]", value: t.tag}

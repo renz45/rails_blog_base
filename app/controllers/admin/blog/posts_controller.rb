@@ -18,9 +18,9 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def edit
     @title = "Edit Post"
-    @post = Post.find(params[:id])
+    @post = Post.includes(:tags).find(params[:id])
     @categories = Category.order(:category)
-    #@form_url = edit_admin_blog_post_url(@post.id)
+    @tags = @post.tags().order(:tag)
   end
 
   def search

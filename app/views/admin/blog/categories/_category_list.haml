@@ -1,6 +1,4 @@
 - checked = []
 - checked = post.categories.to_a unless post.nil?
 - categories.each do |c|
-  %li
-    = check_box_tag('categories[]', c.id, checked.include?(c), id: "category#{c.id}") 
-    = content_tag(:label, c.category, for: "category#{c.id}")
+  = render "admin/blog/categories/category_list_item", checked: checked, c: c

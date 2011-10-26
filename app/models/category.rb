@@ -10,12 +10,13 @@
 #
 
 class Category < ActiveRecord::Base
+  before_save :add_slug
+  after_initialize :add_slug
+  
   has_many :category_posts
   has_many :posts, through: :category_posts
 
   validates :category, presence: true, uniqueness: true
-
-  before_save :add_slug
 
   def add_slug
     self.slug = Category.clean_url(self.category) unless self.category.nil?

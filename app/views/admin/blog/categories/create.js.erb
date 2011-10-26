@@ -1,4 +1,7 @@
+cat_list = $('.category_list')
+
+if(cat_list.find(".<%= @category.slug %>").length < 1){
+  cat_list.prepend("<%= escape_javascript(render('category_list_item', checked: true, c: @category ))%>")
+}
 
 
-$('.category_list')
-  .html("<%= escape_javascript(render('category_list', post: @post, categories: @categories)) %>");

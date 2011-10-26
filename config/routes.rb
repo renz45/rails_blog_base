@@ -55,6 +55,7 @@ BlogBase::Application.routes.draw do
             as: :comments_page
 
       resources :tags
+      delete "/tags" => "tags#destroy"
       resources :categories
     end
 
