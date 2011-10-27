@@ -9,7 +9,6 @@ $(document).ready ->
         data:
           "category": category 
           "post": post_id
-
       $.ajax(ajax_params)
     
     delete_tag: (tag) ->
@@ -18,7 +17,6 @@ $(document).ready ->
         url: "/admin/blog/tags.js"
         data:
           "tag": tag
-
       $.ajax(ajax_params)
 
     create_tag: (tags) ->
@@ -28,15 +26,30 @@ $(document).ready ->
         data:
           "tags": tags.join(',')
       $.ajax(ajax_params)
-  
+    
+    setup_tag_autocomplete: (auto_complete_object) ->
+      ajax_params = 
+        type: "GET"
+        url: "/admin/blog/tags.json"
+        success: (data) ->
+          $(auto_complete_object)
+            .autocomplete {
+              source: data
+              select: (e, ui) ->
+                if e.which == 1
+                  tag_input.submit([ui.item.value])
+              close: ->
+                $(this).val('')
+            }
+              
+      $.ajax ajax_params
+
+
   tag_input =
     check_for_seperator: (that,seperator) ->
       str = $(that).val()
       if(str.charAt(str.length - 1) == seperator)
-        str_arr = str.split(seperator)
-         
-        tag_input.submit(str_arr)
-
+        tag_input.submit(str.split(seperator))
         $(that).val('')
 
     submit: (arr) ->
@@ -61,7 +74,12 @@ $(document).ready ->
     submit_input: (that) ->
       tag_input.submit($(that).val().split(','))
       $(that).val('')
-      
+
+  ####################################
+  #       autocomplete data          #
+  ####################################
+  admin_blog.setup_tag_autocomplete(".tag_input")
+
 
   ####################################
   #             bindings             #
@@ -80,8 +98,8 @@ $(document).ready ->
     else
       return true
 
-  .bind 'focusout', ->
-    tag_input.submit_input(this)
+  # .bind 'focusout', ->
+  #   tag_input.submit_input(this)
 
 
   # on enter, stop the form from submitting but trigger the add category button event

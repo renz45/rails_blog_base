@@ -6,6 +6,7 @@
  * Main Site Admin styles
  *= require_self
  *= require main
+ *= require jquery-ui-1.8.16.custom.css
  *
  * Admin Styles
  *= require admin/admin

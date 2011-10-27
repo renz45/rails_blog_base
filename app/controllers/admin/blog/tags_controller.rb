@@ -1,4 +1,15 @@
 class Admin::Blog::TagsController < Admin::Blog::BaseController
+
+  def index
+    tags = Tag.all.map{|t| t.tag}
+
+    respond_to do |format|
+      format.html
+      format.json { render json: tags }
+    end
+    
+  end
+
   def create
     @tags = []
     tags = params[:tags].split(',')#Tag.new(tag: params[:tag])
