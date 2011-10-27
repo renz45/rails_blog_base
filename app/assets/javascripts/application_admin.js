@@ -6,23 +6,5 @@
 //
 //= require jquery
 //= require jquery_ujs
-
-
-$(document).ready(function(){
-
-  // $('form.new_category').submit(function(evt){
-  //   evt.stopPropagation();
-
-  //   return false;
-  // });
-
-  // $('form.new_category input[type="submit"]').click(function(){
-  //   return false;
-  // });
-
-});
-
-function new_category(){
-  alert("AWWW");
-}
+//= require admin/blog
 

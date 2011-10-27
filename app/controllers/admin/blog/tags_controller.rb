@@ -1,6 +1,11 @@
 class Admin::Blog::TagsController < Admin::Blog::BaseController
   def create
-    @tag = Tag.new(tag: params[:tag])
+    @tags = []
+    tags = params[:tags].split(',')#Tag.new(tag: params[:tag])
+    tags.each do |t|
+      @tags.push(Tag.new(tag: t))
+    end
+
     respond_to do |format|
       format.html
       format.js { render "admin/blog/tags/create", layout: false }

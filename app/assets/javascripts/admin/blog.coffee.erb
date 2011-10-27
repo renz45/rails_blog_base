@@ -20,26 +20,53 @@ $(document).ready ->
           "tag": tag
 
       $.ajax(ajax_params)
-    
-    create_tag: (tag) ->
+
+    create_tag: (tags) ->
       ajax_params = 
         type: "POST"
         url: "/admin/blog/tags.js"
         data:
-          "tag": tag
-
+          "tags": tags.join(',')
       $.ajax(ajax_params)
   
   tag_input =
     check_for_seperator: (that,seperator) ->
       str = $(that).val()
-      if(str.charAt(str.length - 1) == seperator )
+      if(str.charAt(str.length - 1) == seperator)
         str_arr = str.split(seperator)
-        admin_blog.create_tag(str_arr[0])
-        $(that).val(str_arr[1])
+         
+        tag_input.submit(str_arr)
 
+        $(that).val('')
 
-  #bindings
+    submit: (arr) ->
+      valid_tags = []
+        
+      for new_tag in arr
+        is_found = false
+
+        for input in $(".tag_list input")
+          value = $(input).attr('value')
+
+          if value == new_tag || $.inArray(new_tag, valid_tags) > -1
+            is_found = true
+            break
+
+        if !is_found && new_tag != ""
+          valid_tags.push(new_tag)
+
+      if(valid_tags.length > 0)
+        admin_blog.create_tag(valid_tags)
+    
+    submit_input: (that) ->
+      tag_input.submit($(that).val().split(','))
+      $(that).val('')
+      
+
+  ####################################
+  #             bindings             #
+  ####################################
+
   # insert new tag when the comma is used as a seperator
   $(".tag_input")
   .bind 'keyup', (evt) -> 
@@ -47,8 +74,14 @@ $(document).ready ->
   
   .bind 'keydown', (evt) ->
     if(evt.which == 13)
-        evt.stopPropagation()
-        return false
+      tag_input.submit_input(this)
+      evt.stopPropagation()
+      return false
+    else
+      return true
+
+  .bind 'focusout', ->
+    tag_input.submit_input(this)
 
 
   # on enter, stop the form from submitting but trigger the add category button event
