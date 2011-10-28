@@ -5,7 +5,7 @@ module Pagination
       paginate_me :comments, where: {comments: {post_id: post.id, reply_id: nil, status_id: 1}},
                              base_url: blog_post_path(post.slug),
                              per_page: 5,
-                             order: "created_at DESC"
+                             order: "comments.created_at DESC"
     end
   end
 
@@ -13,11 +13,11 @@ module Pagination
     def paginate_index_posts(path,type = false)
       if type
         status = PostStatus.where(status: type.to_s.downcase).first().id
-        paginate_me(:posts, base_url: path, where: {status_id: status})
+        paginate_me(:posts, base_url: path, where: {status_id: status}, order: "posts.created_at DESC")
       else
         trashed_status = PostStatus.trashed
         statuses = PostStatus.all.map {|ps| ps.id unless ps.id == trashed_status.id}
-        paginate_me(:posts, base_url: path, where: {status_id: statuses.compact})
+        paginate_me(:posts, base_url: path, where: {status_id: statuses.compact}, order: "posts.created_at DESC")
       end
     end
 
@@ -47,7 +47,12 @@ module Pagination
         where[:posts] = {status_id: status}
       end
 
-      paginate_me(:posts, where: where, includes: includes, params_var: :page, base_url: page_url)
+      paginate_me(:posts, 
+                  where: where, 
+                  includes: includes, 
+                  params_var: :page, 
+                  base_url: page_url,  
+                  order: "posts.created_at DESC")
     end
   end
 end

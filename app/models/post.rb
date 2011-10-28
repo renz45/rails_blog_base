@@ -43,12 +43,17 @@ class Post < ActiveRecord::Base
     self.slug ||= Post.clean_url(self.title) unless self.title.nil?
 
     # update count caches
+    self.tags_count = self.tags.count
+    self.categories_count = self.categories.count
+    
     self.categories.each do |c|
       c.posts_count = c.posts.count
+      c.save
     end
 
     self.tags.each do |t|
       t.posts_count = t.posts.count
+      t.save
     end
   end
 

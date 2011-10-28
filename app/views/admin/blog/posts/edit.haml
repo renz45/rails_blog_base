@@ -1,16 +1,22 @@
 = form_for [:admin, :blog, @post] do |f|
   .form_col1
     %p 
+      = render "shared/form_error", errors: @errors, type: :title
       = f.label :title
       %br
       = f.text_field :title
-    %p 
+    %p
+      = render "shared/form_error", errors: @errors, type: :content 
       = f.label :content
       %br
       = f.text_area :content
     %p 
       = f.submit
-  .form_col2 
+  .form_col2
+    %p
+      = label_tag 'status', 'Post Status'
+      = select_tag 'status', options_from_collection_for_select(@statuses, "id", "status")
+    -#category list
     = f.label :categories
     %ul{class: "category_list"}
       = render "admin/blog/categories/category_list", post: @post, categories: @categories
@@ -21,7 +27,7 @@
       = link_to_function("New Category", 
           "admin_blog.new_category(#{args})", 
         class: "button")
-    
+    -# tag list
     %ul{class: "tag_list"}
       = render "admin/blog/tags/tag_list", post: @post, tags: @tags
     

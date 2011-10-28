@@ -21,6 +21,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @post = Post.includes(:tags).find(params[:id])
     @categories = Category.order(:category)
     @tags = @post.tags().order(:tag)
+    @statuses = PostStatus.all
   end
 
   def search
@@ -39,6 +40,8 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @title = "New Post"
     @post = Post.new
     @categories = Category.order(:category)
+    @statuses = PostStatus.all
+
     render "admin/blog/posts/edit"
   end
 
@@ -56,15 +59,51 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   end
 
   def update
-    binding.pry
+    @title = "Edit Post"
+    @post = Post.find(params[:id])
+    @post.update_attributes(params[:post])
+
+    set_params()
+    get_categories_tags()
+
+    attempt_to_save_post()
   end
 
   def create
-    binding.pry
+    @title = "Add Post"
+    params[:post][:user_id] = current_user.id
+    @post = Post.new(params[:post])
+
+    set_params()
+    get_categories_tags()
+
+    attempt_to_save_post()
   end
 
   private
     def set_active
       @sidebar_active = :posts
+    end
+
+    def set_params
+      @post.categories = params[:categories].map {|c| Category.find_or_create_by_category(category: c)} unless params[:categories].nil?
+      @post.tags = params[:tags].map {|t| Tag.find_or_create_by_tag(tag: t)} unless params[:tags].nil?
+      @post.status_id = params[:status]
+    end
+
+    def get_categories_tags
+      @categories = Category.order(:category)
+      @tags = @post.tags().order(:tag)
+    end
+
+    def attempt_to_save_post
+      if @post.save
+        flash[:success] = "Post was updated successfully"
+        redirect_to :back
+      else
+        flash[:form_error] = "uh oh! There was a problem"
+        @errors = @post.errors.messages
+        render "admin/blog/posts/edit"
+      end
     end
 end
