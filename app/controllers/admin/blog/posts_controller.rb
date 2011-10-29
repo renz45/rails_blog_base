@@ -41,6 +41,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @post = Post.new
     @categories = Category.order(:category)
     @statuses = PostStatus.all
+    @current_status = PostStatus.published
 
     render "admin/blog/posts/edit"
   end

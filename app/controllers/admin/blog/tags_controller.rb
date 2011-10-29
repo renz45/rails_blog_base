@@ -1,7 +1,7 @@
 class Admin::Blog::TagsController < Admin::Blog::BaseController
 
   def index
-    tags = Tag.all.map{|t| t.tag}
+    tags = Tag.select('tag').map{|t| t.id}
 
     respond_to do |format|
       format.html
@@ -12,7 +12,7 @@ class Admin::Blog::TagsController < Admin::Blog::BaseController
 
   def create
     @tags = []
-    tags = params[:tags].split(',')#Tag.new(tag: params[:tag])
+    tags = params[:tags].split(',')
     tags.each do |t|
       @tags.push(Tag.new(tag: t))
     end

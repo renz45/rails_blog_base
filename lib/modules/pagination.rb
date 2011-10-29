@@ -44,8 +44,11 @@ module Pagination
 
       if !type.nil? && type != "all"
         status = PostStatus.where(status: type.to_s.downcase).first().id
+        includes << :post_status
         where[:posts] = {status_id: status}
       end
+
+      binding.pry
 
       paginate_me(:posts, 
                   where: where, 
@@ -56,3 +59,18 @@ module Pagination
     end
   end
 end
+
+# SELECT COUNT(*) 
+#   FROM "posts" 
+# INNER JOIN 
+#   "post_statuses" 
+#     ON 
+#       "post_statuses"."id" = "posts"."status_id" 
+# INNER JOIN 
+#   "post_tags" 
+#     ON 
+#       "posts"."id" = "post_tags"."post_id" 
+#   WHERE 
+#     "post_tags"."tag_id" = 26 
+#   AND 
+#     "post_statuses"."status" = 'published'

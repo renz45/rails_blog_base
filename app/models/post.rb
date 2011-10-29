@@ -50,7 +50,6 @@ class Post < ActiveRecord::Base
     self.post_status = PostStatus.trashed
   end
 
-
   def update_slug
     self.slug ||= Post.clean_url(self.title) unless self.title.nil?
     update_counts()
@@ -59,6 +58,10 @@ class Post < ActiveRecord::Base
   def update_counts
     self.categories_count = self.categories.count
     self.tags_counts = self.tags.count
+  end
+
+  def published?
+    self.post_status = PostStatus.published
   end
 
   def self.clean_url(url)
