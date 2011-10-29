@@ -7,12 +7,12 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   def index
     @title = "Posts"
     @post_types = PostStatus.all
-    @type = params[:type]
+    @type = params[:type] || "all"
     # paginate_me is used internally, which sets the @posts variable
     if @type.nil?
       paginate_index_posts(admin_blog_posts_url) # paginate module
     else
-      paginate_index_posts(admin_blog_posts_search_url(type: @type), @type) # paginate module
+      paginate_index_posts(admin_blog_posts_search_url(type: @type)) # paginate module
     end
   end
 
@@ -22,6 +22,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @categories = Category.order(:category)
     @tags = @post.tags().order(:tag)
     @statuses = PostStatus.all
+    @current_status = @post.post_status
   end
 
   def search
@@ -31,7 +32,6 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
     @post_types = PostStatus.all
     @type = params[:type] || "all"
-
     # paginate_me is used internally, which sets the @posts variable
     paginate_search_posts(@tag,@category, "/admin/blog/posts/type/#{@type}", @type)#Pagination module
   end
@@ -53,8 +53,9 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def trash
     post = Post.find(params[:id])
-    post.post_status = PostStatus.trashed
-    post.save
+
+    post.trash!
+
     redirect_to :back
   end
 
@@ -65,7 +66,6 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
     set_params()
     get_categories_tags()
-
     attempt_to_save_post()
   end
 

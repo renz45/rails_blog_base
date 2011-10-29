@@ -39,22 +39,26 @@ class Post < ActiveRecord::Base
   scope :unpublished, joins(:post_status).where(post_statuses: {status: "unpublished"})
   scope :draft, joins(:post_status).where(post_statuses: {status: "draft"})
 
+  #this isnt working properly, tag and category counts arent getting updated
+  def trash!
+    self.post_status = PostStatus.trashed
+
+    self.save
+  end
+
+  def trash
+    self.post_status = PostStatus.trashed
+  end
+
+
   def update_slug
     self.slug ||= Post.clean_url(self.title) unless self.title.nil?
+    update_counts()
+  end
 
-    # update count caches
-    self.tags_count = self.tags.count
+  def update_counts
     self.categories_count = self.categories.count
-    
-    self.categories.each do |c|
-      c.posts_count = c.posts.count
-      c.save
-    end
-
-    self.tags.each do |t|
-      t.posts_count = t.posts.count
-      t.save
-    end
+    self.tags_counts = self.tags.count
   end
 
   def self.clean_url(url)

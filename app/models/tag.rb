@@ -20,6 +20,7 @@ class Tag < ActiveRecord::Base
 
   def add_slug
     self.slug = Tag.clean_url(self.tag) unless self.tag.nil?
+    self.posts_count = self.posts.published.count
   end
 
   def self.clean_url(url)

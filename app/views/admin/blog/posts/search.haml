@@ -1,4 +1,4 @@
-%h3
+%h1
   Posts
   - unless @category.nil?
     = " in #{(@category.length > 1 ? 'categories' : 'category')} - "
@@ -14,7 +14,7 @@
 %ul{class: "admin_list_types"}
   %li= "#{link_to("All", admin_blog_posts_url)} | ".html_safe
   - types = @post_types.map do |t| 
-    - content_tag(:li, link_to(t.status, admin_blog_posts_search_path(type: t.status)))
+    - content_tag(:li, link_to(t.status, admin_blog_posts_search_path(type: t.status),class: (@type == t.status ? 'active' : nil)))
   = types.join(content_tag(:li, " | ")).html_safe
 
 = render "admin/blog/posts/posts_table", posts: @posts, type: @type

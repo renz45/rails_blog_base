@@ -17,7 +17,8 @@
 #
 
 class Comment < ActiveRecord::Base
-  belongs_to :post, counter_cache: true
+  belongs_to :post
+  before_save :update_counts
 
   belongs_to :permission
   has_one :comment_status
@@ -31,6 +32,11 @@ class Comment < ActiveRecord::Base
   validates :content, presence: true
   validates :post_id, presence: true
 
+  scope :approved, where(status_id: CommentStatus.where(status: "approved"))
+  scope :unapproved, where(status_id: CommentStatus.where(status: "unapproved"))
+  scope :trash, where(status_id: CommentStatus.where(status: "trash"))
+  scope :spam, where(status_id: CommentStatus.where(status: "spam"))
+
   def self.for_post(post_id, per_page = 10, page = 1)
     comments = Comment.where(post_id: post_id, reply_id: nil, status_id: 1)
            .limit(per_page)
@@ -38,6 +44,10 @@ class Comment < ActiveRecord::Base
            .order("created_at DESC")
 
     self.build_comments(comments)
+  end
+
+  def update_counts
+    self.post.comments_count = self.post.comments.approved
   end
 
   # recursive function that builds a comment object

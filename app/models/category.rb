@@ -20,6 +20,8 @@ class Category < ActiveRecord::Base
 
   def add_slug
     self.slug = Category.clean_url(self.category) unless self.category.nil?
+
+    self.posts_count = self.posts.published.count
   end
 
   def self.clean_url(url)

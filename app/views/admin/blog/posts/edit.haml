@@ -15,7 +15,7 @@
   .form_col2
     %p
       = label_tag 'status', 'Post Status'
-      = select_tag 'status', options_from_collection_for_select(@statuses, "id", "status")
+      = select_tag 'status', options_from_collection_for_select(@statuses, "id", "status", @current_status.id)
     -#category list
     = f.label :categories
     %ul{class: "category_list"}

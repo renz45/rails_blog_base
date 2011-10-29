@@ -1,13 +1,15 @@
 %h2 Categories
 %ul 
   - @categories.each do |c|
-    %li
-      = link_to c.category, blog_posts_search_url(category: c.slug)
-      = "(#{c.posts_count})"
+    - unless c.posts_count <1
+      %li
+        = link_to c.category, blog_posts_search_url(category: c.slug)
+        = "(#{c.posts_count})"
 
 %h2 Tags
 %ul
   - @tags.each do |t|
-    %li
-      = link_to t.tag, blog_posts_search_url(tag: t.slug)
-      = "(#{t.posts_count})"
+    - unless t.posts_count < 1
+      %li
+        = link_to t.tag, blog_posts_search_url(tag: t.slug)
+        = "(#{t.posts_count})"

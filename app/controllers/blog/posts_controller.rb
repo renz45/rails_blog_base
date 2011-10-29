@@ -8,7 +8,7 @@ class Blog::PostsController < Blog::BaseController
   #TODO add edit/moderator links to posts and comments for when admin level users are logged in
   #TODO integrate captcha functionality into comment form
 
-  def show
+  def show 
     @comment = Comment.new
 
     #Sets @post, @title, @reply_comment, moved to a module since these vars are used again in
@@ -27,7 +27,7 @@ class Blog::PostsController < Blog::BaseController
   def index
     @title = "Blog"
     # paginate_me is used internally, which sets the @posts variable
-    paginate_index_posts(blog_root_path)#Pagination module
+    paginate_index_posts(blog_root_path,:published)#Pagination module
   end
 
   def search
@@ -36,7 +36,7 @@ class Blog::PostsController < Blog::BaseController
     @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
     
     # paginate_me is used internally, which sets the @posts variable
-    paginate_search_posts(@tag,@category,"/blog/posts")#Pagination module
+    paginate_search_posts(@tag,@category,"/blog/posts", :published)#Pagination module
   end
 
   private
