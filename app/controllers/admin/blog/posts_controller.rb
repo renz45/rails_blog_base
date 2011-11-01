@@ -121,13 +121,17 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
     @comment = Comment.new
 
+    # sort of hacky, when the preview is loaded the tempary saved draft in the DB is deleted
+    # so if the user refreshes the preview it redirects to the home page, the preview expires
+    # after one use. I don't really like this, maybe something involving the session would be 
+    # a better solution. I'll come to this later.
     begin
     temp_post = Post.find(params[:id]) 
     @post = temp_post
     @post.title = @post.title.split("%preview%")[0]
     @categories = Category.all
     @tags = Tag.all
-    
+
     # paginate_me is used internally, which sets the @comments variable
     paginate_comments_for_post(@post) #Pagination module    
     @comment_tree = {}
