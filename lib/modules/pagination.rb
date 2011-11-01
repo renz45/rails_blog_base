@@ -48,8 +48,6 @@ module Pagination
         where[:posts] = {status_id: status}
       end
 
-      binding.pry
-
       paginate_me(:posts, 
                   where: where, 
                   includes: includes, 

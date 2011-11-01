@@ -1,8 +1,11 @@
 require "modules/pagination"
+require "modules/set_vars"
 class Admin::Blog::PostsController < Admin::Blog::BaseController
   before_filter :set_active
 
   include Pagination::Posts
+  include Pagination::Comments
+  include SetVars::Posts
 
   def index
     @title = "Posts"
@@ -61,7 +64,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   end
 
   def update
-    @title = "Edit Post"
+    @preview = (params[:commit] == "Preview")
     @post = Post.find(params[:id])
     @post.update_attributes(params[:post])
 
@@ -71,7 +74,6 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
   end
 
   def create
-    @title = "Add Post"
     params[:post][:user_id] = current_user.id
     @post = Post.new(params[:post])
 
@@ -79,6 +81,64 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     get_categories_tags()
 
     attempt_to_save_post()
+  end
+
+  #seems a bit crude, I'll need to clean this up at some point
+  def create_preview
+    params[:post][:user_id] = current_user.id
+    params[:post][:title] << " %preview%"
+
+    #destroy the preview if one exists (result of hitting preview multiple times before post submit)
+    preview = Post.where(title: params[:post][:title]).first()
+    if preview
+      preview.destroy
+    end
+
+    @post = Post.new(params[:post])
+
+    set_params()
+    get_categories_tags()
+    @post.status_id = PostStatus.draft.id
+
+    @post.categories = Category.where(category: params[:categories])
+    @post.tags = Tag.where(tag: params[:tags])
+    if @post.save
+      respond_to do |format|
+        format.html
+        format.js { render json: @post.id }
+      end
+    else
+      @errors = @post.errors.messages
+      respond_to do |format|
+        format.html
+        format.js { render json: @errors }
+      end
+    end
+  end
+
+  def show_preview
+    @title = "Preview"
+
+    @comment = Comment.new
+
+    begin
+    temp_post = Post.find(params[:id]) 
+    @post = temp_post
+    @post.title = @post.title.split("%preview%")[0]
+    @categories = Category.all
+    @tags = Tag.all
+    
+    # paginate_me is used internally, which sets the @comments variable
+    paginate_comments_for_post(@post) #Pagination module    
+    @comment_tree = {}
+    temp_post.delete
+    render "blog/posts/show", layout: "blog/layouts/application"
+    rescue Exception => e
+      redirect_to blog_root_url
+    end
+   
+    
+ 
   end
 
   private
@@ -106,5 +166,9 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
         @errors = @post.errors.messages
         render "admin/blog/posts/edit"
       end
+    end
+
+    def destroy_preview
+      #Post.where(title: "#{params[:post][:title]} %preview%").first.destroy
     end
 end

@@ -57,7 +57,7 @@ class Post < ActiveRecord::Base
 
   def update_counts
     self.categories_count = self.categories.count
-    self.tags_counts = self.tags.count
+    self.tags_count = self.tags.count
   end
 
   def published?

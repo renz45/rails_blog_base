@@ -40,11 +40,39 @@ $(document).ready ->
                   tag_input.submit([ui.item.value])
               close: ->
                 $(this).val('')
-            }
-              
+            }    
       $.ajax ajax_params
 
+    preview_post: ->
+      data = admin_blog.get_post_data_for_ajax()
 
+      ajax_params = 
+        type: "POST"
+        url: "/admin/blog/posts/create/preview.js"
+        data:
+          data
+        success: (data)->
+          window.open("/admin/blog/posts/preview/#{data}")
+      $.ajax(ajax_params)
+
+    get_post_data_for_ajax: ->
+      form = $('.edit_post, .new_post')
+      
+      data = {}
+      post = {}
+      post['title'] = form.find('#post_title').val()
+      post['content'] = form.find('#post_content').val()
+      data['commit'] = form.find('input[name=commit]').val()
+      data['status'] = form.find('#status').val()
+      data['categories'] = $.map form.find('.category_list input:checked'), (n,i) ->
+        return $(n).val()
+
+      data['tags'] = $.map form.find('.tag_list input'), (n,i) ->
+        return $(n).val()
+
+      data['post'] = post
+      console.log(data)
+      return data
   tag_input =
     check_for_seperator: (that,seperator) ->
       str = $(that).val()
@@ -97,10 +125,6 @@ $(document).ready ->
       return false
     else
       return true
-
-  # .bind 'focusout', ->
-  #   tag_input.submit_input(this)
-
 
   # on enter, stop the form from submitting but trigger the add category button event
   $('.new_category')

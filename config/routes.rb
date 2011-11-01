@@ -43,6 +43,12 @@ BlogBase::Application.routes.draw do
       get "/posts(/page/:page)" => "posts#index",
             as: :posts
 
+      post "/posts/create/preview" => "posts#create_preview",
+            as: :posts_create_preview
+
+      get "/posts/preview/:id" => "posts#show_preview",
+            as: :posts_preview
+
       delete "/posts/trash/:id" => "posts#trash",
             as: :trash_post
 

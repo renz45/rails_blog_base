@@ -12,7 +12,7 @@
       = f.text_area :content
     %p 
       = f.submit
-      = f.submit 'Preview'
+      = link_to_function('Preview', "admin_blog.preview_post()", class: "button") 
   .form_col2
     %p
       = label_tag 'status', 'Post Status'
@@ -33,3 +33,5 @@
       = render "admin/blog/tags/tag_list", post: @post, tags: @tags
     
     %input{class: "tag_input"}
+
+
