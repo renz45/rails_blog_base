@@ -3,6 +3,9 @@
 -#                                        target: "",
 -#                                        submenu: nested_items}}
 
+-# active accepts an array of sidemenu symbols. So if your on the ':all_posts' submenu page within ':posts'
+-# active would need an array with both active = [:posts, :all_posts] for correct links to be set active
+
 - sidebar_items ||= {}
 - active ||= []
 - submenu ||= nil
