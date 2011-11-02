@@ -13,12 +13,12 @@ class Admin::Blog::BaseController < Admin::BaseController
                               target: "",
                               submenu: nil},
 
-                    categories: {url: admin_blog_comments_url,
+                    categories: {url: admin_blog_categories_url,
                              title: "Edit Categories",
                               target: "",
                               submenu: nil},
 
-                    tags: {url: admin_blog_comments_url,
+                    tags: {url: admin_blog_tags_url,
                              title: "Edit Tags",
                               target: "",
                               submenu: nil} }

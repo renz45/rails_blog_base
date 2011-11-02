@@ -1,0 +1,11 @@
+%h2 Categories
+
+= render "admin/blog/categories/category_list_table", categories: @categories
+
+= form_for @category, url: admin_blog_categories_path, remote: true do |f|
+  %p
+    = f.label :category, "Add Category"
+    %br
+    = f.text_field :category
+    = hidden_field_tag 'page',params[:page]
+  %p= f.submit "Add"

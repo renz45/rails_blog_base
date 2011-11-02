@@ -4,4 +4,10 @@ if(cat_list.find(".<%= @category.slug %>").length < 1){
   cat_list.prepend("<%= escape_javascript(render('category_list_item', checked: true, c: @category ))%>")
 }
 
+$('.info_table tbody')
+  .html("<%= escape_javascript(render 'admin/blog/categories/category_list_table_item', categories: @categories)%>")
+
+$('.new_category input[type=text]').val('')
+
+
 

@@ -1,1 +1,6 @@
 $('.tag_list').append("<%= escape_javascript(render('tag_list', tags: @tags)) %>");
+
+$('.info_table tbody')
+  .html("<%= escape_javascript(render 'admin/blog/tags/tag_list_table_item', tags: @tags)%>");
+
+$('.new_tag input[type=text]').val('');

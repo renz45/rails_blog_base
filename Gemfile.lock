@@ -45,7 +45,12 @@ GEM
     arel (2.2.1)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
+    carrierwave (0.5.7)
+      activesupport (~> 3.0)
     chunky_png (1.2.5)
+    ckeditor (3.6.3)
+      mime-types (~> 1.16)
+      orm_adapter (~> 0.0.5)
     coderay (0.9.8)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
@@ -97,6 +102,8 @@ GEM
     method_source (0.6.6)
       ruby_parser (~> 2.0.5)
     mime-types (1.16)
+    mini_magick (3.3)
+      subexec (~> 0.1.0)
     multi_json (1.0.3)
     nokogiri (1.5.0)
     orm_adapter (0.0.5)
@@ -171,6 +178,7 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.4)
+    subexec (0.1.0)
     thin (1.2.11)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -196,6 +204,8 @@ PLATFORMS
 
 DEPENDENCIES
   annotate!
+  carrierwave
+  ckeditor
   coffee-rails (~> 3.1.0)
   compass (~> 0.12.alpha)
   devise
@@ -206,6 +216,7 @@ DEPENDENCIES
   jquery-rails
   json
   mailcatcher
+  mini_magick
   paginate_me!
   pg
   pry

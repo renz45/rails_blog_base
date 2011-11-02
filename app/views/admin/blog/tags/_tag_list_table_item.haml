@@ -1,0 +1,19 @@
+- count = 0
+- tags.each do |t|
+  - count += 1
+  %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
+    %td= t.tag
+    %td= t.posts.published.count
+    %td= t.updated_at
+  %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
+    %td{colspan: 3}
+      = form_for t, url: admin_blog_tag_path(t), remote: true do |f|
+        %p
+          = f.text_field :tag
+          = hidden_field_tag 'page', params[:page]
+          = f.submit 'Update'
+        
+      %div{class: "roll_over"}
+        = link_to_function 'edit', "admin_blog.edit_category_tag(this)"
+        = " | " 
+        = link_to_function 'delete', "admin_blog.delete_tag('#{t.tag}','#{params[:page]}')"

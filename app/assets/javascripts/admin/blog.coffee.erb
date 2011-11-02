@@ -10,8 +10,46 @@ $(document).ready ->
           "category": category 
           "post": post_id
       $.ajax(ajax_params)
+
+    edit_category_tag: (that) ->
+      form = $(that)
+                .parent()
+                  .parent()
+                    .find('form')
+
+      if form.is(':visible')
+        form.fadeOut()
+      else
+        form.fadeIn()
+        form.find('input:first-child').focus()
+
+      return false
+
+    delete_category: (category_id, page) ->
+      page = '1' if page == ''
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/categories.js"
+        data:
+          "id": category_id
+          "page": page
+      $.ajax(ajax_params)
+      return false
+
+    delete_tag: (tag, page) ->
+      page = '1' if page == ''
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/tags.js"
+        data:
+          "tag": tag
+          "page": page
+      $.ajax(ajax_params)
+      return false
     
-    delete_tag: (tag) ->
+    delete_post_tag: (tag) ->
       ajax_params = 
         type: "DELETE"
         url: "/admin/blog/tags.js"
@@ -73,6 +111,7 @@ $(document).ready ->
       data['post'] = post
       console.log(data)
       return data
+
   tag_input =
     check_for_seperator: (that,seperator) ->
       str = $(that).val()
@@ -103,6 +142,7 @@ $(document).ready ->
       tag_input.submit($(that).val().split(','))
       $(that).val('')
 
+
   ####################################
   #       autocomplete data          #
   ####################################
@@ -127,7 +167,7 @@ $(document).ready ->
       return true
 
   # on enter, stop the form from submitting but trigger the add category button event
-  $('.new_category')
+  $('.info_table .new_category')
   .bind 'keydown', (evt) ->
     evt.stopPropagation()
     if(evt.which == 13)
@@ -137,5 +177,12 @@ $(document).ready ->
         .siblings('.new_category')
           .val('')
       return false
+
+  $('.info_table')
+    .delegate 'form', 'focusout submit',(evt) ->
+      evt.stopPropagation
+      if $(this).is(':visible')
+        $(this)
+          .fadeOut()
 
 

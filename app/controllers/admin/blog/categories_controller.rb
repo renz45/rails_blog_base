@@ -1,8 +1,16 @@
 class Admin::Blog::CategoriesController < Admin::Blog::BaseController
 
+  def index
+    @category = Category.new
+
+    paginate_category_page(params[:page])
+  end
+
   def create
-    @category = Category.new(category: params[:category])
-    
+    @category = Category.find_or_create_by_category(params[:category][:category])
+
+    paginate_category_page(params[:page])
+  
     respond_to do |format|
       format.html
       format.js { render "admin/blog/categories/create", layout: false }
@@ -10,15 +18,31 @@ class Admin::Blog::CategoriesController < Admin::Blog::BaseController
   end
 
   def destroy
-    redirect_to :back
+    Category.delete(params[:id])
+
+    paginate_category_page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.js { render "admin/blog/categories/update", layout: false }
+    end
   end
 
   def update
-    redirect_to :back
+    respond_to do |format|
+      format.html 
+      format.js { 
+        @category = Category.find(params[:id])
+        @category.update_attributes(params[:category])
+
+        paginate_category_page(params[:page])
+
+        render "admin/blog/categories/update", layout: false
+      }
+    end
   end
 
-  def new
-    binding.pry
+  def paginate_category_page(page)
+    paginate_me :categories, base_url: admin_blog_categories_url, page: page, order: 'category'
   end
-
 end

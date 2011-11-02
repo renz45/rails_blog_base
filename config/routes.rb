@@ -61,8 +61,18 @@ BlogBase::Application.routes.draw do
             as: :comments_page
 
       resources :tags
+
+      get "tags/page/:page" => "tags#index",
+            as: :tags_page
+      
       delete "/tags" => "tags#destroy"
+
       resources :categories
+
+      get "categories/page/:page" => "categories#index",
+            as: :categories_page
+      
+      delete "/categories" => "categories#destroy"
     end
 
     namespace :settings do
