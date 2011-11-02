@@ -2,13 +2,14 @@
 -#                                        title: "click here to go to yoursite"
 -#                                        target: "",
 -#                                        submenu: nested_items}}
+
 - sidebar_items ||= {}
-- active ||= nil
+- active ||= []
 - submenu ||= nil
 %ul{class: (submenu ? nil : "sidebar")}
   - sidebar_items.each do |k,v|
     %li{class: (!v[:submenu].nil? && v[:submenu].length > 1 ? "has_submenu" : nil)}
-      = link_to k.to_s.gsub("_", " ").titleize, v[:url], class: (!active.nil? && active == k ? "active" : "")
+      = link_to k.to_s.gsub("_", " ").titleize, v[:url], class: (!active.nil? && active.include?(k) ? "active" : "")
       - unless v[:submenu].nil?
         %li{class: "submenu"}
           = render "admin/layouts/sidebar", sidebar_items: v[:submenu],active: active, submenu: true
