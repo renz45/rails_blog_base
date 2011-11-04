@@ -9,8 +9,13 @@
 #
 
 class CommentStatus < ActiveRecord::Base
-  belongs_to :comments
+  has_many :comments
   validates :status, presence: true
+
+  scope :trashed, where(status: "trashed")
+  scope :approved, where(status: "approved")
+  scope :spam, where(status: "spam")
+  scope :unapproved, where(status: "unapproved")
 end
 
 

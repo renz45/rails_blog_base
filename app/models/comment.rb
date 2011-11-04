@@ -21,7 +21,7 @@ class Comment < ActiveRecord::Base
   before_save :update_counts
 
   belongs_to :permission
-  has_one :comment_status
+  belongs_to :comment_status, foreign_key: :status_id
 
   # Setup Validations
   validates :author, presence: true
