@@ -1,13 +1,15 @@
 class Admin::Blog::TagsController < Admin::Blog::BaseController
-
+  before_filter :set_active
   def index
+    @sidebar_active << :tags
+    @title = 'Tags'
     
     respond_to do |format|
       format.html {
         @tag = Tag.new
         paginate_tag_page(params[:page])
       }
-      format.json { render json: Tag.select('tag').map{|t| t.id} }
+      format.json {render json:  Tag.select('tag').map{|t| t.tag} }
     end
     
   end
@@ -67,5 +69,9 @@ class Admin::Blog::TagsController < Admin::Blog::BaseController
   private
     def paginate_tag_page(page)
       paginate_me :tags, base_url: admin_blog_tags_url, page: page, order: 'tag'
+    end
+
+    def set_active
+      @sidebar_active = [:posts]
     end
 end

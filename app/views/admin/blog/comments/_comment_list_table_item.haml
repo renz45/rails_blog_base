@@ -1,0 +1,55 @@
+- unapproved = CommentStatus.unapproved.first.id
+- approved = CommentStatus.approved.first.id
+- spam = CommentStatus.spam.first.id
+- trash = CommentStatus.trash.first.id
+
+- count = 0
+- comments.each do |c|
+  - count += 1
+  - row_class = "#{((count % 2 == 0) ? "row_stripe" : nil)} #{((c.status_id == unapproved) ? "unapproved" : nil)}"
+  %tr{class: row_class}
+    %td
+      = "#{c.author}"
+      %br
+      = "#{c.email}"
+      %br
+      = "#{c.website}"
+      %br
+      ="#{c.ip_address}"
+    %td               
+      = c.content     
+    %td 
+      = c.updated_at
+      %br
+      %p{class: c.comment_status.status}= c.comment_status.status
+  
+  - row_class = "#{((count % 2 == 0) ? "row_stripe" : nil)} #{((c.status_id == unapproved) ? "unapproved_rollover" : nil)}"
+  %tr{class: row_class}
+    %td{colspan: 3}
+      = form_for c, url: admin_blog_comment_path(c), remote: true do |f|
+        %p
+          = f.text_area :content, cols: 80, rows: 4
+          = hidden_field_tag 'page', params[:page]
+          = hidden_field_tag 'type', params[:type]
+          %br
+          = f.submit 'Update'
+        
+      %div{class: "roll_over"}
+        = link_to_function 'edit', "admin_blog.edit_category_tag(this)"
+        = " | " 
+        = link_to_function 'reply', "admin_blog.edit_category_tag(this)"
+        = " | " 
+        - unless c.status_id == trash
+          = link_to_function 'trash', "admin_blog.set_comment_status('#{c.id}','#{params[:page]}','#{params[:type]}', 'trash')"
+        - else
+          = link_to_function 'delete', "admin_blog.delete_comment('#{c.id}','#{params[:page]}','#{params[:type]}')"
+        = " | "
+        - unless c.status_id == spam
+          = link_to_function 'spam', "admin_blog.set_comment_status('#{c.id}','#{params[:page]}','#{params[:type]}', 'spam')"
+          = " | "
+        - unless c.status_id == unapproved
+          = link_to_function 'unapprove', "admin_blog.set_comment_status('#{c.id}','#{params[:page]}','#{params[:type]}', 'unapproved')" 
+          - if c.status_id != approved
+            = " | "
+        - unless c.status_id == approved
+          = link_to_function 'approve', "admin_blog.set_comment_status('#{c.id}','#{params[:page]}','#{params[:type]}', 'approved')"

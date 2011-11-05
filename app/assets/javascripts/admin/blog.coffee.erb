@@ -38,7 +38,7 @@ $(document).ready ->
       return false
 
     delete_tag: (tag, page) ->
-      page = '1' if page == ''
+      page = '1' if page == '' || !page
 
       ajax_params = 
         type: "DELETE"
@@ -111,6 +111,33 @@ $(document).ready ->
       data['post'] = post
       console.log(data)
       return data
+    
+    set_comment_status: (comment_id, page, type, status)->
+      page = '1' if page == '' || !page
+
+      ajax_params = 
+        type: "POST"
+        url: "/admin/blog/comments/update/status.js"
+        data:
+          "id": comment_id
+          "page": page
+          "type": type
+          "status": status
+      $.ajax(ajax_params)
+      return false
+
+    delete_comment: (comment_id, page, type)->
+      page = '1' if page == '' || !page
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/comments/delete.js"
+        data:
+          "id": comment_id
+          "page": page
+          "type": type
+      $.ajax(ajax_params)
+      return false
 
   tag_input =
     check_for_seperator: (that,seperator) ->

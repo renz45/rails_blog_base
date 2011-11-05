@@ -9,14 +9,13 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def index
     @title = "Posts"
+    @sidebar_active << :all_posts
+
     @post_types = PostStatus.all
     @type = params[:type] || "all"
-    # paginate_me is used internally, which sets the @posts variable
-    if @type.nil?
-      paginate_index_posts(admin_blog_posts_url) # paginate module
-    else
-      paginate_index_posts(admin_blog_posts_search_url(type: @type)) # paginate module
-    end
+
+    paginate_index_posts(admin_blog_posts_search_url(type: @type)) # paginate module
+
   end
 
   def edit
@@ -30,6 +29,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def search
     @title = "Posts"
+    @sidebar_active << :all_posts
     # define category and tag variable for use in the view
     @category = Category.where(slug: params[:category].split(',')) unless params[:category].nil?
     @tag = Tag.where(slug: params[:tag].split(',')) unless params[:tag].nil?
@@ -41,6 +41,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def new
     @title = "New Post"
+    @sidebar_active << :add_post
     @post = Post.new
     @categories = Category.order(:category)
     @statuses = PostStatus.all
@@ -140,14 +141,11 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     rescue Exception => e
       redirect_to blog_root_url
     end
-   
-    
- 
   end
 
   private
     def set_active
-      @sidebar_active = :posts
+      @sidebar_active = [:posts]
     end
 
     def set_params
@@ -170,9 +168,5 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
         @errors = @post.errors.messages
         render "admin/blog/posts/edit"
       end
-    end
-
-    def destroy_preview
-      #Post.where(title: "#{params[:post][:title]} %preview%").first.destroy
     end
 end

@@ -30,6 +30,20 @@
     visibility: visible
   .row_stripe
     background-color: #efefef
+  tr.unapproved
+    background-color: $error_light_red
+    border-top: 1px solid $admin_red
+    border-left: 1px solid $admin_red
+    border-right: 1px solid $admin_red
+  tr.unapproved_rollover
+    background-color: $error_light_red
+    border-left: 1px solid $admin_red
+    border-right: 1px solid $admin_red
+    border-bottom: 1px solid $admin_red
+  p.approved
+    color: $admin_green
+  p.unapproved
+    color: $admin_red
   td:first-child, td:last-child
     border: none
   .button_to

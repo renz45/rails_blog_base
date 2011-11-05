@@ -1,18 +1,10 @@
 %h1 Comments
-- cols = [:author, 
-         :email,
-         :website,
-         {post: {label: :post, prop: :title}},
-         :created_at,
-         :updated_at]
+%ul{class: "admin_list_types"}
+  %li= "#{link_to("All", admin_blog_comments_url, class: (@type == 'all' ? 'active' : nil))} | ".html_safe
+  - types = @comment_types.map do |t|
+    - content_tag(:li, link_to(t.status.capitalize, admin_blog_comments_search_url(type: t.status), class: (@type == t.status ? 'active' : nil)))
+  = types.join(content_tag(:li, " | ")).html_safe
 
-= render "admin/blog/layouts/info_table", items: @comments, columns: cols
+= render "admin/blog/comments/comment_list_table", comments: @comments
 
-= paginate_for :comments do |c|
-  %span{class: "right"}
-    = c.link_to_last
-    = c.link_to_next
-  = c.page_out_of_total
-  %span{class: "left"}
-    = c.link_to_previous
-    = c.link_to_first                                                
+                                              

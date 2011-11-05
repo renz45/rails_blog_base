@@ -52,13 +52,19 @@ BlogBase::Application.routes.draw do
       delete "/posts/trash/:id" => "posts#trash",
             as: :trash_post
 
-      resources :comments
+      resources :comments, except: :destroy
 
-      get "/comments/type/:type" => "comments#show",
-            as: :comments_type
+      post "/comments/update/status" => "comments#update_status",
+            as: :comment_update_status
+
+      delete "/comments/delete" => "comments#delete",
+            as: :delete_comment
       
       get "/comments/page/:page" => "comments#index",
             as: :comments_page
+
+      get "/comments/type/:type" => "comments#search",
+            as: :comments_search
 
       resources :tags
 

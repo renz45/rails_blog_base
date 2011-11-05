@@ -12,7 +12,7 @@ class CommentStatus < ActiveRecord::Base
   has_many :comments
   validates :status, presence: true
 
-  scope :trashed, where(status: "trashed")
+  scope :trash, where(status: "trash")
   scope :approved, where(status: "approved")
   scope :spam, where(status: "spam")
   scope :unapproved, where(status: "unapproved")

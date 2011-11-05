@@ -9,23 +9,13 @@
 #
 
 class PostStatus < ActiveRecord::Base
-  has_many :posts, foreign_key: :status_id
+  has_many :posts
 
   validates :status, presence: true
 
-  def self.trashed 
-    self.where(status: "trashed").first()
-  end
+  scope :trashed, where(status: "trashed")
+  scope :published, where(status: "published")
+  scope :draft, where(status: "draft")
+  scope :unpublished, where(status: "unpublished")
 
-  def self.published
-    self.where(status: "published").first()
-  end
-
-  def self.draft
-    self.where(status: "draft").first()
-  end
-
-  def self.unpublished
-    self.where(status: "unpublished").first()
-  end
 end

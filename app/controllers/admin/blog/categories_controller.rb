@@ -1,6 +1,9 @@
 class Admin::Blog::CategoriesController < Admin::Blog::BaseController
-
+  before_filter :set_active
   def index
+    @sidebar_active << :categories
+    @title = 'Categories'
+
     @category = Category.new
 
     paginate_category_page(params[:page])
@@ -45,4 +48,9 @@ class Admin::Blog::CategoriesController < Admin::Blog::BaseController
   def paginate_category_page(page)
     paginate_me :categories, base_url: admin_blog_categories_url, page: page, order: 'category'
   end
+
+  private
+    def set_active
+      @sidebar_active = [:posts]
+    end
 end

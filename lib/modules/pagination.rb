@@ -12,10 +12,10 @@ module Pagination
   module Posts
     def paginate_index_posts(path,type = false)
       if type
-        status = PostStatus.where(status: type.to_s.downcase).first().id
+        status = PostStatus.where(status: type.to_s.downcase).first.id
         paginate_me(:posts, base_url: path, where: {status_id: status}, order: "posts.created_at DESC")
       else
-        trashed_status = PostStatus.trashed
+        trashed_status = PostStatus.trashed.first
         statuses = PostStatus.all.map {|ps| ps.id unless ps.id == trashed_status.id}
         paginate_me(:posts, base_url: path, where: {status_id: statuses.compact}, order: "posts.created_at DESC")
       end

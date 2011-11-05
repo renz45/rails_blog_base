@@ -61,7 +61,7 @@ class Post < ActiveRecord::Base
   end
 
   def published?
-    self.post_status = PostStatus.published
+    self.post_status = PostStatus.published.first
   end
 
   def self.clean_url(url)

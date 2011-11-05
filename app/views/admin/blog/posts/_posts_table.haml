@@ -35,7 +35,7 @@
               = button_to 'trash', { controller: 'admin/blog/posts',action: :trash,id: p.id}, method: :delete, confirm: "Are you sure you want to trash this post?"
             = " | " 
             = link_to("view", blog_post_url(p.slug))
-        - post_status = @post_types.select{|ps| ps.id == p.status_id }[0]
+        - post_status = @post_types.select{|ps| ps.id == p.status_id }.first
         %td{title: "Post Status"}= post_status.status unless post_status.nil?
   
       

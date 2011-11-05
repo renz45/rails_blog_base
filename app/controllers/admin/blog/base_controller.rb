@@ -4,9 +4,9 @@ class Admin::Blog::BaseController < Admin::BaseController
 
   def create_sidebar
     post_submenu = {all_posts: {url: admin_blog_posts_url,
-                                title: "Edit Posts",
-                                target: "",
-                                submenu: nil},
+                               title: "Edit Posts",
+                               target: "",
+                               submenu: nil},
 
                     add_post: {url: new_admin_blog_post_url,
                               title: "Add Post",
@@ -14,12 +14,12 @@ class Admin::Blog::BaseController < Admin::BaseController
                               submenu: nil},
 
                     categories: {url: admin_blog_categories_url,
-                             title: "Edit Categories",
-                              target: "",
-                              submenu: nil},
+                                title: "Edit Categories",
+                                target: "",
+                                submenu: nil},
 
                     tags: {url: admin_blog_tags_url,
-                             title: "Edit Tags",
+                              title: "Edit Tags",
                               target: "",
                               submenu: nil} }
 
@@ -29,7 +29,7 @@ class Admin::Blog::BaseController < Admin::BaseController
                                 submenu: nil},
 
                     add_link: {url: "#",
-                             title: "Add Link",
+                              title: "Add Link",
                               target: "",
                               submenu: nil} }
 
