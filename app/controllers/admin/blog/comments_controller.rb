@@ -19,10 +19,10 @@ class Admin::Blog::CommentsController < Admin::Blog::BaseController
     @title = "Comments"
     @comment_types = CommentStatus.all
     @type = params[:type]
-
     current_type = @comment_types.dup.keep_if{|v| v.status == @type}.first
+
     paginate_me :comments, 
-                base_url: admin_blog_comments_path,
+                base_url: admin_blog_comments_search_path(current_type.status),
                 order: 'created_at DESC', 
                 where: {status_id: current_type.id},
                 page: params[:page] || "1"
@@ -55,12 +55,32 @@ class Admin::Blog::CommentsController < Admin::Blog::BaseController
     end
   end
 
+  def create 
+
+    respond_to do |format|
+      format.html
+      format.js {
+        new_comment = Comment.new(author: params[:author],
+                              email: params[:email],
+                              website: params[:website],
+                              content: params[:content],
+                              status_id: CommentStatus.approved.first.id,
+                              reply_id: params[:reply_id],
+                              post_id: params[:post_id])
+        new_comment.save                    
+        update_comment_page_items()
+        
+      }
+    end
+    
+  end
+
   def delete
     respond_to do |format|
       format.html
       format.js {
         
-        Comment.find(params[:id]).delete
+        Comment.find(params[:id]).destroy
 
         update_comment_page_items()
       }
@@ -83,7 +103,6 @@ class Admin::Blog::CommentsController < Admin::Blog::BaseController
         current_type = CommentStatus.where(status: @type).first
         where = {status_id: current_type.id}
       end
-
       paginate_me :comments, 
                   base_url: admin_blog_comments_path,
                   order: 'created_at DESC', 

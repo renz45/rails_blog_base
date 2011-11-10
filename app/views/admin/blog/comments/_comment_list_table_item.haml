@@ -16,28 +16,40 @@
       = "#{c.website}"
       %br
       ="#{c.ip_address}"
-    %td               
+    %td{class: "content"}               
       = c.content     
     %td 
       = c.updated_at
-      %br
       %p{class: c.comment_status.status}= c.comment_status.status
-  
+      
   - row_class = "#{((count % 2 == 0) ? "row_stripe" : nil)} #{((c.status_id == unapproved) ? "unapproved_rollover" : nil)}"
   %tr{class: row_class}
     %td{colspan: 3}
-      = form_for c, url: admin_blog_comment_path(c), remote: true do |f|
+      = form_for c, url: admin_blog_comment_path(c), remote: true, html: {class: 'edit'} do |f|
         %p
           = f.text_area :content, cols: 80, rows: 4
           = hidden_field_tag 'page', params[:page]
           = hidden_field_tag 'type', params[:type]
           %br
           = f.submit 'Update'
+
+      = form_for Comment.new, url: admin_blog_comments_url, remote: true, html: {class: 'reply', name: 'comment'} do |f|
+        %p
+          = text_area_tag 'content','', cols: 80, rows: 4
+          = hidden_field_tag 'page', params[:page]
+          = hidden_field_tag 'type', params[:type]
+          = hidden_field_tag :reply_id, c.id
+          = hidden_field_tag :author, ((current_user.name == '') ? current_user.user_name : current_user.name)
+          = hidden_field_tag :email, current_user.email
+          = hidden_field_tag :website, current_user.website_url if current_user.website_url
+          = hidden_field_tag :post_id, c.post_id
+          %br
+          = f.submit 'Reply'
         
       %div{class: "roll_over"}
         = link_to_function 'edit', "admin_blog.edit_category_tag(this)"
         = " | " 
-        = link_to_function 'reply', "admin_blog.edit_category_tag(this)"
+        = link_to_function 'reply', "admin_blog.comment_reply(this)"
         = " | " 
         - unless c.status_id == trash
           = link_to_function 'trash', "admin_blog.set_comment_status('#{c.id}','#{params[:page]}','#{params[:type]}', 'trash')"

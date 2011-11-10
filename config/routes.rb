@@ -63,7 +63,7 @@ BlogBase::Application.routes.draw do
       get "/comments/page/:page" => "comments#index",
             as: :comments_page
 
-      get "/comments/type/:type" => "comments#search",
+      get "/comments/type/:type(/page/:page)" => "comments#search",
             as: :comments_search
 
       resources :tags

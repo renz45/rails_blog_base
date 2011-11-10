@@ -17,8 +17,10 @@
 #
 
 class Comment < ActiveRecord::Base
-  belongs_to :post
   before_save :update_counts
+  before_destroy :destroy_replies
+
+  belongs_to :post
 
   belongs_to :permission
   belongs_to :comment_status, foreign_key: :status_id
@@ -72,6 +74,10 @@ class Comment < ActiveRecord::Base
       comment_list[c.id][:replies] = (replies == [nil] ? [] : build_comments(replies) )
     end
     comment_list
+  end
+
+  def destroy_replies
+    Comment.where(reply_id: self.id).destroy_all
   end
 end
 

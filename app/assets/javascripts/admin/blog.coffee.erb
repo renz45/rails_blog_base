@@ -12,16 +12,22 @@ $(document).ready ->
       $.ajax(ajax_params)
 
     edit_category_tag: (that) ->
-      form = $(that)
+      edit_form = $(that)
                 .parent()
                   .parent()
-                    .find('form')
+                    .find('.edit')
+      reply_form = $(that)
+                .parent()
+                  .parent()
+                    .find('.reply')
 
-      if form.is(':visible')
-        form.fadeOut()
+      reply_form.hide()
+
+      if edit_form.is(':visible')
+        edit_form.fadeOut()
       else
-        form.fadeIn()
-        form.find('input:first-child').focus()
+        edit_form.fadeIn()
+        edit_form.find('input:first-child').focus()
 
       return false
 
@@ -126,7 +132,7 @@ $(document).ready ->
       $.ajax(ajax_params)
       return false
 
-    delete_comment: (comment_id, page, type)->
+    delete_comment: (comment_id, page, type) ->
       page = '1' if page == '' || !page
 
       ajax_params = 
@@ -137,6 +143,25 @@ $(document).ready ->
           "page": page
           "type": type
       $.ajax(ajax_params)
+      return false
+    
+    comment_reply: (that) ->
+      reply_form = $(that)
+                .parent()
+                  .parent()
+                    .find('.reply')
+      edit_form = $(that)
+                .parent()
+                  .parent()
+                    .find('.edit')
+
+      edit_form.hide()
+
+      if reply_form.is(':visible')
+        reply_form.fadeOut()
+      else
+        reply_form.fadeIn()
+        reply_form.find('#comment_content').val('').focus()
       return false
 
   tag_input =
@@ -211,5 +236,7 @@ $(document).ready ->
       if $(this).is(':visible')
         $(this)
           .fadeOut()
+
+
 
 

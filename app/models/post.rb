@@ -17,6 +17,7 @@
 class Post < ActiveRecord::Base
 
   before_save :update_slug
+  before_destroy :destroy_comments
 
   belongs_to :user
 
@@ -67,6 +68,10 @@ class Post < ActiveRecord::Base
   def self.clean_url(url)
     clean = url.gsub(" ", "-")
     clean.gsub(/[?\\\.\,\<\>\!\@\#\$\%\^\&\*\(\)]/, "")
+  end
+
+  def destroy_comments
+    self.comments.destroy_all
   end
 
 end
