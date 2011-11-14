@@ -22,6 +22,14 @@ BlogBase::Application.routes.draw do
           as: :posts_search, 
           defaults: {page: 1}
 
+    get "/feed" => "posts#feed",
+          as: :feed,
+          defaults: {format: 'atom'}
+
+    get "/rss" => redirect("/blog/feed")
+
+    get "/atom" => redirect("/blog/feed")
+
     get "/:slug(/comment(/reply/:reply_id)(:comment_id))(/page/:page)" => "posts#show", 
           as: :post
 
