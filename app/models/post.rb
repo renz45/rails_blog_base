@@ -59,6 +59,16 @@ class Post < ActiveRecord::Base
   def update_counts
     self.categories_count = self.categories.count
     self.tags_count = self.tags.count
+
+    self.tags.each do |t|
+      t.posts_count = t.posts.where(status_id: PostStatus.published.first.id).count
+      t.save
+    end
+
+    self.categories.each do |c|
+      c.posts_count = c.posts.where(status_id: PostStatus.published.first.id).count
+      c.save
+    end
   end
 
   def published?

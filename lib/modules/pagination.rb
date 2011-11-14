@@ -13,11 +13,17 @@ module Pagination
     def paginate_index_posts(path,type = false)
       if type
         status = PostStatus.where(status: type.to_s.downcase).first.id
-        paginate_me(:posts, base_url: path, where: {status_id: status}, order: "posts.created_at DESC")
+        paginate_me(:posts, base_url: path, 
+                            where: {status_id: status},
+                            per_page: 4,  
+                            order: "posts.created_at DESC")
       else
         trashed_status = PostStatus.trashed.first
         statuses = PostStatus.all.map {|ps| ps.id unless ps.id == trashed_status.id}
-        paginate_me(:posts, base_url: path, where: {status_id: statuses.compact}, order: "posts.created_at DESC")
+        paginate_me(:posts, base_url: path, 
+                            where: {status_id: statuses.compact},
+                            per_page: 4, 
+                            order: "posts.created_at DESC")
       end
     end
 
@@ -52,7 +58,8 @@ module Pagination
                   where: where, 
                   includes: includes, 
                   params_var: :page, 
-                  base_url: page_url,  
+                  base_url: page_url, 
+                  per_page: 6, 
                   order: "posts.created_at DESC")
     end
   end
