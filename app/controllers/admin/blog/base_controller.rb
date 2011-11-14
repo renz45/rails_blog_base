@@ -1,7 +1,7 @@
 class Admin::Blog::BaseController < Admin::BaseController
   before_filter :create_sidebar
 
-
+  #creates the sidemenu in the admin blog section
   def create_sidebar
     post_submenu = {all_posts: {url: admin_blog_posts_url,
                                title: "Edit Posts",

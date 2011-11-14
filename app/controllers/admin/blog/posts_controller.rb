@@ -9,6 +9,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
   def index
     @title = "Posts"
+    #set all_posts submenu to active
     @sidebar_active << :all_posts
 
     @post_types = PostStatus.all
@@ -99,7 +100,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
     set_params()
     get_categories_tags()
-    @post.status_id = PostStatus.draft.id
+    @post.status_id = PostStatus.draft.first.id
 
     @post.categories = Category.where(category: params[:categories])
     @post.tags = Tag.where(tag: params[:tags])

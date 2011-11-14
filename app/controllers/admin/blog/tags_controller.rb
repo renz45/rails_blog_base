@@ -1,6 +1,7 @@
 class Admin::Blog::TagsController < Admin::Blog::BaseController
   before_filter :set_active
   def index
+    #set tag submenu to active
     @sidebar_active << :tags
     @title = 'Tags'
     
@@ -15,7 +16,6 @@ class Admin::Blog::TagsController < Admin::Blog::BaseController
   end
 
   def create
-
     respond_to do |format|
       format.html
       format.js { 
@@ -44,7 +44,7 @@ class Admin::Blog::TagsController < Admin::Blog::BaseController
       format.js { 
         @tag = params[:tag]
 
-        Tag.delete(Tag.where(tag: params[:tag]).first.id)
+        Tag.delete(Tag.where(slug: params[:tag]).first.id)
 
         paginate_tag_page(params[:page])
 

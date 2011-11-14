@@ -16,10 +16,13 @@
       = "#{c.website}"
       %br
       ="#{c.ip_address}"
-    %td{class: "content"}               
-      = c.content     
+    %td{class: "content"}    
+      = "Submitted on #{c.updated_at.strftime("%A %b %d, %Y")}"
+      = "in reply to #{Comment.find(c.reply_id).author}" unless c.reply_id.nil?            
+      %p= c.content     
     %td 
-      = c.updated_at
+      - comment_post = Post.find(c.post_id)
+      %p= link_to comment_post.title, edit_admin_blog_post_url(comment_post.id)
       %p{class: c.comment_status.status}= c.comment_status.status
       
   - row_class = "#{((count % 2 == 0) ? "row_stripe" : nil)} #{((c.status_id == unapproved) ? "unapproved_rollover" : nil)}"
@@ -47,6 +50,8 @@
           = f.submit 'Reply'
         
       %div{class: "roll_over"}
+        = link_to 'View', blog_post_url(c.post.slug)
+        = " | "
         = link_to_function 'edit', "admin_blog.edit_category_tag(this)"
         = " | " 
         = link_to_function 'reply', "admin_blog.comment_reply(this)"

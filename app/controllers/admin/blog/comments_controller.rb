@@ -66,7 +66,8 @@ class Admin::Blog::CommentsController < Admin::Blog::BaseController
                               content: params[:content],
                               status_id: CommentStatus.approved.first.id,
                               reply_id: params[:reply_id],
-                              post_id: params[:post_id])
+                              post_id: params[:post_id],
+                              ip_address: request.env['REMOTE_ADDR'])
         new_comment.save                    
         update_comment_page_items()
         

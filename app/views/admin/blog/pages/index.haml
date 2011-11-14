@@ -15,14 +15,14 @@
         #{link_to "Comments", admin_blog_comments_url}
       %li 
         #{@spam_count} 
-        #{link_to "Spam", admin_blog_comments_type_url(:spam)}
+        #{link_to "Spam", admin_blog_comments_search_url(:spam)}
       %li 
         #{@approved_count} 
-        #{link_to "Approved", admin_blog_comments_type_url(:approved)}
+        #{link_to "Approved", admin_blog_comments_search_url(:approved)}
       %li 
         #{@pending_count} 
-        #{link_to "Pending", admin_blog_comments_type_url(:unapproved)}
+        #{link_to "Pending", admin_blog_comments_search_url(:unapproved)}
       %li 
         #{@trash_count} 
-        #{link_to "Trashed", admin_blog_comments_type_url(:trash)}
+        #{link_to "Trashed", admin_blog_comments_search_url(:trash)}
     

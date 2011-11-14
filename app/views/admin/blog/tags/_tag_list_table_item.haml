@@ -7,7 +7,7 @@
     %td= t.updated_at
   %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
     %td{colspan: 3}
-      = form_for t, url: admin_blog_tag_path(t), remote: true do |f|
+      = form_for t, url: admin_blog_tag_path(t), remote: true, html: {class: 'edit'} do |f|
         %p
           = f.text_field :tag
           = hidden_field_tag 'page', params[:page]

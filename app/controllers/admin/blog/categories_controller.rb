@@ -1,6 +1,7 @@
 class Admin::Blog::CategoriesController < Admin::Blog::BaseController
   before_filter :set_active
   def index
+    #set categories submenu to active
     @sidebar_active << :categories
     @title = 'Categories'
 
@@ -10,9 +11,10 @@ class Admin::Blog::CategoriesController < Admin::Blog::BaseController
   end
 
   def create
-    @category = Category.find_or_create_by_category(params[:category][:category])
+    @category = Category.find_or_create_by_category(params[:category])
 
-    paginate_category_page(params[:page])
+    paginate_category_page(params[:page])#pagination module
+  
   
     respond_to do |format|
       format.html
@@ -38,7 +40,7 @@ class Admin::Blog::CategoriesController < Admin::Blog::BaseController
         @category = Category.find(params[:id])
         @category.update_attributes(params[:category])
 
-        paginate_category_page(params[:page])
+        paginate_category_page(params[:page])#pagination module
 
         render "admin/blog/categories/update", layout: false
       }
@@ -50,6 +52,7 @@ class Admin::Blog::CategoriesController < Admin::Blog::BaseController
   end
 
   private
+    #sets :posts main section to active in the side nav
     def set_active
       @sidebar_active = [:posts]
     end

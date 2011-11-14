@@ -4,7 +4,7 @@ module Pagination
       #paginate comments for the current post which aren't replies with a status of approved(1)
       paginate_me :comments, where: {comments: {post_id: post.id, reply_id: nil, status_id: 1}},
                              base_url: blog_post_path(post.slug),
-                             per_page: 5,
+                             per_page: 50,
                              order: "comments.created_at DESC"
     end
   end
@@ -57,18 +57,3 @@ module Pagination
     end
   end
 end
-
-# SELECT COUNT(*) 
-#   FROM "posts" 
-# INNER JOIN 
-#   "post_statuses" 
-#     ON 
-#       "post_statuses"."id" = "posts"."status_id" 
-# INNER JOIN 
-#   "post_tags" 
-#     ON 
-#       "posts"."id" = "post_tags"."post_id" 
-#   WHERE 
-#     "post_tags"."tag_id" = 26 
-#   AND 
-#     "post_statuses"."status" = 'published'

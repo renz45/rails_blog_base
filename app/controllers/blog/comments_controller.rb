@@ -9,10 +9,6 @@ class Blog::CommentsController < Blog::BaseController
     @posts = Post.all
   end
 
-  def new
-    #will need a redirect to the post page which owns the comment
-  end
-
   def create
     #save the ip address of posting user
     params[:comment][:ip_address] = request.env['REMOTE_ADDR']

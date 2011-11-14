@@ -4,6 +4,7 @@
     - if comment.reply_id.nil? || reply
       %li{class: klass}
         %h3= "By #{comment.author}"
+        %p{class: 'date'}= "on #{comment.updated_at.strftime("%A %b %d, %Y")}"
         %p= comment.email
         %p= comment.content
 
