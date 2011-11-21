@@ -9,7 +9,7 @@ class Blog::PostsController < Blog::BaseController
 
   def show 
     @comment = Comment.new
-
+          
     #Sets @post, @title, @reply_comment, moved to a module since these vars are used again in
     #the comment controller when there is an error
 
@@ -17,6 +17,8 @@ class Blog::PostsController < Blog::BaseController
     
     # paginate_me is used internally, which sets the @comments variable
     paginate_comments_for_post(@post) #Pagination module
+
+    # @post.content = markdown.render(@post.content)
     
     # list of comments including the original comment as well as all replies to each comment
     # keys are :comment, :replies

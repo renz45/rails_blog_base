@@ -3,7 +3,7 @@
 %h2= (!no_link ? link_to(post.title, blog_post_url(slug: post.slug)) : post.title)
 %p= post.user.user_name
 %p= "Posted on #{post.updated_at.strftime("%A %b %d, %Y")}"
-%p= post.content
+%p= preserve(markdown(post.content))
 %strong
   tags
   = "(#{post.tags_count})"

@@ -36,6 +36,13 @@ module ApplicationHelper
   end
 
   def admin?
-    self.controller.class.to_s.split("::")[0] == "Admin"
+    self.controller.class.to_s.split("::").first == "Admin"
   end
+
+  def markdown(text)
+    options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
+    Redcarpet.new(text, *options).to_html.html_safe
+  end
+
+
 end

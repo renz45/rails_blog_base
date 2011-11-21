@@ -2,25 +2,18 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-
 gem 'json'
 gem 'jquery-rails'
 gem 'gravatar_image_tag'
+
+gem "redcarpet"
 # gem 'paginate_me'
-gem 'paginate_me', :git => 'git@github.com:renz45/paginate_me.git'
+gem 'paginate_me', git: 'git@github.com:renz45/paginate_me.git'
 # gem 'paginate_me', :path => 'vendor/plugins/paginate_me/'
 gem 'devise'
 
 # there is a bug with 1.3.4, so I'm using the older version for now
 gem 'rack', '1.3.3'
-
-# rich text editor with image upload
-gem "ckeditor"
-gem "carrierwave"
-gem "mini_magick" 
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,7 +29,7 @@ end
 group :development do
   gem 'sqlite3'
   gem 'rspec-rails'
-  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
+  gem 'annotate', git: 'git://github.com/ctran/annotate_models.git'
   gem 'pry'
   gem 'faker'
   

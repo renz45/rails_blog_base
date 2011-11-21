@@ -1,4 +1,4 @@
-atom_feed :language => 'en-US' do |feed|
+atom_feed language: 'en-US' do |feed|
   feed.title @title
   feed.updated @updated
 
@@ -8,7 +8,7 @@ atom_feed :language => 'en-US' do |feed|
     feed.entry item, url: blog_post_url(item.slug) do |entry|
       entry.url( blog_post_url(item.slug) )
       entry.title item.title
-      entry.content item.content, :type => 'html'
+      entry.content markdown(item.content), type: 'html'
 
       # the strftime is needed to work with Google Reader.
       entry.updated(item.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) 
