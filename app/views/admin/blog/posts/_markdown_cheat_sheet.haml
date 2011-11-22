@@ -1,0 +1,121 @@
+%a{href: '#', class: "markdown_help"} Markdown Help
+.markdown_cheat_sheet
+  %dl
+    %dt
+      Paragraphs and Linebreaks
+    %dd
+      %div
+        Markdown understands normal linebreaks, use return and seperate your paragraphs as you normally would.
+    %dt
+      Headings
+    %dd 
+      %div
+        There are multiple levels of headings for markdown starting at a heading 1 and moving up to 6. Heading 1 is the largest sized header, so increasing the header number will progressively get smaller. A heading is preceeded by the '#' symbol. The value of the heading is represented by how many '#' are used. For example the largest heading, a heading 1 would be writting as follows:
+        %pre #Heading 1
+        %h1 Heading 1
+        %pre ##Heading 2
+        %h2 Heading 2
+        %pre ###Heading 3
+        %h3 Heading 3
+    %dt 
+      Lists
+    %dd
+      %div
+        Lists can be created in 2 different ways. Bulleted lists simply need an asterisk followed by a single space, for example:
+        -# haml was messing up the line breaks using normal syntax
+        %pre= "* item 1\n* item 2\n* item 3"
+        
+        results in:
+        %ul
+          %li item 1
+          %li item 2
+          %li item 3 
+        
+        Numbered lists are created by putting numbers followed by a period and a space instead of an asterisk, for example:
+
+        %pre= "1. item 1\n2. item 2\n3. item 3"
+
+        results in:
+
+        %ol
+          %li item 1
+          %li item 2
+          %li item 3
+    %dt 
+      Links
+    %dd
+      %div
+        Links are created by putting square brackets around your link text and adding the url in parentheses after the brackets, followed by an option title(The title is the rollover text), for example:
+
+        %pre [My Website](http://somewebsite.com/ "Title of my site")
+        results in:
+        %a{href: 'http://somewebsite.com/', title: 'Title of my site'} My Website
+        %br
+        %br
+        This version has the title removed
+        %pre [My Website](http://somewebsite.com/)
+
+        results in:
+
+        %a{href: 'http://somewebsite.com/'} My Website
+    %dt
+      Emphasis
+    %dd
+      %div
+        Emphasis can be added to words in as either bold or italic text. Wrapping a word or words with
+        %code * *
+        will result in italic text, similarly wrapping a word or words with
+        %code ** **
+        will result in bold text, for example:
+
+        %pre **look at me!**
+
+        results in:
+        %br
+        %strong look at me!
+
+        %pre *I'm sort of important*
+
+        results in:
+        %br
+        %em I'm sort of important
+    %dt
+      Images
+    %dd
+      %div
+        Images can be added almost the same as links are created. The format looks the same with the exception that an exclamation point precedes the initial brackets. For example:
+
+        %pre= "![short description of image, it's a puppy!](#{asset_path('puppy.png')} 'puppy image title')"
+        results in:
+        %br
+        =image_tag 'puppy.png', title: 'puppy image title', alt: 'short description of image, it\'s a puppy!'
+    %dt
+      Horizontal Rules
+    %dd
+      %div
+        Horizontal rules can be created by using 3 or more
+        %code --- 
+        this is useful for creating breaks in content. For example:
+        %pre ---
+        results in:
+
+        %hr
+    %dt
+      Blockquotes
+    %dd
+      %div
+        Block quotes are similar to quotes in email. You can either place a 
+        %code >
+        after each line or precede the first character in a paragraph with a single
+        %code >
+        , for example:
+
+        %pre >"This is a quote from someone who is very important."
+
+        results in:
+
+        %blockquote "This is a quote from someone who is very important."
+      
+    
+  %a{class: 'close', href: '#'} close
+      

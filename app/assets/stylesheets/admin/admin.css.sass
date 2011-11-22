@@ -76,6 +76,8 @@ input[type="submit"], button, .button
 
 .sidebar
   width: 100%
+  padding: 0
+  margin: 0
   a
     display: inline-block
     padding: 5px
@@ -88,6 +90,10 @@ input[type="submit"], button, .button
     border-bottom: 1px solid #ccc
   a:hover, a.active
     text-decoration: none
+  ul
+    padding: 0
+  li
+    list-style: none
   >li>a
     +single-text-shadow(#fff, 1px, 1px, -3px)
     +linear-gradient(color-stops($admin_bar_grad_from, $admin_bar_grad_to))

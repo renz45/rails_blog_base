@@ -9,6 +9,8 @@ class Blog::PostsController < Blog::BaseController
 
   def show 
     @comment = Comment.new
+
+    @captcha = Captcha.new
           
     #Sets @post, @title, @reply_comment, moved to a module since these vars are used again in
     #the comment controller when there is an error
