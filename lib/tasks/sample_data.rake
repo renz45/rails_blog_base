@@ -87,6 +87,14 @@ namespace :db do
                         post_id: 1 + rand(50) )
       
       end
+
+    #create links
+    10.times do |n|
+      Link.create!(
+          url: "http://www.mylink#{n}.com",
+          name: "Link#{n}"
+      )
+    end
   end
 
 end

@@ -163,6 +163,43 @@ $(document).ready ->
         reply_form.fadeIn()
         reply_form.find('#comment_content').val('').focus()
       return false
+    
+    cancel_link_edit: (that) ->
+      edit_form = $(that).parent().parent()
+      edit_form.hide()
+    
+    edit_link: (that) ->
+      edit_form = this.get_link_form(that)
+    
+      if edit_form.is(':visible')
+        edit_form.hide()
+      else
+        $('.info_table form:visible').hide() # hide any open link forms
+        edit_form.show()
+
+    delete_link: (link_id, that) ->
+      rollover_item = $(that)
+                        .parent()
+                          .parent()
+                            .parent()
+
+      rollover_item.prev('tr').remove()
+      rollover_item.remove()
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/links.js"
+        data:
+          "id": link_id
+      $.ajax(ajax_params)
+
+    get_link_form: (that) ->
+      edit_form = $(that)
+                    .parent()
+                      .parent()
+                        .find('form')
+      return edit_form
+    
 
   tag_input =
     check_for_seperator: (that,seperator) ->
@@ -218,8 +255,12 @@ $(document).ready ->
   ####################################
   #       autocomplete data          #
   ####################################
-  admin_blog.setup_tag_autocomplete(".tag_input")
 
+  # populate the autocomplete for tags if the tag input element exists
+  # this prevents the autocomplete from being loaded on every page when
+  # it isn't needed
+  if $('.tag_input').length > 0
+    admin_blog.setup_tag_autocomplete(".tag_input")
 
   ####################################
   #             bindings             #
@@ -266,13 +307,11 @@ $(document).ready ->
           .val('')
       return false
 
+  # on submit, close the form
   $('.info_table')
-    .delegate 'form', 'focusout submit',(evt) ->
+    .delegate 'form', 'submit',(evt) ->
       evt.stopPropagation
       if $(this).is(':visible')
         $(this)
           .fadeOut()
-
-
-
 

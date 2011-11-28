@@ -1,11 +1,11 @@
 %h2 Tags
 
-= render "admin/blog/tags/tag_list_table", tags: @tags
-
 = form_for @tag, url: admin_blog_tags_path, remote: true do |f|
   %p
     = f.label :tag, "Add Tag"
     %br
     = f.text_field :tag
     = hidden_field_tag 'page',params[:page]
-  %p= f.submit "Add"
+    = f.submit "Add"
+
+= render "admin/blog/tags/tag_list_table", tags: @tags

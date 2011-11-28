@@ -1,0 +1,28 @@
+- count = 0
+- links.each do |l|
+  - count += 1
+  %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
+    %td= l.name
+    %td= link_to l.url, l.url
+    %td= l.updated_at.strftime("%A %b %d, %Y")
+  %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
+    %td{colspan: 3}
+      = form_for l, url: admin_blog_link_path, remote: true, html: {class: 'edit_link'} do |f|
+        %p
+          = f.label :name
+          %br
+          = f.text_field :name
+        %p
+          = f.label :url
+          %br
+          = f.text_field :url
+        %p
+          = hidden_field_tag 'page', params[:page]
+          = f.hidden_field :id
+          = f.submit 'Update'
+          = link_to_function 'cancel','admin_blog.cancel_link_edit(this)', class: 'button'
+        
+      %div{class: "roll_over"}
+        = link_to_function 'edit', "admin_blog.edit_link(this)"
+        = " | " 
+        = link_to_function 'delete', "admin_blog.delete_link('#{l.id}',this)"

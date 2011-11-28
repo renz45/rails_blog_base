@@ -24,7 +24,7 @@
     = f.hidden_field :reply_id, value: @reply_comment.id unless @reply_comment.nil?
     = hidden_field_tag :captcha_image,@captcha.image
     %p= image_tag(@captcha.image_path, alt: 'captcha image', title: 'captcha image')
-    %p Human test! Name the animal (don't worry, there are a few right answers, just say what first comes to mind)
+    %p Human test! Name the animal.
     = @captcha.form_fields
       
   %p 

@@ -4,7 +4,7 @@
   %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
     %td= t.tag
     %td= t.posts.published.count
-    %td= t.updated_at
+    %td= t.updated_at.strftime("%A %b %d, %Y")
   %tr{class: ((count % 2 == 0) ? "row_stripe" : nil)}
     %td{colspan: 3}
       = form_for t, url: admin_blog_tag_path(t), remote: true, html: {class: 'edit'} do |f|

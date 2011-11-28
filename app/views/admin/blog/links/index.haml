@@ -1,0 +1,14 @@
+%h2 Links
+
+= form_for @link, url: admin_blog_links_path, remote: true do |f|
+  %p
+    = f.label :name, " Name:"
+    = f.text_field :name
+    = f.label :url, " Url:"
+    = f.text_field :url
+    = hidden_field_tag 'page', params[:page]
+  
+    = f.submit "Add"
+
+= render 'admin/blog/links/link_list_table', links: @links
+  

@@ -23,15 +23,15 @@ class Admin::Blog::BaseController < Admin::BaseController
                               target: "",
                               submenu: nil} }
 
-    link_submenu = {all_links: {url: "#",
-                                title: "Edit Links",
-                                target: "",
-                                submenu: nil},
+    # link_submenu = {all_links: {url: "#",
+    #                             title: "Edit Links",
+    #                             target: "",
+    #                             submenu: nil},
 
-                    add_link: {url: "#",
-                              title: "Add Link",
-                              target: "",
-                              submenu: nil} }
+    #                 add_link: {url: "#",
+    #                           title: "Add Link",
+    #                           target: "",
+    #                           submenu: nil} }
 
 
 
@@ -46,9 +46,9 @@ class Admin::Blog::BaseController < Admin::BaseController
                           target: "",
                           submenu: nil},
 
-                links:    {url: "#",
+                links:    {url: admin_blog_links_page_url,
                           title: "Edit  Links",
                           target: "",
-                          submenu: link_submenu} }
+                          submenu: nil} }
   end
 end

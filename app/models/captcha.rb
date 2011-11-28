@@ -31,6 +31,7 @@ class Captcha < ActiveRecord::Base
     "<p><input id='captcha_answer' name='captcha_answer' type='text' />
     <input id='captcha_image' name='captcha_image' type='hidden' value='#{self.image}' /></p>".html_safe
   end
+  
   private
     def strip_file_type(file_name)
       file_name.split('.').first

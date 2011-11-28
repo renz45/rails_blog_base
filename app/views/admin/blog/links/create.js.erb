@@ -1,0 +1,3 @@
+$('.info_table tbody').empty().html('<%= escape_javascript(render "admin/blog/links/link_list_table_item", links: @links) %>');
+
+$('#new_link input[type=text]').val('');

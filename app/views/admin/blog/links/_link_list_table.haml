@@ -1,0 +1,20 @@
+%table{class: "info_table"}
+  %thead
+    %tr
+      %th Name
+      %th Url
+      %th Updated at
+  %tbody
+    = render "admin/blog/links/link_list_table_item", links: links
+
+  %tfoot
+    %tr
+      %td{colspan: 3}
+        = paginate_for :link do |p|
+          %span{class: "right"}
+            = p.link_to_last
+            = p.link_to_next
+          = p.page_out_of_total
+          %span{class: "left"}
+            = p.link_to_previous
+            = p.link_to_first 

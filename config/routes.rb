@@ -87,6 +87,17 @@ BlogBase::Application.routes.draw do
             as: :categories_page
       
       delete "/categories" => "categories#destroy"
+
+      get "/links(/page/:page)" => "links#index",
+            as: :links_page
+
+      post "/links" => "links#create",
+            as: :link
+      
+      put "/links" => "links#update",
+            as: :link
+      
+      delete "/links" => "links#destroy"
     end
 
     namespace :settings do
