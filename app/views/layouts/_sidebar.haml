@@ -1,12 +1,12 @@
 %h2 Categories
-%ul 
+%ul{class: 'category_list'}
   - @categories.each do |c|
     %li
       = link_to c.category, blog_category_search_url(c.id)
       = "(#{c.posts_count})"
 
 %h2 Tags
-%ul
+%ul{'tag_list'}
   - @tags.each do |t|
     %li
       = link_to t.tag, blog_tag_search_url(t.id)

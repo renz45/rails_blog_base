@@ -58,17 +58,15 @@ class Comment < ActiveRecord::Base
   #      I'm not sure yet.
   def self.build_comments(initial_comments)
     comment_list = {}
-
     # get all replies for the initial_comments
     reply_list = self.where(reply_id: initial_comments.map{|ic| ic.id}, status_id: 1)
-
     # loop through initial_comments
     initial_comments.each do |c|
       comment_list[c.id] = {}
       comment_list[c.id][:comment] = c
       
       # pull out the individual replies for each comment looped through
-      replies = reply_list.map{|r| r if r.reply_id == c.id} 
+      replies = reply_list.map{|r| r if r.reply_id == c.id}.compact
 
       # if there were any replies send them back through this function to check if they have comments
       comment_list[c.id][:replies] = (replies == [nil] ? [] : build_comments(replies) )

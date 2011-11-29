@@ -1,14 +1,16 @@
-%ul 
+%ul{class: 'comment_list'} 
   - comment_tree.each do |comment_id,c|
     - comment = c[:comment]
     - if comment.reply_id.nil? || reply
       %li{class: klass}
         %h3= "By #{comment.author}"
         %p{class: 'date'}= "on #{comment.updated_at.strftime("%A %b %d, %Y")}"
-        %p= comment.email
-        %p= comment.content
+        %p= link_to "#{comment.author}'s Website", comment.website, 
+                    title: "#{comment.author}'s Website", 
+                    class: 'website' unless comment.website == ""
+        %p= preserve(markdown(comment.content))
 
-        = link_to "Reply", blog_post_url(slug: comment.post.slug, reply_id: comment_id)
+        = link_to "Reply", "#{blog_post_url(slug: comment.post.slug, reply_id: comment_id)}#reply"
       %li{class: "reply_container"}  
         = render("blog/posts/comments", klass: "reply", 
           comment_tree: c[:replies], reply: true) if c[:replies].length > 0

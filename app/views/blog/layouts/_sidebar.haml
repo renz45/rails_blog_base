@@ -1,5 +1,5 @@
 %h2 Categories
-%ul 
+%ul{class: 'category_list'}
   - @categories.each do |c|
     - unless c.posts_count <1
       %li
@@ -7,7 +7,7 @@
         = "(#{c.posts_count})"
 
 %h2 Tags
-%ul
+%ul{class: 'tag_list'}
   - @tags.each do |t|
     - unless t.posts_count < 1
       %li

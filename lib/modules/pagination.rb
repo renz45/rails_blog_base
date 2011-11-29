@@ -4,7 +4,7 @@ module Pagination
       #paginate comments for the current post which aren't replies with a status of approved(1)
       paginate_me :comments, where: {comments: {post_id: post.id, reply_id: nil, status_id: 1}},
                              base_url: blog_post_path(post.slug),
-                             per_page: 50,
+                             per_page: 25,
                              order: "comments.created_at DESC"
     end
   end
@@ -15,14 +15,14 @@ module Pagination
         status = PostStatus.where(status: type.to_s.downcase).first.id
         paginate_me(:posts, base_url: path, 
                             where: {status_id: status},
-                            per_page: 4,  
+                            per_page: 10,  
                             order: "posts.created_at DESC")
       else
         trashed_status = PostStatus.trashed.first
         statuses = PostStatus.all.map {|ps| ps.id unless ps.id == trashed_status.id}
         paginate_me(:posts, base_url: path, 
                             where: {status_id: statuses.compact},
-                            per_page: 4, 
+                            per_page: 10, 
                             order: "posts.created_at DESC")
       end
     end

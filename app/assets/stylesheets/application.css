@@ -14,4 +14,5 @@
  *= require blog/blog
  *= require blog/post
  *= require blog/sidebar
+ *= require markdown_cheat_sheet
 */
