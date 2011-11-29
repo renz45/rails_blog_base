@@ -5,7 +5,6 @@ class Blog::PostsController < Blog::BaseController
   include Pagination::Comments
   include Pagination::Posts
   include SetVars::Posts
-  #TODO integrate captcha functionality into comment form
 
   def show 
     @comment = Comment.new
