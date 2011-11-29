@@ -15,7 +15,7 @@ BlogBase::Application.routes.draw do
 
     root to: "posts#index", via: :get
 
-    get "/page/:posts_page" => "posts#index", 
+    get "/page/:page" => "posts#index", 
           as: :page
 
     get "/posts(/tag/:tag)(/category/:category)(/page/:page)" => "posts#search", 
