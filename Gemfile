@@ -12,7 +12,7 @@ gem "redcarpet"
 gem 'paginate_me', git: 'git@github.com:renz45/paginate_me.git'
 # gem 'paginate_me', :path => 'vendor/plugins/paginate_me/'
 gem 'devise'
-
+gem 'haml'
 
 gem 'faker' #had to move this out of development, giving heroku issues i think
 
@@ -26,7 +26,6 @@ group :assets do
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
   gem 'compass', '~> 0.12.alpha'
-  gem 'haml'
   
 end
 
