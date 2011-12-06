@@ -5,7 +5,7 @@ module SetVars
     def vars_for_show(post_slug, reply_id)
       @post = Post.includes(:user).where(posts: {slug: post_slug}).first
 
-      if (!@post.published? && !current_user.can_access_admin?) || current_user.nil?
+      if (!@post.published? && !current_user.can_access_admin?)
         flash[:error] = "You only have access to published posts, sorry!"
         redirect_to blog_root_url
       end
