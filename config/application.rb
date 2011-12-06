@@ -60,6 +60,6 @@ module BlogBase
                                 end
 
     # if you prefer `.sass` over `.scss`.
-    config.sass.preferred_syntax = :sass
+    # config.sass.preferred_syntax = :sass
   end
 end
