@@ -13,6 +13,9 @@ gem 'paginate_me', git: 'git@github.com:renz45/paginate_me.git'
 # gem 'paginate_me', :path => 'vendor/plugins/paginate_me/'
 gem 'devise'
 
+
+gem 'faker' #had to move this out of development, giving heroku issues i think
+
 # there is a bug with 1.3.4, so I'm using the older version for now
 gem 'rack', '1.3.3'
 
@@ -32,7 +35,7 @@ group :development do
   gem 'rspec-rails'
   gem 'annotate', git: 'git://github.com/ctran/annotate_models.git'
   gem 'pry'
-  gem 'faker'
+  
   
   # mailcatcher
   # Go to http://localhost:1080/
