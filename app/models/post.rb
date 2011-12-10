@@ -42,13 +42,13 @@ class Post < ActiveRecord::Base
 
   #this isnt working properly, tag and category counts arent getting updated
   def trash!
-    self.post_status = PostStatus.trashed
+    self.post_status = PostStatus.trashed.first()
 
     self.save
   end
 
   def trash
-    self.post_status = PostStatus.trashed
+    self.post_status = PostStatus.trashed.first()
   end
 
   def update_slug
