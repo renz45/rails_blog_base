@@ -1,8 +1,7 @@
 $(document).ready ->
 
-  #Add a new category from the add/edit post admin page
-  window.admin_blog =
-    new_category: (category, post_id) ->
+  window.category = 
+    create: (category, post_id) ->
       ajax_params = 
         type: "POST"
         url: "/admin/blog/categories.js"
@@ -11,15 +10,15 @@ $(document).ready ->
           "post": post_id
       $.ajax(ajax_params)
 
-    edit_category_tag: (that) ->
+    edit: (that) ->
       edit_form = $(that)
-                .parent()
-                  .parent()
-                    .find('.edit')
+                    .parent()
+                      .parent()
+                        .find('.edit')
       reply_form = $(that)
-                .parent()
-                  .parent()
-                    .find('.reply')
+                    .parent()
+                      .parent()
+                        .find('.reply')
 
       reply_form.hide()
 
@@ -28,10 +27,13 @@ $(document).ready ->
       else
         edit_form.fadeIn()
         edit_form.find('input:first-child').focus()
-
       return false
 
-    delete_category: (category_id, page) ->
+    delete: (that) ->
+      form = $(that).parent().parent().find('form')
+      page = form.find('#page').val()
+      category_id = form.find('#category_id').val()
+      
       page = '1' if page == ''
 
       ajax_params = 
@@ -41,7 +43,256 @@ $(document).ready ->
           "id": category_id
           "page": page
       $.ajax(ajax_params)
+
+    
+  window.tag =
+    delete: (tag, page) ->
+      page = '1' if page == '' || !page
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/tags.js"
+        data:
+          "tag": tag
+          "page": page
+      $.ajax(ajax_params)
       return false
+    
+    # delete_post_tag: (tag) ->
+    #   ajax_params = 
+    #     type: "DELETE"
+    #     url: "/admin/blog/tags.js"
+    #     data:
+    #       "tag": tag
+    #   $.ajax(ajax_params)
+
+    create: (tags) ->
+      ajax_params = 
+        type: "POST"
+        url: "/admin/blog/tags.js"
+        data:
+          "tags": tags.join(',')
+      $.ajax(ajax_params)
+    
+    load_autocomplete: (auto_complete_object) ->
+      ajax_params = 
+        type: "GET"
+        url: "/admin/blog/tags.json"
+        success: (data) ->
+          $(auto_complete_object)
+            .autocomplete {
+              source: data
+              select: (e, ui) ->
+                if e.which == 1
+                  tag_input.submit([ui.item.value])
+              close: ->
+                $(this).val('')
+            }    
+      $.ajax ajax_params
+
+    check_for_seperator: (that,seperator) ->
+      str = $(that).val()
+      if(str.charAt(str.length - 1) == seperator)
+        tag_input.submit(str.split(seperator))
+        $(that).val('')
+
+    submit: (arr) ->
+      valid_tags = []
+        
+      for new_tag in arr
+        is_found = false
+
+        for input in $(".tag_list input")
+          value = $(input).attr('value')
+
+          if value == new_tag || $.inArray(new_tag, valid_tags) > -1
+            is_found = true
+            break
+
+        if !is_found && new_tag != ""
+          valid_tags.push(new_tag)
+
+      if(valid_tags.length > 0)
+        admin_blog.create_tag(valid_tags)
+    
+    submit_input: (that) ->
+      tag_input.submit($(that).val().split(','))
+      $(that).val('')
+
+  
+  window.post =
+    preview: ->
+      # open a blank window on click so it opens in a tab
+      # for some reason the window opens in a new browser 
+      # if it is opened in only the ajax callback
+      window.open("",'previewWindow')
+      data = admin_blog.get_post_data()
+
+      ajax_params = 
+        type: "POST"
+        url: "/admin/blog/posts/create/preview.js"
+        data: data
+        success: (result)->
+          # tell the currently open window to go to the preview page
+          window.open("/admin/blog/posts/preview/#{result}", 'previewWindow')
+          window.focus('previewWindow')
+        error: ->
+          # if there is an ajax error response, alert the user with an error message
+          # and close the tab opened for the preview
+          preview_window = window.open('', 'previewWindow')
+          alert('There was a problem loading the preview, please try again')
+          preview_window.close()
+      $.ajax(ajax_params)
+
+    get_post_data: ->
+      form = $('.edit_post, .new_post')
+      
+      data = {}
+      post = {}
+      post['title'] = form.find('#post_title').val()
+      post['content'] = form.find('#post_content').val()
+      data['commit'] = form.find('input[name=commit]').val()
+      data['status'] = form.find('#status').val()
+      data['categories'] = $.map form.find('.category_list input:checked'), (n,i) ->
+        return $(n).val()
+
+      data['tags'] = $.map form.find('.tag_list input'), (n,i) ->
+        return $(n).val()
+
+      data['post'] = post
+      return data
+
+
+  window.comment =  
+    set_status: (comment_id, page, type, status)->
+      page = '1' if page == '' || !page
+
+      ajax_params = 
+        type: "POST"
+        url: "/admin/blog/comments/update/status.js"
+        data:
+          "id": comment_id
+          "page": page
+          "type": type
+          "status": status
+      $.ajax(ajax_params)
+
+    delete: (comment_id, page, type) ->
+      page = '1' if page == '' || !page
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/comments/delete.js"
+        data:
+          "id": comment_id
+          "page": page
+          "type": type
+      $.ajax(ajax_params)
+    
+    reply: (that) ->
+      reply_form = $(that)
+                .parent()
+                  .parent()
+                    .find('.reply')
+      edit_form = $(that)
+                .parent()
+                  .parent()
+                    .find('.edit')
+
+      edit_form.hide()
+
+      if reply_form.is(':visible')
+        reply_form.fadeOut()
+      else
+        reply_form.fadeIn()
+        reply_form.find('#comment_content').val('').focus()
+      
+
+    
+
+  window.link = 
+    cancel_edit: (that) ->
+      edit_form = $(that).parent().parent()
+      edit_form.hide()
+  
+    edit: (that) ->
+      edit_form = this.get_link_form(that)
+    
+      if edit_form.is(':visible')
+        edit_form.hide()
+      else
+        $('.info_table form:visible').hide() # hide any open link forms
+        edit_form.show()
+
+    delete: (link_id, that) ->
+      rollover_item = $(that)
+                        .parent()
+                          .parent()
+                            .parent()
+
+      rollover_item.prev('tr').remove()
+      rollover_item.remove()
+
+      ajax_params = 
+        type: "DELETE"
+        url: "/admin/blog/links.js"
+        data:
+          "id": link_id
+      $.ajax(ajax_params)
+
+    get_form: (that) ->
+      edit_form = $(that)
+                    .parent()
+                      .parent()
+                        .find('form')
+      return edit_form
+
+
+
+
+
+
+  window.admin_blog =
+    # new_category: (category, post_id) ->
+    #   ajax_params = 
+    #     type: "POST"
+    #     url: "/admin/blog/categories.js"
+    #     data:
+    #       "category": category 
+    #       "post": post_id
+    #   $.ajax(ajax_params)
+
+    # edit_category_tag: (that) ->
+    #   edit_form = $(that)
+    #             .parent()
+    #               .parent()
+    #                 .find('.edit')
+    #   reply_form = $(that)
+    #             .parent()
+    #               .parent()
+    #                 .find('.reply')
+
+    #   reply_form.hide()
+
+    #   if edit_form.is(':visible')
+    #     edit_form.fadeOut()
+    #   else
+    #     edit_form.fadeIn()
+    #     edit_form.find('input:first-child').focus()
+
+    #   return false
+
+    # delete_category: (category_id, page) ->
+    #   page = '1' if page == ''
+
+    #   ajax_params = 
+    #     type: "DELETE"
+    #     url: "/admin/blog/categories.js"
+    #     data:
+    #       "id": category_id
+    #       "page": page
+    #   $.ajax(ajax_params)
+    #   return false
 
     delete_tag: (tag, page) ->
       page = '1' if page == '' || !page
@@ -109,7 +360,7 @@ $(document).ready ->
           alert('There was a problem loading the preview, please try again')
           preview_window.close()
       $.ajax(ajax_params)
-      
+
     get_post_data: ->
       form = $('.edit_post, .new_post')
       
@@ -255,6 +506,23 @@ $(document).ready ->
   ####################################
   #             bindings             #
   ####################################
+
+  #creates a new category
+  $('.new_category_button').bind 'click', ->
+    category_name = $('.new_category').val()
+    post_id = $('#post_id').val()
+    category.create(category_name, post_id)
+    return false
+
+  $('.info_table').delegate '.edit_category_button', 'click', ->
+    category.edit(this)
+    return false
+
+  $('.info_table').delegate '.delete_category_button', 'click', ->
+    category.delete(this)
+    return false
+
+
 
   # preview post button
   $('.post_preview').bind 'click', ->

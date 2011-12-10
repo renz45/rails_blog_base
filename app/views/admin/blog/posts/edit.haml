@@ -14,9 +14,9 @@
       = f.label :content
       %br
       = f.text_area :content
+      = f.hidden_field :id
     %p 
       = f.submit
-      =# link_to_function('Preview', "admin_blog.preview_post()", class: "button")
       = link_to 'Preview', '#', class: 'post_preview button'
   .form_col2
     %p
@@ -29,10 +29,8 @@
     %p
       %input{class: "new_category"}
       %br
-      - args = ["$('.new_category').val()", @post.id || nil].compact.join(",")
-      = link_to_function("New Category", 
-          "admin_blog.new_category(#{args})", 
-        class: "button")
+      = link_to('New Category', '#', class: 'new_category_button button' )
+        
     -# tag list
     %ul{class: "tag_list"}
       = render "admin/blog/tags/tag_list", post: @post, tags: @tags
