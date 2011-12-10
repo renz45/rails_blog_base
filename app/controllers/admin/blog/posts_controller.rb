@@ -85,7 +85,10 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     attempt_to_save_post()
   end
 
-  #seems a bit crude, I'll need to clean this up at some point
+  # seems a bit crude, I'll need to clean this up at some point
+  # I need to go back and remove the unique validation for titles on posts so I can add
+  # an additional save status, then I don't need to add the preview keyword into the current
+  # title and the preview should work on page refresh instead of being a one time use
   def create_preview
     params[:post][:user_id] = current_user.id
     params[:post][:title] << " %preview%"
@@ -123,23 +126,25 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
 
     @comment = Comment.new
 
-    # sort of hacky, when the preview is loaded the tempary saved draft in the DB is deleted
+    # sort of hacky, when the preview is loaded the temporary saved draft in the DB is deleted
     # so if the user refreshes the preview it redirects to the home page, the preview expires
-    # after one use. I don't really like this, maybe something involving the session would be 
-    # a better solution. I'll come to this later.
+    # after one use. I don't really like this, the post model needs to be tweaked to allow for
+    # saved or preview/draft post status with a copy of a post with the same title can be saved.
+
     begin
     temp_post = Post.find(params[:id]) 
     @post = temp_post
     @post.title = @post.title.split("%preview%")[0]
     @categories = Category.all
     @tags = Tag.all
+    @captcha = Captcha.new
 
     # paginate_me is used internally, which sets the @comments variable
     paginate_comments_for_post(@post) #Pagination module    
     @comment_tree = {}
     temp_post.delete
     render "blog/posts/show", layout: "blog/layouts/application"
-    rescue Exception => e
+    rescue
       redirect_to blog_root_url
     end
   end

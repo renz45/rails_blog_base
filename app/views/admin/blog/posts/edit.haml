@@ -1,3 +1,6 @@
+%script
+  window.name = 'myWindow'
+
 = render "admin/blog/posts/markdown_cheat_sheet"
 = form_for [:admin, :blog, @post] do |f|
   .form_col1
@@ -13,7 +16,8 @@
       = f.text_area :content
     %p 
       = f.submit
-      = link_to_function('Preview', "admin_blog.preview_post()", class: "button") 
+      =# link_to_function('Preview', "admin_blog.preview_post()", class: "button")
+      = link_to 'Preview', '#', class: 'post_preview button'
   .form_col2
     %p
       = label_tag 'status', 'Post Status'

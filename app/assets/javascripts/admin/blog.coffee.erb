@@ -88,18 +88,29 @@ $(document).ready ->
       $.ajax ajax_params
 
     preview_post: ->
-      data = admin_blog.get_post_data_for_ajax()
+      # open a blank window on click so it opens in a tab
+      # for some reason the window opens in a new browser 
+      # if it is opened in only the ajax callback
+      window.open("",'previewWindow')
+      data = admin_blog.get_post_data()
 
       ajax_params = 
         type: "POST"
         url: "/admin/blog/posts/create/preview.js"
-        data:
-          data
-        success: (data)->
-          window.open("/admin/blog/posts/preview/#{data}")
+        data: data
+        success: (result)->
+          # tell the currently open window to go to the preview page
+          window.open("/admin/blog/posts/preview/#{result}", 'previewWindow')
+          window.focus('previewWindow')
+        error: ->
+          # if there is an ajax error response, alert the user with an error message
+          # and close the tab opened for the preview
+          preview_window = window.open('', 'previewWindow')
+          alert('There was a problem loading the preview, please try again')
+          preview_window.close()
       $.ajax(ajax_params)
-
-    get_post_data_for_ajax: ->
+      
+    get_post_data: ->
       form = $('.edit_post, .new_post')
       
       data = {}
@@ -115,7 +126,6 @@ $(document).ready ->
         return $(n).val()
 
       data['post'] = post
-      console.log(data)
       return data
     
     set_comment_status: (comment_id, page, type, status)->
@@ -246,10 +256,15 @@ $(document).ready ->
   #             bindings             #
   ####################################
 
+  # preview post button
+  $('.post_preview').bind 'click', ->
+    admin_blog.preview_post()
+    return false
+
   # insert new tag when the comma is used as a seperator
   $(".tag_input")
-  .bind 'keyup', (evt) -> 
-    tag_input.check_for_seperator(this,',')
+    .bind 'keyup', (evt) -> 
+      tag_input.check_for_seperator(this,',')
   
   .bind 'keydown', (evt) ->
     if(evt.which == 13)
