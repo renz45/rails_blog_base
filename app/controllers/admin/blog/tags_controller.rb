@@ -44,11 +44,12 @@ class Admin::Blog::TagsController < Admin::Blog::BaseController
       format.js { 
         @tag = params[:tag]
 
-        Tag.delete(Tag.where(slug: params[:tag]).first.id)
+        #Tag.delete(Tag.where(slug: params[:tag]).first.id)
+        Tag.delete(params[:tag_id])
 
         paginate_tag_page(params[:page])
 
-        render "admin/blog/tags/destroy", layout: false 
+        render "admin/blog/tags/update", layout: false 
       }
     end
   end

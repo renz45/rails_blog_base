@@ -1,5 +1,6 @@
 $(document).ready ->
 
+  #category related
   window.category = 
     create: (category, post_id) ->
       ajax_params = 
@@ -44,28 +45,26 @@ $(document).ready ->
           "page": page
       $.ajax(ajax_params)
 
-    
+  # tag related 
   window.tag =
-    delete: (tag, page) ->
+    edit: (that) ->
+      category.edit(that)
+
+    delete: (that) ->
+      form = $(that).parent().parent().find('form')
+      page = form.find('#page').val()
+      tag_id = form.find('#tag_id').val()
+
       page = '1' if page == '' || !page
 
       ajax_params = 
         type: "DELETE"
         url: "/admin/blog/tags.js"
         data:
-          "tag": tag
+          "tag_id": tag_id
           "page": page
       $.ajax(ajax_params)
-      return false
     
-    # delete_post_tag: (tag) ->
-    #   ajax_params = 
-    #     type: "DELETE"
-    #     url: "/admin/blog/tags.js"
-    #     data:
-    #       "tag": tag
-    #   $.ajax(ajax_params)
-
     create: (tags) ->
       ajax_params = 
         type: "POST"
@@ -84,7 +83,7 @@ $(document).ready ->
               source: data
               select: (e, ui) ->
                 if e.which == 1
-                  tag_input.submit([ui.item.value])
+                  tag.submit([ui.item.value])
               close: ->
                 $(this).val('')
             }    
@@ -93,7 +92,7 @@ $(document).ready ->
     check_for_seperator: (that,seperator) ->
       str = $(that).val()
       if(str.charAt(str.length - 1) == seperator)
-        tag_input.submit(str.split(seperator))
+        tag.submit(str.split(seperator))
         $(that).val('')
 
     submit: (arr) ->
@@ -113,20 +112,20 @@ $(document).ready ->
           valid_tags.push(new_tag)
 
       if(valid_tags.length > 0)
-        admin_blog.create_tag(valid_tags)
+        tag.create(valid_tags)
     
     submit_input: (that) ->
-      tag_input.submit($(that).val().split(','))
+      tag.submit($(that).val().split(','))
       $(that).val('')
 
-  
+  # post related
   window.post =
     preview: ->
       # open a blank window on click so it opens in a tab
       # for some reason the window opens in a new browser 
       # if it is opened in only the ajax callback
       window.open("",'previewWindow')
-      data = admin_blog.get_post_data()
+      data = post.get_data()
 
       ajax_params = 
         type: "POST"
@@ -144,7 +143,7 @@ $(document).ready ->
           preview_window.close()
       $.ajax(ajax_params)
 
-    get_post_data: ->
+    get_data: ->
       form = $('.edit_post, .new_post')
       
       data = {}
@@ -162,7 +161,7 @@ $(document).ready ->
       data['post'] = post
       return data
 
-
+  # comment related
   window.comment =  
     set_status: (comment_id, page, type, status)->
       page = '1' if page == '' || !page
@@ -207,9 +206,7 @@ $(document).ready ->
         reply_form.fadeIn()
         reply_form.find('#comment_content').val('').focus()
       
-
-    
-
+  # link related
   window.link = 
     cancel_edit: (that) ->
       edit_form = $(that).parent().parent()
@@ -253,131 +250,6 @@ $(document).ready ->
 
 
   window.admin_blog =
-    # new_category: (category, post_id) ->
-    #   ajax_params = 
-    #     type: "POST"
-    #     url: "/admin/blog/categories.js"
-    #     data:
-    #       "category": category 
-    #       "post": post_id
-    #   $.ajax(ajax_params)
-
-    # edit_category_tag: (that) ->
-    #   edit_form = $(that)
-    #             .parent()
-    #               .parent()
-    #                 .find('.edit')
-    #   reply_form = $(that)
-    #             .parent()
-    #               .parent()
-    #                 .find('.reply')
-
-    #   reply_form.hide()
-
-    #   if edit_form.is(':visible')
-    #     edit_form.fadeOut()
-    #   else
-    #     edit_form.fadeIn()
-    #     edit_form.find('input:first-child').focus()
-
-    #   return false
-
-    # delete_category: (category_id, page) ->
-    #   page = '1' if page == ''
-
-    #   ajax_params = 
-    #     type: "DELETE"
-    #     url: "/admin/blog/categories.js"
-    #     data:
-    #       "id": category_id
-    #       "page": page
-    #   $.ajax(ajax_params)
-    #   return false
-
-    delete_tag: (tag, page) ->
-      page = '1' if page == '' || !page
-
-      ajax_params = 
-        type: "DELETE"
-        url: "/admin/blog/tags.js"
-        data:
-          "tag": tag
-          "page": page
-      $.ajax(ajax_params)
-      return false
-    
-    delete_post_tag: (tag) ->
-      ajax_params = 
-        type: "DELETE"
-        url: "/admin/blog/tags.js"
-        data:
-          "tag": tag
-      $.ajax(ajax_params)
-
-    create_tag: (tags) ->
-      ajax_params = 
-        type: "POST"
-        url: "/admin/blog/tags.js"
-        data:
-          "tags": tags.join(',')
-      $.ajax(ajax_params)
-    
-    setup_tag_autocomplete: (auto_complete_object) ->
-      ajax_params = 
-        type: "GET"
-        url: "/admin/blog/tags.json"
-        success: (data) ->
-          $(auto_complete_object)
-            .autocomplete {
-              source: data
-              select: (e, ui) ->
-                if e.which == 1
-                  tag_input.submit([ui.item.value])
-              close: ->
-                $(this).val('')
-            }    
-      $.ajax ajax_params
-
-    preview_post: ->
-      # open a blank window on click so it opens in a tab
-      # for some reason the window opens in a new browser 
-      # if it is opened in only the ajax callback
-      window.open("",'previewWindow')
-      data = admin_blog.get_post_data()
-
-      ajax_params = 
-        type: "POST"
-        url: "/admin/blog/posts/create/preview.js"
-        data: data
-        success: (result)->
-          # tell the currently open window to go to the preview page
-          window.open("/admin/blog/posts/preview/#{result}", 'previewWindow')
-          window.focus('previewWindow')
-        error: ->
-          # if there is an ajax error response, alert the user with an error message
-          # and close the tab opened for the preview
-          preview_window = window.open('', 'previewWindow')
-          alert('There was a problem loading the preview, please try again')
-          preview_window.close()
-      $.ajax(ajax_params)
-
-    get_post_data: ->
-      form = $('.edit_post, .new_post')
-      
-      data = {}
-      post = {}
-      post['title'] = form.find('#post_title').val()
-      post['content'] = form.find('#post_content').val()
-      data['commit'] = form.find('input[name=commit]').val()
-      data['status'] = form.find('#status').val()
-      data['categories'] = $.map form.find('.category_list input:checked'), (n,i) ->
-        return $(n).val()
-
-      data['tags'] = $.map form.find('.tag_list input'), (n,i) ->
-        return $(n).val()
-
-      data['post'] = post
-      return data
     
     set_comment_status: (comment_id, page, type, status)->
       page = '1' if page == '' || !page
@@ -460,37 +332,6 @@ $(document).ready ->
                       .parent()
                         .find('form')
       return edit_form
-    
-
-  tag_input =
-    check_for_seperator: (that,seperator) ->
-      str = $(that).val()
-      if(str.charAt(str.length - 1) == seperator)
-        tag_input.submit(str.split(seperator))
-        $(that).val('')
-
-    submit: (arr) ->
-      valid_tags = []
-        
-      for new_tag in arr
-        is_found = false
-
-        for input in $(".tag_list input")
-          value = $(input).attr('value')
-
-          if value == new_tag || $.inArray(new_tag, valid_tags) > -1
-            is_found = true
-            break
-
-        if !is_found && new_tag != ""
-          valid_tags.push(new_tag)
-
-      if(valid_tags.length > 0)
-        admin_blog.create_tag(valid_tags)
-    
-    submit_input: (that) ->
-      tag_input.submit($(that).val().split(','))
-      $(that).val('')
 
 
   ####################################
@@ -501,7 +342,7 @@ $(document).ready ->
   # this prevents the autocomplete from being loaded on every page when
   # it isn't needed
   if $('.tag_input').length > 0
-    admin_blog.setup_tag_autocomplete(".tag_input")
+    tag.load_autocomplete(".tag_input")
 
   ####################################
   #             bindings             #
@@ -512,35 +353,44 @@ $(document).ready ->
     category_name = $('.new_category').val()
     post_id = $('#post_id').val()
     category.create(category_name, post_id)
+    $('.new_category').val('')
     return false
+  
+  info_table = $('.info_table') #cache the info table DOM search
 
-  $('.info_table').delegate '.edit_category_button', 'click', ->
+  # edit category button
+  info_table.delegate '.edit_category_button', 'click', ->
     category.edit(this)
     return false
-
-  $('.info_table').delegate '.delete_category_button', 'click', ->
+  #delete category button
+  info_table.delegate '.delete_category_button', 'click', ->
     category.delete(this)
     return false
 
-
-
-  # preview post button
-  $('.post_preview').bind 'click', ->
-    admin_blog.preview_post()
+  #edit tag button
+  info_table.delegate '.edit_tag_button', 'click', ->
+    tag.edit(this)
+    return false
+   #delete tag button
+  info_table.delegate '.delete_tag_button', 'click', ->
+    tag.delete(this)
     return false
 
   # insert new tag when the comma is used as a seperator
   $(".tag_input")
     .bind 'keyup', (evt) -> 
-      tag_input.check_for_seperator(this,',')
-  
-  .bind 'keydown', (evt) ->
-    if(evt.which == 13)
-      tag_input.submit_input(this)
-      evt.stopPropagation()
-      return false
-    else
-      return true
+      tag.check_for_seperator(this,',')
+  # if enter(13) is pressed, submit the tag to the post, instead of submitting the form
+    .bind 'keydown', (evt) ->
+      if(evt.which == 13)
+        tag.submit_input(this)
+        evt.stopPropagation()
+        return false
+
+  # preview post button
+  $('.post_preview').bind 'click', ->
+    post.preview()
+    return false
 
   # on enter, stop the form from submitting but trigger the add category button event
   $('.info_table .new_category')

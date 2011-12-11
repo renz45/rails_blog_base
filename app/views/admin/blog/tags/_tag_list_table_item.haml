@@ -11,9 +11,12 @@
         %p
           = f.text_field :tag
           = hidden_field_tag 'page', params[:page]
+          = f.hidden_field :id
           = f.submit 'Update'
         
       %div{class: "roll_over"}
-        = link_to_function 'edit', "admin_blog.edit_category_tag(this)"
+        = #link_to_function 'edit', "admin_blog.edit_category_tag(this)"
+        = link_to 'edit', '#', class: 'edit_tag_button'
         = " | " 
-        = link_to_function 'delete', "admin_blog.delete_tag('#{t.tag}','#{params[:page]}')"
+        = #link_to_function 'delete', "admin_blog.delete_tag('#{t.tag}','#{params[:page]}')"
+        = link_to 'delete', '#', class: 'delete_tag_button'

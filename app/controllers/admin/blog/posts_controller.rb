@@ -143,6 +143,7 @@ class Admin::Blog::PostsController < Admin::Blog::BaseController
     paginate_comments_for_post(@post) #Pagination module    
     @comment_tree = {}
     temp_post.delete
+    
     render "blog/posts/show", layout: "blog/layouts/application"
     rescue
       redirect_to blog_root_url
