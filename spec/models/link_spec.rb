@@ -1,11 +1,12 @@
 # == Schema Information
 #
-# Table name: permissions
+# Table name: links
 #
 #  id         :integer         not null, primary key
-#  permission :string(255)
+#  url        :string(255)
+#  target     :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  level      :integer
+#  name       :string(255)
 #
 

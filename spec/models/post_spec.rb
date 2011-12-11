@@ -1,8 +1,3 @@
-require 'spec_helper'
-
-describe Post do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
 # == Schema Information
 #
 # Table name: posts
@@ -14,9 +9,9 @@ end
 #  slug             :string(255)
 #  created_at       :datetime
 #  updated_at       :datetime
-#  categories_count :integer
-#  tags_count       :integer
-#  comments_count   :integer
+#  comments_count   :integer         default(0)
+#  tags_count       :integer         default(0)
+#  categories_count :integer         default(0)
 #  status_id        :integer
 #
 

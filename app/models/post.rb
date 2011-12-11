@@ -9,9 +9,9 @@
 #  slug             :string(255)
 #  created_at       :datetime
 #  updated_at       :datetime
-#  categories_count :integer
-#  tags_count       :integer
-#  comments_count   :integer
+#  comments_count   :integer         default(0)
+#  tags_count       :integer         default(0)
+#  categories_count :integer         default(0)
 #  status_id        :integer
 #
 class Post < ActiveRecord::Base
@@ -85,5 +85,3 @@ class Post < ActiveRecord::Base
   end
 
 end
-
-

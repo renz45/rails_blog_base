@@ -1,8 +1,3 @@
-require 'spec_helper'
-
-describe Tag do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
 # == Schema Information
 #
 # Table name: tags
@@ -11,6 +6,7 @@ end
 #  tag         :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
-#  posts_count :integer
+#  posts_count :integer         default(0)
+#  slug        :string(255)
 #
 

@@ -43,7 +43,7 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
+  gem 'rspec-rails'
   gem 'webrat'
   gem 'factory_girl'
 end
@@ -54,7 +54,6 @@ end
 
 gem 'thin'
 
-
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -63,4 +62,3 @@ gem 'thin'
 
 # To use debugger
 # gem 'ruby-debug'
-

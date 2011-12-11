@@ -1,8 +1,3 @@
-require 'spec_helper'
-
-describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
 # == Schema Information
 #
 # Table name: users
@@ -27,6 +22,6 @@ end
 #  user_name              :string(255)
 #  bio                    :text
 #  website_url            :string(255)
-#  permission_id          :integer
+#  permission_id          :integer         default(1)
 #
 
