@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'factories'
 # == Schema Information
 #
 # Table name: categories
@@ -31,6 +32,30 @@ describe Category do
     before {@category.category = "category1"}
     it {should be_valid}
     specify {@category.save.should == true}
+  end
+
+  context 'when posts_count is not set' do
+    subject {@category.posts_count}
+    it {should equal 0}
+    specify {@category.posts_count.should == 0}
+  end
+
+  context 'when category is unique' do
+    before {@category = Factory(:category)}
+    it {should be_valid}
+    specify {@category.save.should == true}
+  end
+
+  context 'when category is not unique' do
+    before {
+      category = Factory(:category)
+      category.save
+      @category_copy = Category.new(category: category.category)
+    }
+    subject {@category_copy}
+
+    it {should_not be_valid}
+    specify {@category_copy.save.should == false}
   end
 
 end
