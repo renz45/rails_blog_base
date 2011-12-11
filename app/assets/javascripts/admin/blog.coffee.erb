@@ -163,7 +163,15 @@ $(document).ready ->
 
   # comment related
   window.comment =  
-    set_status: (comment_id, page, type, status)->
+    edit: (that) ->
+      category.edit(that)
+
+    set_status: (that, status)->
+      form = $(that).parent().parent().find('form')
+      comment_id = form.find('#reply_id').val()
+      page =  form.find('#page').val()
+      type = form.find('#type').val()
+
       page = '1' if page == '' || !page
 
       ajax_params = 
@@ -176,7 +184,11 @@ $(document).ready ->
           "status": status
       $.ajax(ajax_params)
 
-    delete: (comment_id, page, type) ->
+    delete: (that) ->
+      form = $(that).parent().parent().find('form')
+      comment_id = form.find('#reply_id').val()
+      page =  form.find('#page').val()
+      type = form.find('#type').val()
       page = '1' if page == '' || !page
 
       ajax_params = 
@@ -250,53 +262,6 @@ $(document).ready ->
 
 
   window.admin_blog =
-    
-    set_comment_status: (comment_id, page, type, status)->
-      page = '1' if page == '' || !page
-
-      ajax_params = 
-        type: "POST"
-        url: "/admin/blog/comments/update/status.js"
-        data:
-          "id": comment_id
-          "page": page
-          "type": type
-          "status": status
-      $.ajax(ajax_params)
-      return false
-
-    delete_comment: (comment_id, page, type) ->
-      page = '1' if page == '' || !page
-
-      ajax_params = 
-        type: "DELETE"
-        url: "/admin/blog/comments/delete.js"
-        data:
-          "id": comment_id
-          "page": page
-          "type": type
-      $.ajax(ajax_params)
-      return false
-    
-    comment_reply: (that) ->
-      reply_form = $(that)
-                .parent()
-                  .parent()
-                    .find('.reply')
-      edit_form = $(that)
-                .parent()
-                  .parent()
-                    .find('.edit')
-
-      edit_form.hide()
-
-      if reply_form.is(':visible')
-        reply_form.fadeOut()
-      else
-        reply_form.fadeIn()
-        reply_form.find('#comment_content').val('').focus()
-      return false
-    
     cancel_link_edit: (that) ->
       edit_form = $(that).parent().parent()
       edit_form.hide()
@@ -358,40 +323,58 @@ $(document).ready ->
   
   info_table = $('.info_table') #cache the info table DOM search
 
-  # edit category button
-  info_table.delegate '.edit_category_button', 'click', ->
-    category.edit(this)
-    return false
-  #delete category button
-  info_table.delegate '.delete_category_button', 'click', ->
-    category.delete(this)
-    return false
-
-  #edit tag button
-  info_table.delegate '.edit_tag_button', 'click', ->
-    tag.edit(this)
-    return false
-   #delete tag button
-  info_table.delegate '.delete_tag_button', 'click', ->
-    tag.delete(this)
-    return false
-
-  # insert new tag when the comma is used as a seperator
-  $(".tag_input")
-    .bind 'keyup', (evt) -> 
-      tag.check_for_seperator(this,',')
-  # if enter(13) is pressed, submit the tag to the post, instead of submitting the form
-    .bind 'keydown', (evt) ->
-      if(evt.which == 13)
-        tag.submit_input(this)
-        evt.stopPropagation()
-        return false
-
-  # preview post button
-  $('.post_preview').bind 'click', ->
-    post.preview()
-    return false
-
+  info_table
+    # edit category button
+    .delegate '.edit_category_button', 'click', ->
+      category.edit(this)
+      return false
+    #delete category button
+    .delegate '.delete_category_button', 'click', ->
+      category.delete(this)
+      return false
+    #edit comment button
+    .delegate '.comment_edit_button', 'click', ->
+      comment.edit(this)
+      return false
+    # reply to comment button
+    .delegate '.comment_reply_button', 'click', ->
+      comment.reply(this)
+      return false
+    # trash comment button
+    .delegate '.comment_trash_button', 'click', ->
+      comment.set_status(this,'trash')
+      return false
+    #delete comment button
+    .delegate '.comment_delete_button', 'click', ->
+      comment.delete(this)
+      return false
+    # mark comment as spam button
+    .delegate '.comment_spam_button', 'click', ->
+      comment.set_status(this,'spam')
+      return false
+    # unapprove comment button
+    .delegate '.comment_unapprove_button', 'click', ->
+      comment.set_status(this,'unapproved')
+      return false
+    # approve comment button
+    .delegate '.comment_approve_button', 'click', ->
+      comment.set_status(this,'approved')
+      return false
+    # edit tag button
+    .delegate '.edit_tag_button', 'click', ->
+      tag.edit(this)
+      return false
+   # delete tag button
+    .delegate '.delete_tag_button', 'click', ->
+      tag.delete(this)
+      return false
+    # on submit, close the form
+    .delegate 'form', 'submit',(evt) ->
+      evt.stopPropagation
+      if $(this).is(':visible')
+        $(this)
+          .fadeOut()
+  
   # on enter, stop the form from submitting but trigger the add category button event
   $('.info_table .new_category')
   .bind 'keydown', (evt) ->
@@ -404,11 +387,19 @@ $(document).ready ->
           .val('')
       return false
 
-  # on submit, close the form
-  $('.info_table')
-    .delegate 'form', 'submit',(evt) ->
-      evt.stopPropagation
-      if $(this).is(':visible')
-        $(this)
-          .fadeOut()
+  # insert new tag when the comma is used as a seperator
+  $(".tag_input")
+    .bind 'keyup', -> 
+      tag.check_for_seperator(this,',')
+  # if enter(13) is pressed, submit the tag to the post, instead of submitting the form
+    .bind 'keydown', (evt) ->
+      if(evt.which == 13)
+        tag.submit_input(this)
+        evt.stopPropagation()
+        return false
 
+  # preview post button
+  $('.post_preview').bind 'click', ->
+    post.preview()
+    return false
+  
