@@ -1,6 +1,8 @@
 $(document).ready ->
 
-  #category related
+  ####################################
+  #            Categories            #
+  ####################################
   window.category = 
     create: (category, post_id) ->
       ajax_params = 
@@ -45,7 +47,10 @@ $(document).ready ->
           "page": page
       $.ajax(ajax_params)
 
-  # tag related 
+
+  ####################################
+  #               Tags               #
+  ####################################
   window.tag =
     edit: (that) ->
       category.edit(that)
@@ -118,7 +123,10 @@ $(document).ready ->
       tag.submit($(that).val().split(','))
       $(that).val('')
 
-  # post related
+
+  ####################################
+  #              Posts               #
+  ####################################
   window.post =
     preview: ->
       # open a blank window on click so it opens in a tab
@@ -161,7 +169,10 @@ $(document).ready ->
       data['post'] = post
       return data
 
-  # comment related
+  
+  ####################################
+  #             Comments             #
+  ####################################
   window.comment =  
     edit: (that) ->
       category.edit(that)
@@ -217,15 +228,18 @@ $(document).ready ->
       else
         reply_form.fadeIn()
         reply_form.find('#comment_content').val('').focus()
+   
       
-  # link related
+  ####################################
+  #              Links               #
+  ####################################
   window.link = 
     cancel_edit: (that) ->
       edit_form = $(that).parent().parent()
       edit_form.hide()
   
     edit: (that) ->
-      edit_form = this.get_link_form(that)
+      edit_form = this.get_form(that)
     
       if edit_form.is(':visible')
         edit_form.hide()
@@ -254,49 +268,6 @@ $(document).ready ->
                     .parent()
                       .parent()
                         .find('form')
-      return edit_form
-
-
-
-
-
-
-  window.admin_blog =
-    cancel_link_edit: (that) ->
-      edit_form = $(that).parent().parent()
-      edit_form.hide()
-    
-    edit_link: (that) ->
-      edit_form = this.get_link_form(that)
-    
-      if edit_form.is(':visible')
-        edit_form.hide()
-      else
-        $('.info_table form:visible').hide() # hide any open link forms
-        edit_form.show()
-
-    delete_link: (link_id, that) ->
-      rollover_item = $(that)
-                        .parent()
-                          .parent()
-                            .parent()
-
-      rollover_item.prev('tr').remove()
-      rollover_item.remove()
-
-      ajax_params = 
-        type: "DELETE"
-        url: "/admin/blog/links.js"
-        data:
-          "id": link_id
-      $.ajax(ajax_params)
-
-    get_link_form: (that) ->
-      edit_form = $(that)
-                    .parent()
-                      .parent()
-                        .find('form')
-      return edit_form
 
 
   ####################################
@@ -308,6 +279,7 @@ $(document).ready ->
   # it isn't needed
   if $('.tag_input').length > 0
     tag.load_autocomplete(".tag_input")
+
 
   ####################################
   #             bindings             #
@@ -364,7 +336,7 @@ $(document).ready ->
     .delegate '.edit_tag_button', 'click', ->
       tag.edit(this)
       return false
-   # delete tag button
+    # delete tag button
     .delegate '.delete_tag_button', 'click', ->
       tag.delete(this)
       return false
@@ -374,6 +346,19 @@ $(document).ready ->
       if $(this).is(':visible')
         $(this)
           .fadeOut()
+    # link cancel button
+    .delegate '.link_cancel_button', 'click', ->
+      link.cancel_edit(this)
+      return false
+    # link edit button
+    .delegate '.link_edit_button', 'click', ->
+      link.edit(this)
+      return false
+    # link delete button
+    .delegate '.link_delete_button', 'click', ->
+      link_id = $(this).parent().parent().find('#link_id').val()
+      link.delete(link_id, this)
+      return false
   
   # on enter, stop the form from submitting but trigger the add category button event
   $('.info_table .new_category')
