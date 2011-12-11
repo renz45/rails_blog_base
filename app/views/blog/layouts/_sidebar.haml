@@ -1,7 +1,7 @@
 %h2 Categories
 %ul{class: 'category_list'}
   - @categories.each do |c|
-    - unless c.posts_count <1
+    - if c.posts_count > 0
       %li
         = link_to c.category, blog_posts_search_url(category: c.slug)
         = "(#{c.posts_count})"
@@ -9,7 +9,7 @@
 %h2 Tags
 %ul{class: 'tag_list'}
   - @tags.each do |t|
-    - unless t.posts_count < 1
+    - if t.posts_count > 0
       %li
         = link_to t.tag, blog_posts_search_url(tag: t.slug)
         = "(#{t.posts_count})"

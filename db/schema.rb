@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20111122234013) do
     t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "posts_count"
+    t.integer  "posts_count", :default => 0
     t.string   "slug"
   end
 
@@ -32,20 +32,6 @@ ActiveRecord::Schema.define(:version => 20111122234013) do
 
   add_index "category_posts", ["category_id"], :name => "index_category_posts_on_category_id"
   add_index "category_posts", ["post_id"], :name => "index_category_posts_on_post_id"
-
-  create_table "ckeditor_assets", :force => true do |t|
-    t.string   "data_file_name",                  :null => false
-    t.string   "data_content_type"
-    t.integer  "data_file_size"
-    t.integer  "assetable_id"
-    t.string   "assetable_type",    :limit => 30
-    t.string   "type",              :limit => 30
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "ckeditor_assets", ["assetable_type", "assetable_id"], :name => "idx_ckeditor_assetable"
-  add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_ckeditor_assetable_type"
 
   create_table "comment_statuses", :force => true do |t|
     t.string   "status"
@@ -90,7 +76,7 @@ ActiveRecord::Schema.define(:version => 20111122234013) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "posts_count"
+    t.integer  "posts_count", :default => 0
   end
 
   add_index "post_statuses", ["status"], :name => "index_post_statuses_on_status", :unique => true
@@ -112,9 +98,9 @@ ActiveRecord::Schema.define(:version => 20111122234013) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "comments_count"
-    t.integer  "tags_count"
-    t.integer  "categories_count"
+    t.integer  "comments_count",   :default => 0
+    t.integer  "tags_count",       :default => 0
+    t.integer  "categories_count", :default => 0
     t.integer  "status_id"
   end
 
@@ -125,7 +111,7 @@ ActiveRecord::Schema.define(:version => 20111122234013) do
     t.string   "tag"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "posts_count"
+    t.integer  "posts_count", :default => 0
     t.string   "slug"
   end
 
