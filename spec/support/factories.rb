@@ -18,6 +18,8 @@ Factory.define :user do |user|
   user.bio 'I am 43.567 years old and a male'
   user.website_url 'www.user.com'
   user.permission_id '5'
+  user.password 'secret'
+  user.password_confirmation { |u| u.password }
 end
 
 #post
@@ -52,4 +54,9 @@ end
 #comment_status
 Factory.define :comment_status do |comment_status|
   comment_status.status 'spam'
+end
+
+#post_status
+Factory.define :post_status do |post_status|
+  post_status.status 'published'
 end
