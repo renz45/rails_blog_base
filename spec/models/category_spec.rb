@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'factories'
 # == Schema Information
 #
 # Table name: categories
@@ -12,7 +11,7 @@ require 'factories'
 #  slug        :string(255)
 #
 describe Category do
-  before { @category = Category.new }
+  before { @category = Factory.build(:category) }
 
   subject {@category}
 
@@ -24,6 +23,7 @@ describe Category do
   it {should respond_to :slug}
 
   context 'when category is empty' do
+    before {@category.category = ''}
     it {should_not be_valid}
     specify {@category.save.should == false}
   end
@@ -47,10 +47,9 @@ describe Category do
   end
 
   context 'when category is not unique' do
-    before {
-      category = Factory(:category)
-      category.save
-      @category_copy = Category.new(category: category.category)
+    before { 
+      @category.save
+      @category_copy = Factory.build(:category, category: @category.category) 
     }
     subject {@category_copy}
 
