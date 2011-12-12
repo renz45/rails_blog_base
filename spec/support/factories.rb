@@ -2,19 +2,17 @@
 
 #category
 Factory.define :category do |category|
-  category.category 'test category'
-  category.slug 'test-category'
+  category.sequence(:category) {|n| 'test category#{n}'}
 end
 
 #tag
 Factory.define :tag do |tag|
-  tag.tag 'test tag'
-  tag.slug 'test-tag'
+  tag.sequence(:tag) {|n| 'test tag#{n}'}
 end
 
 #user
 Factory.define :user do |user|
-  user.email 'user@email.com'
+  user.sequence(:email) {|n| 'user#{n}@email.com'}
   user.name 'bob metel'
   user.user_name 'bob'
   user.bio 'I am 43.567 years old and a male'
@@ -24,7 +22,7 @@ end
 
 #post
 Factory.define :post do |post|
-  post.title 'sample post'
+  post.sequence(:title) {|n| 'sample post#{n}'}
   post.content 'sample post content is sample post content'
   post.user_id '1'
   post.slug 'sample-post'
@@ -36,7 +34,7 @@ Factory.define :comment do |comment|
   comment.email 'troll@email.com'
   comment.website 'http://www.trollingyou.com'
   comment.content 'I be trolling you this day'
-  comment.post_id '1'
+  comment.post {@sample_post ||= Factory(:post)}
   comment.ip_address '1.129.233.21'
 end
 
