@@ -1,3 +1,4 @@
+require 'spec_helper'
 # == Schema Information
 #
 # Table name: users
@@ -25,3 +26,39 @@
 #  permission_id          :integer         default(1)
 #
 
+
+# devise has it's own tests, so I'm just going to test the parts I added
+describe User do
+  before {@user = Factory.build(:user)}
+
+  subject {@user}
+
+  it {should respond_to :id}
+  it {should respond_to :email}
+  it {should respond_to :updated_at}
+  it {should respond_to :created_at}
+  it {should respond_to :name}
+  it {should respond_to :bio}
+  it {should respond_to :website_url}
+  it {should respond_to :permission_id}
+
+  context 'when validates user_name' do
+    context 'when exists' do
+      before {@user.user_name = 'sample user'}
+      it {should be_valid}
+      specify {@user.save.should == true}
+    end
+
+    context 'when empty' do
+      before {@user.user_name = ''}
+      it {should_not be_valid}
+      specify {@user.save.should == false}
+    end
+
+    context 'when length > 30' do
+      before {@user.user_name = 'asdfghjklpoiuytrewqazxcvbnmlkjhgfdsaqwe'}
+      it {should_not be_valid}
+      specify {@user.save.should == false}
+    end
+  end
+end

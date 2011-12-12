@@ -34,7 +34,7 @@ describe Category do
     specify {@category.save.should == true}
   end
 
-  context 'when posts_count is not set' do
+  context 'when created, posts_count defaults to 0' do
     subject {@category.posts_count}
     it {should equal 0}
     specify {@category.posts_count.should == 0}
