@@ -56,7 +56,7 @@ describe User do
     end
 
     context 'when length > 30' do
-      before {@user.user_name = 'asdfghjklpoiuytrewqazxcvbnmlkjhgfdsaqwe'}
+      before {@user.user_name = 'asdfghjklpoiuytrewqazxcvbnmlkjhgfdsaqwe'}#40chars
       it {should_not be_valid}
       specify {@user.save.should == false}
     end
